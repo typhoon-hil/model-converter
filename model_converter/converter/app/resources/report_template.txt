@@ -1,0 +1,29 @@
+Conversion report
+-----------------
+
+Source file used:
+{{path_to_source}}
+
+Schematic saved as:
+{{save_path}}
+
+
+Number of components found in the source file: {{source_component_count}}
+
+-------------------------------------------------------------------------
+                         Converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------{% for success in successful_conversions %}
+            {{success.name}}{%- for i in range(success.whitespace) %} {% endfor %}|               {{success.source_type_name}}
+-------------------------------------------------------------------------{% endfor %}
+
+
+-------------------------------------------------------------------------
+                         Non-converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------{% for fail in unsuccessful_conversions %}
+            {{fail.name}}{% for i in range(fail.whitespace) %} {% endfor %}|               {{fail.source_type_name}}
+-------------------------------------------------------------------------{% endfor %}
+

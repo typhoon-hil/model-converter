@@ -1,0 +1,11 @@
+recursive-include model_converter/conversion_rules *.ty
+include model_converter/converter/grammars/*.pg
+include model_converter/converter/app/resources/*.html
+include model_converter/converter/app/resources/*.txt
+include model_converter/converter/app/resources/*.ico
+include model_converter/run.py
+include model_converter/README.md
+include LICENSE.md model_converter/LICENSE.md
+recursive-exclude * __pycache__
+recursive-exclude * *.log
+recursive-exclude venv *.*

@@ -1,0 +1,1222 @@
+INVERTER_1PH => core/Single Phase Inverter:
+
+    Sa_top= Sa_top;
+    Sa_bot= Sa_bottom;
+    Sb_top= Sb_top;
+    Sb_bot= Sb_bottom;
+    Sa_top_logic= "active low";
+    Sa_bot_logic= "active low";
+    Sb_top_logic= "active low";
+    Sb_bot_logic= "active low";
+
+	Terminals:
+		a_in[pe] = 2;
+		b_in[pe] = 3;
+		pos_out[pe] = 0;
+		neg_out[pe] = 1;
+	;
+;
+
+INVERTER_3PH => core/Three Phase Inverter:
+
+    Sa_top= Sa_top;
+    Sa_bot= Sa_bottom;
+    Sb_top= Sb_top;
+    Sb_bot= Sb_bottom;
+    Sc_top= Sc_top;
+    Sc_bot= Sc_bottom;
+    Sa_top_logic= "active low";
+    Sa_bot_logic= "active low";
+    Sb_top_logic= "active low";
+    Sb_bot_logic= "active low";
+    Sc_top_logic= "active low";
+    Sc_bot_logic= "active low";
+
+	Terminals:
+		a_in[pe] = 2;
+		b_in[pe] = 3;
+		c_in[pe] = 4;
+		pos_out[pe] = 0;
+		neg_out[pe] = 1;
+	;
+;
+
+R => core/Resistor:
+
+	resistance=Resistance;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+L => core/Inductor:
+
+	initial_current= Initial Current;
+	inductance= Inductance;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+C => core/Capacitor:
+
+	capacitance= Capacitance;
+	initial_voltage= Init. Cap. Voltage;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+C_ELECTRO => core/Capacitor:
+
+	capacitance= Capacitance;
+	initial_voltage= Init. Cap. Voltage;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+RLC => {
+
+	R=Resistor:
+		resistance= Resistance;
+	;
+	L=Inductor:
+		inductance= Inductance;
+		initial_current=Initial Current;
+	;
+	C=Capacitor:
+		capacitance= Capacitance;
+		initial_voltage= Initial Cap Voltage;
+	;
+
+	Connections:
+		R:n_node-L:p_node,
+		L:n_node-C:p_node.
+	;
+
+	Ports:
+		R.p_node[pe]=0;
+		C.n_node[pe]=1;
+	;
+}
+
+RHEOSTAT => core/Variable Resistor:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+L_SAT => core/Nonlinear Inductor:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+R3 => {
+
+	R1=Resistor:
+		resistance= Resistance;
+	;
+	R2=Resistor:
+		resistance= Resistance;
+	;
+	R3=Resistor:
+		resistance= Resistance;
+	;
+
+	Connections:
+	;
+
+	Ports:
+		R1.p_node[pe]=0;
+		R2.p_node[pe]=1;
+		R3.p_node[pe]=2;
+		R1.n_node[pe]=3;
+		R2.n_node[pe]=4;
+		R3.n_node[pe]=5;
+	;
+}
+
+L3 => {
+	L1=Inductor:
+		inductance=Inductance;
+	;
+	L2=Inductor:
+		inductance=Inductance;
+	;
+	L3=Inductor:
+		inductance=Inductance;
+	;
+
+	Connections:
+	;
+
+	Ports:
+		L1.p_node[pe]=0;
+		L2.p_node[pe]=1;
+		L3.p_node[pe]=2;
+		L1.n_node[pe]=3;
+		L2.n_node[pe]=4;
+		L3.n_node[pe]=5;
+	;
+}
+
+C3 => {
+	C1=Capacitor:
+		capacitance=Capacitance;
+	;
+	C2=Capacitor:
+		capacitance=Capacitance;
+	;
+	C3=Capacitor:
+		capacitance=Capacitance;
+	;
+
+	Connections:
+	;
+
+	Ports:
+		C1.p_node[pe]=0;
+		C2.p_node[pe]=1;
+		C3.p_node[pe]=2;
+		C1.n_node[pe]=3;
+		C2.n_node[pe]=4;
+		C3.n_node[pe]=5;
+	;
+}
+
+RL3 => {
+	R1=Resistor:
+		resistance=Resistance;
+	;
+	R2=Resistor:
+		resistance=Resistance;
+	;
+	R3=Resistor:
+		resistance=Resistance;
+	;
+	L1=Inductor:
+		inductance=Inductance;
+	;
+	L2=Inductor:
+		inductance=Inductance;
+	;
+	L3=Inductor:
+		inductance=Inductance;
+	;
+
+	Connections:
+		R1:n_node-L1:p_node,
+		R2:n_node-L2:p_node,
+		R3:n_node-L3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe]=0;
+		R2.p_node[pe]=1;
+		R3.p_node[pe]=2;
+		L1.n_node[pe]=3;
+		L2.n_node[pe]=4;
+		L3.n_node[pe]=5;
+	;
+}
+
+RC3 => {
+	R1=Resistor:
+		resistance=Resistance;
+	;
+	R2=Resistor:
+		resistance=Resistance;
+	;
+	R3=Resistor:
+		resistance=Resistance;
+	;
+	C1=Capacitor:
+		capacitance=Capacitance;
+	;
+	C2=Capacitor:
+		capacitance=Capacitance;
+	;
+	C3=Capacitor:
+		capacitance=Capacitance;
+	;
+
+	Connections:
+		R1:n_node-C1:p_node,
+		R2:n_node-C2:p_node,
+		R3:n_node-C3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe]=0;
+		R2.p_node[pe]=1;
+		R3.p_node[pe]=2;
+		C1.n_node[pe]=3;
+		C2.n_node[pe]=4;
+		C3.n_node[pe]=5;
+	;
+}
+
+RLC3 => {
+	R1=Resistor:
+		resistance=Resistance;
+	;
+	R2=Resistor:
+		resistance=Resistance;
+	;
+	R3=Resistor:
+		resistance=Resistance;
+	;
+	L1=Inductor:
+		inductance=Inductance;
+	;
+	L2=Inductor:
+		inductance=Inductance;
+	;
+	L3=Inductor:
+		inductance=Inductance;
+	;
+	C1=Capacitor:
+		capacitance=Capacitance;
+	;
+	C2=Capacitor:
+		capacitance=Capacitance;
+	;
+	C3=Capacitor:
+		capacitance=Capacitance;
+	;
+
+	Connections:
+		R1:n_node-L1:p_node,
+		L1:n_node-C1:p_node,
+		R2:n_node-L2:p_node,
+		L2:n_node-C2:p_node,
+		R3:n_node-L3:p_node,
+		L3:n_node-C3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe]=0;
+		R2.p_node[pe]=1;
+		R3.p_node[pe]=2;
+		C1.n_node[pe]=3;
+		C2.n_node[pe]=4;
+		C3.n_node[pe]=5;
+	;
+}
+
+MUT2 => core/Two Coupled Inductors:
+
+	L1= L11 (self);
+	I1_0=i1_initial;
+	R1=0;
+	L2=L22 (self);
+	I2_0=i2_initial;
+	R2=0;
+	k= L12_to_k(L11=L11 (self),L22=L22 (self),L12=L12 (mutual));
+
+	Terminals:
+		in_1[pe]=0;
+		out_1[pe]=1;
+        in_2[pe]=2;
+		out_2[pe]=3;
+	;
+;
+
+MUT3 => core/Three Coupled Inductors:
+
+	L1= L11 (self);
+	I1_0=i1_initial;
+	R1=0;
+	L2=L22 (self);
+	I2_0=i2_initial;
+	R2=0;
+	L3=L33 (self);
+	I3_0=i3_initial;
+	R3=0;
+	k12= L12_to_k(L11=L11 (self),L22=L22 (self),L12=L12 (mutual));
+	k13= L12_to_k(L11=L11 (self),L22=L33 (self),L12=L13 (mutual));
+	k23= L12_to_k(L11=L22 (self),L22=L33 (self),L12=L23 (mutual));
+
+	Terminals:
+		in_1[pe]=0;
+		out_1[pe]=1;
+		in_2[pe]=2;
+		out_2[pe]=3;
+		in_3[pe]=4;
+		out_3[pe]=5;
+	;
+;
+
+MUT4 => core/Four Coupled Inductors:
+
+	L1= L11 (self);
+	R1=0;
+	L2=L22 (self);
+	R2=0;
+	L3=L33 (self);
+	R3=0;
+	L4=L44 (self);
+	R4=0;
+	k12= L12_to_k(L11=L11 (self),L22=L22 (self),L12=L12 (mutual));
+	k13= L12_to_k(L11=L11 (self),L22=L33 (self),L12=L13 (mutual));
+	k14= L12_to_k(L11=L11 (self),L22=L44 (self),L12=L14 (mutual));
+	k23= L12_to_k(L11=L22 (self),L22=L33 (self),L12=L23 (mutual));
+	k24= L12_to_k(L11=L22 (self),L22=L44 (self),L12=L24 (mutual));
+	k34= L12_to_k(L11=L33 (self),L22=L44 (self),L12=L34 (mutual));
+
+	Terminals:
+		in_1[pe]=0;
+		out_1[pe]=1;
+		in_2[pe]=2;
+		out_2[pe]=3;
+		in_3[pe]=4;
+		out_3[pe]=5;
+		in_4[pe]=6;
+		out_4[pe]=7;
+	;
+;
+
+CABLE_AC_3PH => core/Transmission Line:
+
+    model= "PI";
+    model_def= "Sequence";
+    unit_sys= "metric";
+	Length_metric= m_to_km(x=cable_length);
+	Frequency=Freq;
+    R_sequence_metric= return_cable_sequence(Rd=Rd, R0=Ro);
+    L_sequence_metric= return_cable_sequence_L(Xd=Xd, X0=Xo, f=Freq);
+    C_sequence_metric= return_cable_sequence(Rd=Cd, R0=Co);
+
+	Terminals:
+		a_in[pe]=0;
+		b_in[pe]=1;
+		c_in[pe]=2;
+		gnd[pe]=3;
+		a_out[pe]=4;
+		b_out[pe]=5;
+		c_out[pe]=6;
+		gnd[pe]=7;
+	;
+;
+
+DIODE => core/Diode:
+
+	Terminals:
+		A[pe] = 0;
+		K[pe] = 1;
+	;
+;
+
+MOSFET => core/IGBT:
+
+	Terminals:
+		D[pe] = 0;
+		S[pe] = 1;
+	;
+;
+
+IGBT => core/IGBT:
+
+	Terminals:
+		D[pe] = 0;
+		S[pe] = 1;
+	;
+;
+
+THY => core/Thyristor:
+
+	Terminals:
+		A[pe] = 0;
+		K[pe] = 1;
+	;
+;
+
+SSWI => core/Single Pole Single Throw Contactor:
+
+	ctrl_src= "Digital input";
+
+	Terminals:
+		a_in[pe] = 0;
+		a_out[pe] = 1;
+	;
+;
+
+SSWI3 => core/Triple Pole Single Throw Contactor:
+
+	ctrl_src= "Digital input";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		a_out[pe] = 3;
+		b_out[pe] = 4;
+		c_out[pe] = 5;
+	;
+;
+
+BDIODE1 => core/Single Phase Diode Rectifier:
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		pos_out[pe] = 2;
+		neg_out[pe] = 3;
+	;
+;
+
+BDIODE3 => core/Three Phase Diode Rectifier:
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		pos_out[pe] = 3;
+		neg_out[pe] = 4;
+	;
+;
+
+BTHY1 => core/Single Phase Thyristor Rectifier:
+
+	ctrl_src= "Digital input";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		pos_out[pe] = 2;
+		neg_out[pe] = 3;
+	;
+;
+
+BTHY3 => core/Three Phase Thyristor Rectifier:
+
+	ctrl_src= "Digital input";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		pos_out[pe] = 3;
+		neg_out[pe] = 4;
+	;
+;
+
+VSI3 =>	core/Three Phase Inverter:
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		pos_out[pe] = 3;
+		neg_out[pe] = 4;
+	;
+;
+
+VSI3_1 => core/Three Phase Inverter:
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		pos_out[pe] = 3;
+		neg_out[pe] = 4;
+	;
+;
+
+
+TF_IDEAL => core/Ideal Transformer:
+
+	n1= Np (primary);
+	n2= Ns (secondary);
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 2;
+		sec_2[pe] = 3;
+	;
+;
+
+TF_IDEAL_1 => core/Ideal Transformer:
+
+    n1= Np (primary);
+    n2= return_negative(x=Ns (secondary));
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 3;
+		sec_2[pe] = 2;
+	;
+;
+
+TF_1F => core/Single Phase Two Winding Transformer:
+
+    n1= Np (primary);
+    n2= Ns (secondary);
+    R1= Rp (primary);
+    L1= Lp (pri. leakage);
+    R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+    L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+    Lm= Lm (magnetizing);
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 2;
+		sec_2[pe] = 3;
+	;
+;
+
+TF_1F_1 => core/Single Phase Two Winding Transformer:
+
+    n1= Np (primary);
+    n2= Ns (secondary);
+    R1= Rp (primary);
+    L1= Lp (pri. leakage);
+    R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+    L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+    Lm= Lm (magnetizing);
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 3;
+		sec_2[pe] = 2;
+	;
+;
+
+TF_1F_3W => core/Single Phase Three Winding Transformer:
+
+    n1= Np (primary);
+    n2= Ns (secondary);
+    n3= Nt (tertiary);
+    R1= Rp (primary);
+    L1= Lp (primary);
+    R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+    L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+    R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
+    L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
+    Lm= Lm (magnetizing);
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 2;
+		sec_2[pe] = 3;
+		sec_3[pe] = 4;
+		sec_4[pe] = 5;
+	;
+;
+
+TF_1F_4W => core/Single Phase Four Winding Transformer:
+
+    n1= Np_1 (primary 1);
+    n2= Np_2 (primary 2);
+    n3= Ns_1 (secondary 1);
+    n4= Ns_2 (secondary 2);
+    R1= Rp_1 (primary 1);
+    L1= Lp_1 (pri. 1 leakage);
+    R2= primary_to_secondary(Np=Np_1 (primary 1), Ns=Np_2 (primary 2), Rs=Rp_2 (primary 2));
+    L2= primary_to_secondary(Np=Np_1 (primary 1), Ns=Np_2 (primary 2), Rs=Lp_2 (pri. 2 leakage));
+    R3= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_1 (secondary 1), Rs=Rs_1 (secondary 1));
+    L3= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_1 (secondary 1), Rs=Ls_1 (sec. 1 leakage));
+    R4= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_2 (secondary 2), Rs=Rs_2 (secondary 2));
+    L4= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_2 (secondary 2), Rs=Ls_2 (sec. 2 leakage));
+    Lm= Lm (magnetizing);
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		sec_1[pe] = 2;
+		sec_2[pe] = 3;
+		sec_3[pe] = 4;
+		sec_4[pe] = 5;
+		sec_5[pe] = 6;
+		sec_6[pe] = 7;
+	;
+;
+
+TF_3YY	=> core/Three Phase Two Winding Transformer:
+
+	V1= Np (primary);
+	V2= Ns (secondary);
+	R1= Rp (primary);
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L1= Lp (pri. leakage);
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	Lm= Lm (magnetizing);
+
+	input= "SI";
+	winding_1_connection= "Y";
+	winding_2_connection= "Y";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		n1[pe] = 3;
+		sec_1[pe] = 4;
+		sec_2[pe] = 5;
+		sec_3[pe] = 6;
+		n2[pe] = 7;
+	;
+;
+
+TF_3YD => core/Three Phase Two Winding Transformer:
+
+	V1= Np (primary);
+	V2= Y_to_D(V=Ns (secondary));
+	R1= Rp (primary);
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L1= Lp (pri. leakage);
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	Lm= Lm (magnetizing);
+
+	input= "SI";
+	clock_number="1";
+	winding_1_connection= "Y";
+	winding_2_connection= "D";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		n1[pe] = 3;
+		sec_1[pe] = 4;
+		sec_2[pe] = 5;
+		sec_3[pe] = 6;
+	;
+;
+
+TF_3DY => core/Three Phase Two Winding Transformer:
+
+	V1= Y_to_D(V=Np (primary));
+	V2= Ns (secondary);
+	R1= Rp (primary);
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L1= Lp (pri. leakage);
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	Lm= Lm (magnetizing);
+
+	input= "SI";
+	clock_number="1";
+	winding_1_connection= "D";
+	winding_2_connection= "Y";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		sec_1[pe] = 3;
+		sec_2[pe] = 4;
+		sec_3[pe] = 5;
+		n2[pe] = 6;
+	;
+;
+
+TF_3DD => core/Three Phase Two Winding Transformer:
+
+	V1= Np (primary);
+	V2= Ns (secondary);
+	R1= Rp (primary);
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L1= Lp (pri. leakage);
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	Lm= Lm (magnetizing);
+
+	input= "SI";
+	winding_1_connection= "D";
+	winding_2_connection= "D";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		sec_1[pe] = 3;
+		sec_2[pe] = 4;
+		sec_3[pe] = 5;
+	;
+;
+
+TF_3YDD	=> core/Three Phase Three Winding Transformer:
+
+	V1= Np (primary);
+	V2= Y_to_D(V=Ns (secondary));
+	V3= Y_to_D(V=Nt (tertiary));
+    R1= Rp (primary);
+    L1= Lp (pri. leakage);
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
+	L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
+	Lm= Lm (magnetizing);
+
+	winding_1_connection= "Y";
+	winding_2_connection= "D";
+	clk_num_12="1";
+	winding_3_connection= "D";
+	clk_num_13="1";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		n1[pe] = 3;
+		sec_1[pe] = 4;
+		sec_2[pe] = 5;
+		sec_3[pe] = 6;
+		sec_4[pe] = 7;
+		sec_5[pe] = 8;
+		sec_6[pe] = 9;
+	;
+;
+
+TF_3YYD	=> core/Three Phase Three Winding Transformer:
+
+	V1= Np (primary);
+	V2= Ns (secondary);
+	V3= Y_to_D(V=Nt (tertiary));
+    R1= Rp (primary);
+    L1= Lp (pri. leakage));
+	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
+	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
+	R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
+	L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
+	Lm= Lm (magnetizing);
+
+	winding_1_connection= "Y";
+	winding_2_connection= "Y";
+	winding_3_connection= "D";
+	clk_num_13="1";
+
+	Terminals:
+		prm_1[pe] = 0;
+		prm_2[pe] = 1;
+		prm_3[pe] = 2;
+		n1[pe] = 3;
+		sec_1[pe] = 4;
+		sec_2[pe] = 5;
+		sec_3[pe] = 6;
+		n2[pe] = 7;
+		sec_4[pe] = 8;
+		sec_5[pe] = 9;
+		sec_6[pe] = 10;
+	;
+;
+
+INDM_3S => core/Induction Machine with Squirrel Cage:
+
+	Rs= Rs (stator);
+	Rr= Rr (rotor);
+	Lls= Ls (stator);
+	Llr= Lr (rotor);
+	Lm= Lm (magnetizing);
+	pms= pole_pairs(poles=No. of Poles P);
+	Jm= Moment of Inertia;
+	load_src= "SCADA / external";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+	;
+;
+
+INDM3_WR => core/Doubly-Fed Induction Machine:
+
+	Rs= Rs (stator);
+	Rr= Rr (rotor);
+	Lls= Ls (stator);
+	Llr= Lr (rotor);
+	Lm= Lm (magnetizing);
+	m= Ns/Nr Turns Ratio;
+	pms= pole_pairs(poles=No. of Poles P);
+	Jm= Moment of Inertia;
+	load_src= "SCADA / external";
+
+	Terminals:
+		a_s[pe] = 0;
+		b_s[pe] = 1;
+		c_s[pe] = 2;
+		a_r[pe] = 4;
+		b_r[pe] = 5;
+		c_r[pe] = 6;
+	;
+;
+
+DCM => core/DC Machine with Separate or Parallel Excitation:
+
+	Ra= Ra (armature);
+	Rf= Rf (field);
+	La= La (armature);
+	Lf= Lf (field);
+	Laf= return_constant1();
+	Jm= Moment of Inertia;
+	load_src= "SCADA / external";
+
+	Terminals:
+		a1_in[pe] = 0;
+		a2_in[pe] = 1;
+		f1_in[pe] = 2;
+		f2_in[pe] = 3;
+	;
+;
+
+PMSM3 => core/Permanent Magnet Synchronous Machine with Salient Rotor:
+
+	Rs= Rs (stator resistance);
+	Ld= Ld (d-axis ind.);
+	Lq= Lq (q-axis ind.);
+	pms= pole_pairs(poles=No. of Poles P);
+	Psi_pm= psi_pm(Vpk_krpm=Vpk / krpm, poles=No. of Poles P);
+	Jm= Moment of Inertia;
+	friction_coeff= friction(J= Moment of Inertia, tau= Mech. Time Constant);
+	load_src= "SCADA / external";
+    Rsnb_stator= "1000";
+    theta_ab= "0";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+	;
+;
+
+PMSM3_V	=> core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance:
+
+	Rs= Rs (stator resistance);
+	Ld= Ld (d-axis ind.);
+	Lq= Lq (q-axis ind.);
+	pms= pole_pairs(poles=No. of Poles P);
+	Psi_pm= psi_pm(Vpk_krpm=Vpk / krpm, poles=No. of Poles P);
+	Jm= Moment of Inertia;
+	friction_coeff= friction(J= Moment of Inertia, tau= Mech. Time Constant);
+	load_src= "SCADA / external";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+	;
+;
+
+SYNM3 => core/Synchronous Machine with Wound Rotor:
+
+	Rs= Rs (stator);
+	Lls= Ls (stator);
+	Lmd= Ldm (d-axis mag. ind.);
+	Lmq= Lqm (q-axis mag. ind.);
+	Rf= Rf (field);
+	Llfd= Lfl (field leakage ind.);
+	Rkd= Rdr (damping cage);
+	Rkq= Rqr (damping cage);
+	Llkd= Ldrl (damping cage);
+	Llkq= Lqrl (damping cage);
+	Ns_div_Nfd= Ns/Nf (effective);
+	Ns_div_Nkd= Ns/Nf (effective);
+	Ns_div_Nkq= Ns/Nf (effective);
+	Jm= Moment of Inertia;
+	pms=No. of Poles P;
+	load_src= "SCADA / external";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		r_1[pe] = 4;
+		r_2[pe] = 5;
+	;
+;
+
+SYNM3_I => core/Synchronous Machine with Wound Rotor:
+
+	Rs= Rs (stator);
+	Lls= Ls (stator);
+	Lmd= Ldm (d-axis mag. ind.);
+	Lmq= Lqm (q-axis mag. ind.);
+	Rf= Rf (field);
+	Llfd= Lfl (field leakage ind.);
+	Rkd= Rdr (damping cage);
+	Rkq= Rqr (damping cage);
+	Llkd= Ldrl (damping cage);
+	Llkq= Lqrl (damping cage);
+	Ns_div_Nfd= Ns/Nf (effective);
+	Ns_div_Nkd= Ns/Nf (effective);
+	Ns_div_Nkq= Ns/Nf (effective);
+	Jm= Moment of Inertia;
+	pms=No. of Poles P;
+	load_src= "SCADA / external";
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		r_1[pe] = 4;
+		r_2[pe] = 5;
+	;
+;
+
+VP2 => core/Voltage Measurement:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+IP => core/Current Measurement:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+V_DC => core/Voltage Measurement:
+
+	bw_limit= "True";
+	frequency= divide_by_10(x=Cut-off Frequency);
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+V_AC => core/Voltage RMS:
+
+	op_mode= "Fixed frequency";
+	frequency= Operating Frequency;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+A_DC => core/Current Measurement:
+
+	bw_limit= "True";
+	frequency= divide_by_10(x=Cut-off Frequency);
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+A_AC => core/Current RMS:
+
+	op_mode= "Fixed frequency";
+	frequency= Operating Frequency;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+VSEN => core/Voltage Measurement:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+
+ISEN => core/Current Measurement:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+VDC => core/Voltage Source:
+    init_source_nature="Constant";
+    init_const_value=Amplitude;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+VDC_CELL => core/Voltage Source:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+VSIN => core/Voltage Source:
+    init_source_nature="Sine";
+    init_rms_value=amplitude_to_rms(amplitude=Peak Amplitude);
+    init_frequency=Frequency;
+    init_phase=Phase Angle;
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+VSIN3 => core/Three Phase Voltage Source:
+
+    init_rms_value=line_to_phase_rms(line_rms=V (line-line-rms));
+    init_frequency=Frequency;
+    init_phase=Init. Angle (phase A);
+
+	Terminals:
+		a_node[pe] = 1;
+		b_node[pe] = 2;
+		c_node[pe] = 3;
+		n_node[pe] = 0;
+	;
+;
+
+IDC => core/Current Source:
+    init_source_nature="Constant";
+    init_const_value=Amplitude;
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+ISIN => core/Current Source:
+    init_source_nature="Sine";
+    init_rms_value=amplitude_to_rms(amplitude=Peak Amplitude);
+    init_frequency=Frequency;
+    init_phase=Phase Angle;
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+
+
+
+INVERTER_FLYCAP_3L => {
+
+    converter=Three Level Flying Capacitor Inverter Leg:
+        S_1= S_1;
+        S_2= S_2;
+        S_3= S_3;
+        S_4= S_4;
+        S_1_logic= "active low";
+        S_2_logic= "active low";
+        S_3_logic= "active low";
+        S_4_logic= "active low";
+    ;
+
+    C1=Capacitor:
+        capacitance= Cp1;
+        initial_voltage= VCp1;
+    ;
+
+    Connections:
+        converter:C1-C1:p_node,
+        converter:C2-C1:n_node.
+    ;
+
+    Ports:
+        converter.DC+[pe]=0;
+        converter.DC-[pe]=1;
+        converter.A[pe]=2;
+    ;
+}
+
+
+INVERTER_FLYCAP_7L => {
+
+    converter=Seven Level Flying Capacitor Inverter Leg:
+        S_1= S_1;
+        S_2= S_2;
+        S_3= S_3;
+        S_4= S_4;
+        S_5= S_5;
+        S_6= S_6;
+        S_7= S_7;
+        S_8= S_8;
+        S_9= S_9;
+        S_10= S_10;
+        S_11= S_11;
+        S_12= S_12;
+        S_1_logic= "active low";
+        S_2_logic= "active low";
+        S_3_logic= "active low";
+        S_4_logic= "active low";
+        S_5_logic= "active low";
+        S_6_logic= "active low";
+        S_7_logic= "active low";
+        S_8_logic= "active low";
+        S_9_logic= "active low";
+        S_10_logic= "active low";
+        S_11_logic= "active low";
+        S_12_logic= "active low";
+
+    ;
+
+    C1=Capacitor:
+        capacitance= Cp1;
+        initial_voltage= VCp1;
+    ;
+
+    C2=Capacitor:
+        capacitance= Cp2;
+        initial_voltage= VCp2;
+    ;
+
+    C3=Capacitor:
+        capacitance= Cp3;
+        initial_voltage= VCp3;
+    ;
+
+    C4=Capacitor:
+        capacitance= Cp4;
+        initial_voltage= VCp4;
+    ;
+
+    C5=Capacitor:
+        capacitance= Cp5;
+        initial_voltage= VCp5;
+    ;
+
+    Connections:
+        converter:C1-C1:p_node,
+        converter:C2-C2:p_node,
+        converter:C3-C3:p_node,
+        converter:C4-C4:p_node,
+        converter:C5-C5:p_node,
+        converter:C6-C5:n_node,
+        converter:C7-C4:n_node,
+        converter:C8-C3:n_node,
+        converter:C9-C2:n_node,
+        converter:C10-C1:n_node.
+    ;
+
+    Ports:
+        converter.DC+[pe]=0;
+        converter.DC-[pe]=1;
+        converter.A[pe]=2;
+    ;
+}

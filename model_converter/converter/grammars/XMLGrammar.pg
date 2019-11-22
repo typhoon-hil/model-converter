@@ -1,0 +1,21 @@
+File: XMLNode* Node;
+
+XMLNode:
+	'<?' NodeName Attribute* '?>'
+;
+
+Node:
+     '<' NodeName Attribute* '>' Node* TextNode? '</' NodeName '>'
+   | '<' NodeName Attribute* '/>'
+;
+Attribute:
+    AttributeKey '=' AttributeValue
+;
+
+terminals
+NodeName: /\w+/;
+TextNode: /.*(?=<\/)/;
+AttributeKey: /[^\d\W]\w*\b/;
+AttributeValue: /("(\\"|[^"])*")|(\'(\\\'|[^\'])*\')/;
+
+

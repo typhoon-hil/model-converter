@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schematic Converter</title>
+    <style>
+        @font-face { font-family: Walkway; src: url("Walkway_Bold.ttf")}
+        @font-face { font-family: Walkway_Black; src: url("Walkway_UltraBold.ttf")}
+        .walkway { font-family: Walkway;}
+        .bold { font-family: Walkway_Black;}
+        table, th, td { border: 1px solid black}
+        td {text-align: center}
+    </style>
+</head>
+<body class="walkway" style="display: flex; flex-direction: column; flex-wrap: wrap; padding: 0; margin: 0">
+    <header style="display: flex; flex-direction: row; width: 100%; background-image: linear-gradient(to top left, white 40%, red)">
+        <div style="flex-grow: 2;">Schematic converter</div>
+        <img style="" src="thil_logo3.png" alt="">
+    </header>
+    <div style="display: flex; padding: 0 3%; flex-direction: column" id="report">
+        <h1 style="display: flex;justify-content: center">Conversion report</h1>
+        <div id="source_file_div" style="flex-direction: row; text-decoration: underline">Source file used:</div><div> {{path_to_source}}</div>
+        <br/>
+        <div id="source_file_component_count" style="flex-direction: row;text-decoration: underline">Number of components found in the source file:</div><div>{{source_component_count}}</div>
+        <br/>
+        <br/>
+        <br/>
+        <table style="border-collapse: collapse" id="success_table">
+           <caption style="background-color: rgba(0, 200, 0, 0.7)">Converted components</caption>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            {% for success in successful_conversions %}
+            <tr>
+                <td>{{success.name}}</td>
+                <td>{{success.source_type_name}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br/>
+        <br/>
+        <table style="border-collapse: collapse;" id="fail_table">
+          <caption style="background-color: rgba(220, 220, 0, 0.6)">Non-converted components</caption>
+           <tr>
+               <th>Name</th>
+               <th>Type</th>
+           </tr>
+           {% for fail in unsuccessful_conversions %}
+            <tr>
+                <td>{{fail.name}}</td>
+                <td>{{fail.source_type_name}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer style="display: flex; justify-content: center;position: absolute; bottom: 0; width: 100%; 
+    height: 5%; background-color: rgba(248,248,248,0.5);"><div>Footer</div></footer>
+</body>
+</html>

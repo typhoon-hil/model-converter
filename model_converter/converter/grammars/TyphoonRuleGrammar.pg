@@ -1,0 +1,181 @@
+File:
+    Pattern* Conversion+
+;
+Pattern:
+    PatternName "{" "Components" ":" Component+ ";" "Connections" ":" Connection+ ";" "}"
+;
+
+Component:
+    ComponentVariable "=" ComponentType";"
+;
+
+Conversion:
+    "*" PatternMatch "=>" TargetType ":" Property* "Terminals" ":" Terminal* ";" ";"
+    |ComponentName "=>" TargetType ":" Property* "Terminals" ":" Terminal* ";" ";"
+    |"*" PatternMatch "=>" "{" SubsystemComponent* "Connections" ":" SubsystemConnection* ";" "Ports" ":" Port+ ";" "}"
+    |ComponentName "=>" "{" SubsystemComponent* "Connections" ":" SubsystemConnection* ";" "Ports" ":" Port+ ";" "}"
+;
+
+SubsystemComponent:
+    ComponentVariable "=" TyphoonType ":" Property* ";"
+;
+
+SubsystemTerminal:
+    SubsystemObjectVarName Dot SubsystemTerminalName "[" TerminalType "]" "=" ObjectVarName Dot ObjectVarProp";"
+    |SubsystemObjectVarName Dot SubsystemTerminalName "[" TerminalType "]" "=" ObjectVarProp";"
+
+;
+
+Connection:
+    ConnectionVariable ":" ConnectionTerminal "-" ConnectionVariable ":" ConnectionTerminal ","
+    |ConnectionVariable ":" ConnectionTerminal "-" ConnectionVariable ":" ConnectionTerminal Dot
+;
+SubsystemConnection:
+    ConnectionVariable ":" ConnectionTerminal "-" ConnectionVariable ":" ConnectionTerminal ","
+    |ConnectionVariable ":" ConnectionTerminal "-" ConnectionVariable ":" ConnectionTerminal Dot
+;
+
+Port:
+    SubsystemObjectVarName Dot SubsystemTerminalName "[" TerminalType "]" "=" ObjectVarName Dot ObjectVarProp";"
+    |SubsystemObjectVarName Dot SubsystemTerminalName "[" TerminalType "]" "=" ObjectVarProp";"
+
+;
+
+
+Terminal:
+    TerminalName "[" TerminalType "]" "=" ObjectVarName Dot ObjectVarProp";"
+    |TerminalName "[" TerminalType "]" "=" ObjectVarProp";"
+
+;
+
+Property:
+    PropertyName "="  PropertyValue ";"
+;
+
+
+TyphoonType:
+    TyphoonTypeOne
+    |TyphoonTypeTwo
+    |TyphoonTypeThree
+    |TyphoonTypeFour
+;
+
+TargetType:
+    TargetTypeOne
+    |TargetTypeTwo
+    |TargetTypeThree
+    |TargetTypeFour
+;
+
+terminals
+Dot:
+    "."
+;
+PropertyValue:
+    /(?<==).+?(?=;)|(?<==\s).+?(?=;)/
+;
+CommentString:
+    /(?<=\<!--)[\w\d\s\D]*?(?=--\>)/
+;
+PatternName:
+    /[\w\d]*(?=\s{)/
+;
+ComponentVariable:
+    /(?<=\s)[\w\d]*?(?=\s=)|(?<=\s)[\w\d]*?(?==)/
+;
+
+ComponentType:
+    /(?<==)[\w\d]*(?=\s;)|(?<==)[\w\d]*(?=;)|(?<==\s)[\w\d]*(?=;)|(?<==\s)[\w\d]*(?=\s;)/
+;
+
+
+TargetTypeOne:
+    /(?<==>\s).*?(?=:)/
+;
+TargetTypeTwo:
+    /(?<==>).*?(?=\s:)/
+;
+TargetTypeThree:
+    /(?<==>\s).*?(?=\s:)/
+;
+TargetTypeFour:
+    /(?<==>).*?(?=:)/
+;
+
+
+TyphoonTypeOne:
+    /(?<==\s).*?(?=:)/
+;
+TyphoonTypeTwo:
+    /(?<==).*?(?=\s:)/
+;
+TyphoonTypeThree:
+    /(?<==\s).*?(?=\s:)/
+;
+TyphoonTypeFour:
+    /(?<==).*?(?=:)/
+;
+ConnectionVariable:
+    /(?<!=>\s)[\w\d]+(?=\s:)
+    |(?<!=>\s)[\w\d]+(?=:)
+    |(?<!=>)[\w\d]+(?=\s:)
+    |(?<!=>)[\w\d]+(?=:)/
+;
+
+ConnectionTerminal:
+    /(?<=:)[\w\d]*(?=\s.)|(?<=:\s)[\w\d]*(?=\s.)|(?<=:\s)[\w\d]*(?=.)|(?<=:)[\w\d]*(?=.)/
+;
+
+
+SubsystemObjectVarName:
+    /(?<=\s)[\w\d]*(?=\.)/
+;
+
+SubsystemTerminalName:
+    /[\w\d+-_]*?(?=\[)|[\w\d+-_]*?(?=\[)/
+;
+
+
+TerminalName:
+    /(?<=\s)[\w\d+-_]*?(?=\[)|(?<=\s)[\w\d+-_]*?(?=\[)/
+;
+
+TerminalType:
+    /(?<=\[)[\w\d]*?(?=\])|(?<=\[\s)[\w\d]*?(?=\])(?<=\[)[\w\d]*?(?=\s\])(?<=\[\s)[\w\d]*?(?=\s\])/
+;
+
+PatternMatch:
+    /(?<=\*)[\w\s\d]*?(?=\s=>)/
+;
+
+ComponentName:
+    /^[\w\s\d]*?(?=\s=>)/
+;
+
+
+PropertyName:
+    /(?<=\s).*?(?=\s=)
+    |(?<=\s).*?(?==)/
+;
+
+
+ObjectAttribute:
+    /(?<==\s)[\w\d\s\-_]*?(?=;)|(?<==)[\w\d\s\-_]*?(?=;)|(?<==)[\w\d\s\-_]*?(?=\s;)|(?<==)[\w\d\s\-_]*?(?=;)/
+;
+
+ParamName:
+    /(?<=\().*?(?==)|(?<=,).*?(?==)|(?<=\(\s).*?(?==)|(?<=,\s).*?(?==)|(?<=\s,).*?(?==)|(?<=\s,\s).*?(?==)/
+;
+
+
+ObjectVarName:
+    /(?<==\s)[\w\d]*?(?=\.[\w\d\s])|(?<==)[\w\d]*?(?=\.[\w\d\s])/
+;
+
+ObjectVarProp:
+    /(?<=\.)[\w\s\d\-_]*?(?=;)|(?<=\.)[\w\s\d\-_]*?(?=\s;)
+    |(?<=\.)[\w\s\d\-_]*?(?=,)|(?<=\.)[\w\s\d\-_]*?(?=\s,)
+    |(?<=\.)[\w\s\d\-_]*?(?=\))|(?<=\.)[\w\s\d\-_]*?(?=\s\))
+    |(?<==\s)[\d]*?(?=;)|(?<==)[\d]*?(?=;)|(?<==)[\d]*?(?=\s;)|(?<==\s)[\d]*?(?=\s;)/
+;
+

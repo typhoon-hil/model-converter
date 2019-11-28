@@ -55,6 +55,7 @@ def load_cpd(compile_tse):
     cpd_path = compile_tse
     # Load to VHIL
     hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
+
     # Start simulation
     hil.start_simulation()
 
@@ -82,89 +83,38 @@ def test_compile(compile_tse):
     assert os.path.isfile(cpd_path)
 
 
-@pytest.mark.parametrize("Vsin_yy, f, SS_yy, expected_values, measurement_names",
-                         [(10000, 50, False,[399.657, 0], ["Vyy", "Iyy"]),
-                          (500, 50, True, [0, 352.3], ["Vyy", "Iyy"])])
-def test_3ph_yy_transformer(load_cpd, Vsin_yy, f, SS_yy,expected_values, measurement_names):
+@pytest.mark.parametrize("source_value, contactor_state, expected_value, source_name, contactor_name, measurement_name",
+                          [(10000, False,  399.657,
+                           'Vsin_yy', 'SS_yy', "Vyy"),
+                            (500, True, 352.3,
+                           'Vsin_yy', 'SS_yy', "Iyy"),
+                            (10000, False, 399.657,
+                           'Vsin_dd', 'SS_dd', "Vdd"),
+                            (500, True,  1057,
+                           'Vsin_dd', 'SS_dd', "Idd"),
+                            (1000, False,  692.227,
+                           'Vsin_dy', 'SS_dy', "Vdy"),
+                            (500, True, 609.840,
+                           'Vsin_dy', 'SS_dy', "Idy"),
+                            (10000, False, 230.742,
+                           'Vsin_yd', 'SS_yd', "Vyd"),
+                            (500, True, 610,
+                           'Vsin_yd', 'SS_yd', "Iyd")])
+def test_3ph_w1w2_transformer(load_cpd, source_value, contactor_state, expected_value, source_name, contactor_name,  measurement_name):
 
     # Set source value.
-    hil.set_source_sine_waveform(name='Vsin_yy', rms=Vsin_yy/np.sqrt(3), frequency=f)
+    hil.set_source_sine_waveform(name=source_name, rms=source_value/np.sqrt(3), frequency=50)
 
     # Set switch state
-    hil.set_contactor('SS_yy', swControl=True, swState=SS_yy)
+    hil.set_contactor(name=contactor_name, swControl=True, swState=contactor_state)
 
     # Start_capture
     sim_time = hil.get_sim_time()
-    capture.start_capture(duration=0.1, signals=measurement_names, executeAt=sim_time + 1.5)
-
-    # Data acquisition
-    cap_data=capture.get_capture_results(wait_capture=True)
-
-    # Tests
-    for i, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(cap_data[measurement_names[i]], at_value=around(expected_value, tol_p=0.001))
-
-@pytest.mark.parametrize("Vsin_dd, f, SS_dd, expected_values, measurement_names",
-                         [(10000, 50, False,[399.657, 0], ["Vdd", "Idd"]),
-                          (500, 50, True, [0, 1057], ["Vdd", "Idd"])])
-def test_3ph_dd_transformer(load_cpd, Vsin_dd, f, SS_dd,expected_values, measurement_names):
-
-    # Set source value.
-    hil.set_source_sine_waveform(name='Vsin_dd', rms=Vsin_dd/np.sqrt(3), frequency=f)
-
-    # Set switch state
-    hil.set_contactor('SS_dd', swControl=True, swState=SS_dd)
-
-    # Start_capture
-    sim_time = hil.get_sim_time()
-    capture.start_capture(duration=0.1, signals=measurement_names, executeAt=sim_time + 1.5)
-
-    # Data acquisition
-    cap_data=capture.get_capture_results(wait_capture=True)
-
-    # Tests
-    for i, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(cap_data[measurement_names[i]], at_value=around(expected_value, tol_p=0.001))
-@pytest.mark.parametrize("Vsin_dy, f, SS_dy, expected_values, measurement_names",
-                         [(10000, 50, False, [692.227, 0], ['Vdy', 'Idy']),
-                          (500, 50, True, [0, 609.840], ['Vdy', 'Idy'])])
-def test_3ph_dy_transformer(load_cpd, Vsin_dy, f, SS_dy, expected_values, measurement_names):
-    # Set source value.
-    hil.set_source_sine_waveform(name='Vsin_dy', rms=Vsin_dy/np.sqrt(3), frequency=f)
-
-    # Set switch state
-    hil.set_contactor('SS_dy', swControl=True, swState=SS_dy)
-
-    # Start_capture
-    sim_time = hil.get_sim_time()
-    capture.start_capture(duration=0.1, signals=measurement_names, executeAt=sim_time + 1.5)
+    capture.start_capture(duration=0.1, signals=[measurement_name], executeAt=sim_time + 2)
 
     # Data acquisition
     cap_data = capture.get_capture_results(wait_capture=True)
+    measurement = cap_data[measurement_name]
 
     # Tests
-    for i, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(cap_data[measurement_names[i]], at_value=around(expected_value, tol_p=0.001))
-
-
-@pytest.mark.parametrize("Vsin_yd, f, SS_yd, expected_values, measurement_names",
-                         [(10000, 50, False,[230.742, 0], ['Vyd', 'Iyd']),
-                          (500, 50, True,[0.0, 610], ['Vyd', 'Iyd'])])
-def test_3ph_yd_transformer(load_cpd, Vsin_yd, f, SS_yd, expected_values, measurement_names):
-
-    # Set source value.
-    hil.set_source_sine_waveform(name='Vsin_yd', rms=Vsin_yd/np.sqrt(3), frequency=f)
-
-    # Set switch state
-    hil.set_contactor('SS_yd', swControl=True, swState=SS_yd)
-
-    # Start_capture
-    sim_time = hil.get_sim_time()
-    capture.start_capture(duration=0.1, signals=measurement_names, executeAt=sim_time + 1.5)
-
-    # Data acquisition
-    cap_data = capture.get_capture_results(wait_capture=True)
-
-    # Tests
-    for i, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(cap_data[measurement_names[i]], at_value=around(expected_value, tol_p=0.001))
+    sig.assert_is_constant(measurement, at_value=around(expected_value, tol_p=0.001))

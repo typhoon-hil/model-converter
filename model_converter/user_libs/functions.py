@@ -25,6 +25,10 @@ def si_prefix_remover(x):
         return x
 
 
+def int2string(int_value):
+    return str(int(int_value))
+
+
 def L12_to_k(L11, L22, L12):
     return float(L12) / np.sqrt(float(L11) * float(L22))
 

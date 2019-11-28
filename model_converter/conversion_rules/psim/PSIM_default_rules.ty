@@ -1,13 +1,9 @@
-INVERTER_1PH => core/Single Phase Inverter:
+SM_1PH_INV => core/Single Phase Inverter:
 
-    Sa_top= Sa_top;
-    Sa_bot= Sa_bottom;
-    Sb_top= Sb_top;
-    Sb_bot= Sb_bottom;
-    Sa_top_logic= "active low";
-    Sa_bot_logic= "active low";
-    Sb_top_logic= "active low";
-    Sb_bot_logic= "active low";
+    Sa_top= int2string(int_value = Sa_top);
+    Sa_bot= int2string(int_value = Sa_bot);
+    Sb_top= int2string(int_value = Sb_top);
+    Sb_bot= int2string(int_value = Sb_bot);
 
 	Terminals:
 		a_in[pe] = 2;
@@ -17,25 +13,111 @@ INVERTER_1PH => core/Single Phase Inverter:
 	;
 ;
 
-INVERTER_3PH => core/Three Phase Inverter:
+SM_3PH_INV => core/Three Phase Inverter:
 
-    Sa_top= Sa_top;
-    Sa_bot= Sa_bottom;
-    Sb_top= Sb_top;
-    Sb_bot= Sb_bottom;
-    Sc_top= Sc_top;
-    Sc_bot= Sc_bottom;
-    Sa_top_logic= "active low";
-    Sa_bot_logic= "active low";
-    Sb_top_logic= "active low";
-    Sb_bot_logic= "active low";
-    Sc_top_logic= "active low";
-    Sc_bot_logic= "active low";
+    Sa_top= int2string(int_value = Sa_top);
+    Sa_bot= int2string(int_value = Sa_bot);
+    Sb_top= int2string(int_value = Sb_top);
+    Sb_bot= int2string(int_value = Sb_bot);
+    Sc_top= int2string(int_value = Sc_top);
+    Sc_bot= int2string(int_value = Sc_bot);
 
 	Terminals:
 		a_in[pe] = 2;
 		b_in[pe] = 3;
 		c_in[pe] = 4;
+		pos_out[pe] = 0;
+		neg_out[pe] = 1;
+	;
+;
+
+SM_3PH_3L_T_INV => core/Three Phase T Type Inverter:
+
+    Sa_1= int2string(int_value = Sa_1);
+    Sa_2= int2string(int_value = Sa_2);
+    Sa_3= int2string(int_value = Sa_3);
+    Sa_4= int2string(int_value = Sa_4);
+    Sb_1= int2string(int_value = Sb_1);
+    Sb_2= int2string(int_value = Sb_2);
+    Sb_3= int2string(int_value = Sb_3);
+    Sb_4= int2string(int_value = Sb_4);
+    Sc_1= int2string(int_value = Sc_1);
+    Sc_2= int2string(int_value = Sc_2);
+    Sc_3= int2string(int_value = Sc_3);
+    Sc_4= int2string(int_value = Sc_4);
+
+	Terminals:
+		A[pe] = 3;
+		B[pe] = 16;
+		C[pe] = 17;
+		DC+[pe] = 0;
+		DC-[pe] = 1;
+		DCn[pe] = 2;
+	;
+;
+
+SM_3PH_3L_NPC_INV => core/Three Phase NPC Inverter:
+
+    Sa_1= int2string(int_value = Sa_1);
+    Sa_2= int2string(int_value = Sa_2);
+    Sa_3= int2string(int_value = Sa_3);
+    Sa_4= int2string(int_value = Sa_4);
+    Sb_1= int2string(int_value = Sb_1);
+    Sb_2= int2string(int_value = Sb_2);
+    Sb_3= int2string(int_value = Sb_3);
+    Sb_4= int2string(int_value = Sb_4);
+    Sc_1= int2string(int_value = Sc_1);
+    Sc_2= int2string(int_value = Sc_2);
+    Sc_3= int2string(int_value = Sc_3);
+    Sc_4= int2string(int_value = Sc_4);
+
+	Terminals:
+		A[pe] = 3;
+		B[pe] = 8;
+		C[pe] = 9;
+		DC+[pe] = 0;
+		DC-[pe] = 1;
+		DCn[pe] = 2;
+	;
+;
+
+SM_3L_NPC_LEG => core/NPC Leg:
+
+    S1= int2string(int_value = S1);
+    S2= int2string(int_value = S2);
+    S3= int2string(int_value = S3);
+    S4= int2string(int_value = S4);
+
+	Terminals:
+		OUT[pe] = 3;
+		DC+[pe] = 0;
+		DC-[pe] = 1;
+		DCn[pe] = 2;
+	;
+;
+
+SM_3L_T_LEG => core/NPC T Type Leg:
+
+    S1= int2string(int_value = S1);
+    S2= int2string(int_value = S2);
+    S3= int2string(int_value = S3);
+    S4= int2string(int_value = S4);
+
+	Terminals:
+		A[pe] = 3;
+		DC+[pe] = 0;
+		DC-[pe] = 1;
+		DCn[pe] = 2;
+	;
+;
+
+SM_2L_LEG => core/IGBT Leg:
+
+    S_top= int2string(int_value = S_top);
+    S_bot= int2string(int_value = S_bot);
+
+	Terminals:
+		a_in[pe] = 2;
 		pos_out[pe] = 0;
 		neg_out[pe] = 1;
 	;
@@ -109,13 +191,24 @@ RLC => {
 	;
 }
 
-RHEOSTAT => core/Variable Resistor:
+RHEOSTAT => {
 
-	Terminals:
-		p_node[pe] = 0;
-		n_node[pe] = 1;
+	R=Variable Resistor:
+	    inductance = 1e-5;
 	;
-;
+
+	SC_in=SCADA Input:
+	;
+
+	Connections:
+		SC_in:out-R:In,
+	;
+
+	Ports:
+		R.p_node[pe]=0;
+		R.n_node[pe]=1;
+	;
+}
 
 L_SAT => core/Nonlinear Inductor:
 
@@ -1115,17 +1208,13 @@ ISIN => core/Current Source:
 
 
 
-INVERTER_FLYCAP_3L => {
+SM_3L_FLYCAP_LEG => {
 
     converter=Three Level Flying Capacitor Inverter Leg:
-        S_1= S_1;
-        S_2= S_2;
-        S_3= S_3;
-        S_4= S_4;
-        S_1_logic= "active low";
-        S_2_logic= "active low";
-        S_3_logic= "active low";
-        S_4_logic= "active low";
+        S_1= int2string(int_value = S_1);
+        S_2= int2string(int_value = S_2);
+        S_3= int2string(int_value = S_3);
+        S_4= int2string(int_value = S_4);
     ;
 
     C1=Capacitor:
@@ -1146,33 +1235,21 @@ INVERTER_FLYCAP_3L => {
 }
 
 
-INVERTER_FLYCAP_7L => {
+SM_7L_FLYCAP_LEG => {
 
     converter=Seven Level Flying Capacitor Inverter Leg:
-        S_1= S_1;
-        S_2= S_2;
-        S_3= S_3;
-        S_4= S_4;
-        S_5= S_5;
-        S_6= S_6;
-        S_7= S_7;
-        S_8= S_8;
-        S_9= S_9;
-        S_10= S_10;
-        S_11= S_11;
-        S_12= S_12;
-        S_1_logic= "active low";
-        S_2_logic= "active low";
-        S_3_logic= "active low";
-        S_4_logic= "active low";
-        S_5_logic= "active low";
-        S_6_logic= "active low";
-        S_7_logic= "active low";
-        S_8_logic= "active low";
-        S_9_logic= "active low";
-        S_10_logic= "active low";
-        S_11_logic= "active low";
-        S_12_logic= "active low";
+        S_1= int2string(int_value = S_1);
+        S_2= int2string(int_value = S_2);
+        S_3= int2string(int_value = S_3);
+        S_4= int2string(int_value = S_4);
+        S_5= int2string(int_value = S_5);
+        S_6= int2string(int_value = S_6);
+        S_7= int2string(int_value = S_7);
+        S_8= int2string(int_value = S_8);
+        S_9= int2string(int_value = S_9);
+        S_10= int2string(int_value = S_10);
+        S_11= int2string(int_value = S_11);
+        S_12= int2string(int_value = S_12);
 
     ;
 

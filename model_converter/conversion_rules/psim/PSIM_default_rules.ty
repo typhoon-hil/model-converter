@@ -1024,7 +1024,7 @@ SYNM3 => core/Synchronous Machine with Wound Rotor:
 	Ns_div_Nkd= Ns/Nf (effective);
 	Ns_div_Nkq= Ns/Nf (effective);
 	Jm= Moment of Inertia;
-	pms=No. of Poles P;
+	pms= pole_pairs(poles=No. of Poles P);
 	load_src= "SCADA / external";
 
 	Terminals:
@@ -1052,7 +1052,7 @@ SYNM3_I => core/Synchronous Machine with Wound Rotor:
 	Ns_div_Nkd= Ns/Nf (effective);
 	Ns_div_Nkq= Ns/Nf (effective);
 	Jm= Moment of Inertia;
-	pms=No. of Poles P;
+	pms= pole_pairs(poles=No. of Poles P);
 	load_src= "SCADA / external";
 
 	Terminals:

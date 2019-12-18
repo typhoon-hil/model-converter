@@ -67,6 +67,8 @@ class BaseParser:
         #
         self.source_comp_dict_by_type = {"Subsystem": []}
 
+        self.compiled = False
+
     def read_rules(self):
         with codecs.open(self.rule_file_path, 'r', errors='ignore') \
                 as fileData:
@@ -707,7 +709,7 @@ class BaseParser:
         self.save_path = self.get_original_file_name(path)
         self.mdl.save_as(self.save_path)
         if compile_model:
-            self.mdl.compile()
+            self.compiled = self.mdl.compile()
         self.mdl.close_model()
 
     def _connect(self, connectable_list:list):
@@ -1401,39 +1403,48 @@ class BaseParser:
         self.save_schematic(device_id,
                             config_id,
                             compile_model)
-        return self.save_path
+
+        report_path = self.generate_report()
+        return self.save_path, self.compiled, report_path
 
     def generate_report(self):
         """
         Generates a conversion report file at the source file location.
         """
-        root_element = BaseParser.input_components.node_list[0]
+        input_components = self.source_comp_dict_by_type.values()
         converted = []
         unconverted = []
-        for component in root_element.children:
-            if hasattr(component, "converted"):
+        for component_list in input_components:
+            for component in component_list:
                 whitespace = 20 - len(component.name)
                 if whitespace < 0:
                     whitespace = 0
                 component.whitespace = whitespace
-                if component.converted == False:
-                    unconverted.append(component)
-                else:
+                if component.converted:
                     converted.append(component)
-        with open("scheme_importer/app/resources/report_template.txt") as file_:
+                else:
+                    unconverted.append(component)
+        template_path = os.path.join(get_root_path(),
+                                     "converter",
+                                     "app",
+                                     "resources",
+                                     "report_template.txt")
+        with open(template_path) as file_:
             template = Template(file_.read())
 
         save_path = self.input_file_path.split(os.path.sep)
         save_path[-1] = "report.txt"
         save_path[0] += os.path.sep
         save_path = os.path.join(*save_path)
-        converted.sort(key=lambda x: x.source_type_name)
-        unconverted.sort(key=lambda x: x.source_type_name)
-        with open(save_path, "w") as x:
-            x.write(template.render(path_to_source=self.input_file_path,
-                                        source_component_count=len(converted)+len(unconverted),
-                                        successful_conversions = converted,
-                                        unsuccessful_conversions=unconverted,
-                                        save_path=self.save_path))
+        converted.sort(key=lambda x: x.type)
+        unconverted.sort(key=lambda x: x.type)
+        count = len(converted) + len(unconverted)
+        with open(save_path, "w") as report_file:
+            report_file.write(
+                template.render(path_to_source=self.input_file_path,
+                                source_component_count=count,
+                                successful_conversions=converted,
+                                unsuccessful_conversions=unconverted,
+                                save_path=self.save_path))
 
         return save_path

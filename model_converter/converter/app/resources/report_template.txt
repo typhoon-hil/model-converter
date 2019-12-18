@@ -15,7 +15,7 @@ Number of components found in the source file: {{source_component_count}}
 -------------------------------------------------------------------------
             Name                |               Type
 -------------------------------------------------------------------------{% for success in successful_conversions %}
-            {{success.name}}{%- for i in range(success.whitespace) %} {% endfor %}|               {{success.source_type_name}}
+            {{success.name}}{%- for i in range(success.whitespace) %} {% endfor %}|               {{success.type}}
 -------------------------------------------------------------------------{% endfor %}
 
 
@@ -24,6 +24,6 @@ Number of components found in the source file: {{source_component_count}}
 -------------------------------------------------------------------------
             Name                |               Type
 -------------------------------------------------------------------------{% for fail in unsuccessful_conversions %}
-            {{fail.name}}{% for i in range(fail.whitespace) %} {% endfor %}|               {{fail.source_type_name}}
+            {{fail.name}}{% for i in range(fail.whitespace) %} {% endfor %}|               {{fail.type}}
 -------------------------------------------------------------------------{% endfor %}
 

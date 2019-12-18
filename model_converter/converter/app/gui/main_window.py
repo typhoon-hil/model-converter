@@ -96,13 +96,13 @@ class MainApplication(tk.Frame):
                                    input_file_path=self.input_file_path)
         device = self.device.replace(" ","")
         try:
-            tse_path = self.converter.convert_schema(device_id=device,
-                                               config_id=self.configuration_id,
-                                               compile_model=True)
+            tse_path, compiled, report_path = \
+                self.converter.convert_schema(device_id=device,
+                                              config_id=self.configuration_id,
+                                              compile_model=True)
 
             root_path = get_root_path()
-            report_path = root_path + "\\conversion.log"
-            valid = True if tse_path else False
+            conversion_log = root_path + "\\conversion.log"
         except SchApiException as ex:
             self.progress_bar.config(value=0)
             self.report_text.config(state="normal")
@@ -121,7 +121,7 @@ class MainApplication(tk.Frame):
             self.report_text.config(state="normal")
             self.report_text.delete('1.0', tk.END)
             valid_report = "--------------------------------\n"
-            if valid:
+            if compiled:
                 valid_report += "Model has been compiled successfully."
             else:
                 valid_report += "Model compilation failed."
@@ -129,6 +129,16 @@ class MainApplication(tk.Frame):
             self.report_text.insert(tk.END, valid_report)
             self.report_text.insert(tk.END, report.read())
             self.report_text.config(state="disabled")
+        with open(conversion_log, "r") as log:
+            log_text = log.read()
+            # If any errors are present
+            if log_text:
+                self.report_text.config(state="normal")
+                self.report_text.insert(tk.END,
+                                        "\n\nDetailed error log\n"
+                                        "--------------------------------\n")
+                self.report_text.insert(tk.END, log_text)
+                self.report_text.config(state="disabled")
 
     def set_input_file_path(self, path:str):
         if path!="":

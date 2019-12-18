@@ -1,0 +1,34 @@
+{# Template file for psim converter user documentation #}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dita PUBLIC "-//OASIS//DTD DITA Composite//EN" "ditabase.dtd">
+<dita>
+    <topic id="topic_ccl_y3b_ckb">
+        <title>PSIM - Typhoon compatible components</title>
+        <shortdesc>Left column of the table represents component types found in PSIM.
+        Second column represents component types in Typhoon. Some PSIM components are converted
+        to combination of components packed in subsystems. This case is noted in second column as Subsystem.</shortdesc>
+        <body>
+            <table frame="all" rowsep="1" colsep="1" id="table_amm_ylb_ckb">
+                <title>List of compatible components</title>
+                <tgroup cols="2" align="center">
+                    <colspec colname="c1" colnum="1" colwidth="1*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1*"/>
+                    <thead>
+                        <row>
+                            <entry>PSIM Component</entry>
+                            <entry>Typhoon HIL Component</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+{% for component in components %}
+                        <row>
+                            <entry>{{component.psim_type}}</entry>
+                            <entry>{{component.typhoon_type}}</entry>
+                        </row>
+{% endfor %}
+                    </tbody>
+                </tgroup>
+            </table>
+        </body>
+    </topic>
+</dita>

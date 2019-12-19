@@ -2,6 +2,9 @@
 
 ECHO Running tests...
 
+REM Change directory to model coverter project root
+cd..
+
 REM Select the desired test set to be executed
 
 REM Run all psim tests

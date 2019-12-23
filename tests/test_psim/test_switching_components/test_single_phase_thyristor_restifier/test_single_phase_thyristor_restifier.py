@@ -26,7 +26,7 @@ def convert_compile_load():
     # ###################################################
     # # Convert the model
     converter = Converter("psim", netlist_path)
-    tse_path = converter.convert_schema(compile_model=False)
+    tse_path = converter.convert_schema(compile_model=False)[0]
     cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
     # Open the converted tse file
     model.load(tse_path)

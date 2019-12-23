@@ -28,7 +28,7 @@ def convert_xml2tse(create_psim_netxml):
     # Converts the psim xml netlist to tse
     netxml_path = create_psim_netxml
     converter = Converter("psim", netxml_path)
-    tse_path = converter.convert_schema(compile_model=False)
+    tse_path = converter.convert_schema(compile_model=False)[0]
     return tse_path
 
 

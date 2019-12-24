@@ -1416,6 +1416,9 @@ class BaseParser:
         unconverted = []
         for component_list in input_components:
             for component in component_list:
+                # Not reporting subsystem conversion
+                if isinstance(component, Subsystem):
+                    break
                 whitespace = 20 - len(component.name)
                 if whitespace < 0:
                     whitespace = 0

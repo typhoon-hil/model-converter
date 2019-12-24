@@ -11,8 +11,6 @@ from model_converter.converter.app.converter import Converter
 
 class MainApplication(tk.Frame):
 
-    icon_file_path = os.path.join("scheme_importer", "app",
-                                  "resources", "thil_icon.ico")
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
 

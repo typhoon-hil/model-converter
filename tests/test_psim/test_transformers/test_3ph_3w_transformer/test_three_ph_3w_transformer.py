@@ -30,7 +30,7 @@ def create_psim_netxml():
 @pytest.fixture(scope='session')
 def convert_xml2tse(create_psim_netxml):
     # Converts the psim xml netlist to tse
-    netxml_path = create_psim_netxml
+    netxml_path = create_psim_netxml[1]
     converter = Converter("psim", netxml_path)
     tse_path = converter.convert_schema()[0]
     return tse_path
@@ -71,7 +71,8 @@ def load_cpd(compile_tse):
 
 @pytest.mark.generate_netxml
 def test_generate_xml(create_psim_netxml):
-    netxml_path = create_psim_netxml
+    netxml_path = create_psim_netxml[1]
+    assert create_psim_netxml[0] == 0
     assert os.path.isfile(netxml_path)
 
 

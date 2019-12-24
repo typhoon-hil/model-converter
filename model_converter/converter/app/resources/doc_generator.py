@@ -25,8 +25,14 @@ def generate_psim_doc():
     # Create components list used by the .template file
     components = list()
     for match_rule in baseParser.match_rules:
+
+        if match_rule.source_type in baseParser.patterns.keys():
+            psim_type = match_rule.source_type + ' - pattern matching'
+        else:
+            psim_type = match_rule.source_type
+
         typhoon_type = match_rule.typhoon_type if match_rule.typhoon_type != 'N-to-M' else 'Subsystem'
-        components.append({'psim_type': match_rule.source_type,
+        components.append({'psim_type': psim_type,
                            'typhoon_type': typhoon_type})
 
     # Load the template file
@@ -47,3 +53,7 @@ def generate_psim_doc():
     with open(os.path.join(output_path, file_name), mode='w', encoding='utf-8') as f:
         f.write(rendered_template)
 
+
+if __name__ == "__main__":
+    # execute only if run as a script
+    generate_psim_doc()

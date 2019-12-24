@@ -29,9 +29,9 @@ def create_psim_netxml():
 @pytest.fixture(scope='session')
 def convert_xml2tse(create_psim_netxml):
     # Converts the psim xml netlist to tse
-    netxml_path = create_psim_netxml
+    netxml_path = create_psim_netxml[1]
     converter = Converter("psim", netxml_path)
-    tse_path = converter.convert_schema(compile_model=False)
+    tse_path = converter.convert_schema(compile_model=False)[0]
     return tse_path
 
 
@@ -49,7 +49,8 @@ def convert_compile_load(convert_xml2tse):
 
 @pytest.mark.generate_netxml
 def test_generate_netxml(create_psim_netxml):
-    netxml_path = create_psim_netxml
+    netxml_path = create_psim_netxml[1]
+    assert create_psim_netxml[0] == 0
     assert os.path.isfile(netxml_path)
 
 
@@ -57,6 +58,8 @@ def test_generate_netxml(create_psim_netxml):
 def test_conversion_xml2tse(convert_xml2tse):
     tse_path = convert_xml2tse
     assert os.path.isfile(tse_path)
+
+
 @pytest.mark.skip(reason="Test not implemented")
 def test_three_phase_T_type_converter():
     assert False

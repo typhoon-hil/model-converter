@@ -1,3 +1,76 @@
+Boost {
+
+    Components:
+        M=MOSFET;
+        D=DIODE;
+    ;
+
+    Connections:
+        M:0-D:0.
+    ;
+
+}
+
+Buck {
+
+    Components:
+        M=MOSFET;
+        D=DIODE;
+    ;
+
+    Connections:
+        M:1-D:1.
+    ;
+
+}
+
+IGBT_Leg {
+
+    Components:
+        I1=IGBT;
+        I2=IGBT;
+    ;
+
+    Connections:
+        I1:1-I2:0.
+
+    ;
+
+}
+
+*Boost => core/Boost:
+
+    ctrl_src= "Internal modulator";
+
+    Terminals:
+        a_in[pe] = M.0;
+        b_in[pe] = M.1;
+        a_out[pe] = D.1;
+        b_out[pe] = M.1;
+    ;
+;
+
+*Buck => core/Buck:
+
+    ctrl_src= "Internal modulator";
+
+    Terminals:
+        a_in[pe] = M.0;
+        b_in[pe] = D.0;
+        a_out[pe] = M.1;
+        b_out[pe] = D.0;
+    ;
+;
+
+*IGBT_Leg => core/IGBT Leg:
+
+    Terminals:
+        pos_out[pe] = I1.0;
+        a_in[pe] = I1.1;
+        neg_out[pe] = I2.1;
+    ;
+;
+
 SM_1PH_INV => core/Single Phase Inverter:
 
 	Sa_bot= int2string(int_value = Sa_bot);

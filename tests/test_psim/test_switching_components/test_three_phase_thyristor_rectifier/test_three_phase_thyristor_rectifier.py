@@ -1,5 +1,6 @@
 # Imports
 import typhoon.api.hil as hil
+from tests.utils import psim_export_netxml
 from typhoon.api.schematic_editor import model
 from typhoon.test.capture import start_capture, get_capture_results
 import pytest
@@ -16,67 +17,72 @@ psim_tests_dir = os.path.dirname(__file__)
 tests_dir = os.path.dirname(psim_tests_dir)
 sch_importer_dir = os.path.dirname(tests_dir)
 
-netlist_path = psim_tests_dir + '\\three_phase_thyristor_rectifier.xml'
+psimsch_path = psim_tests_dir + '\\three_phase_thyristor_rectifier.psimsch'
 
 
 @pytest.fixture(scope='session')
-def convert_compile_load():
-    # Comment this if don't wont to compile model again
+def create_psim_netxml():
+    # Generates a xml netlist from psim schematic file
+    return psim_export_netxml(psimsch_path)
 
-    # ###################################################
-    # # Convert the model
-    converter = Converter("psim", netlist_path)
-    tse_path = converter.convert_schema(compile_model=False)
+
+@pytest.fixture(scope='session')
+def convert_xml2tse(create_psim_netxml):
+    # Converts the psim xml netlist to tse
+    netxml_path = create_psim_netxml[1]
+    converter = Converter("psim", netxml_path)
+    tse_path = converter.convert_schema(compile_model=False)[0]
+    return tse_path
+
+
+@pytest.fixture(scope='session')
+def convert_compile_load(convert_xml2tse):
+    tse_path = convert_xml2tse
     cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
     # Open the converted tse file
     model.load(tse_path)
     # Compile the model
     model.compile()
-    ###################################################
 
     # Load to VHIL
     hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
 
-
-# Constant parameters:
-Vtb = V3ph_tb = Vsrc = 220
-R = 10
-f = 10
-# Expected currents:
-Itb_ac_exp = Vtb/R
-Itb_dc_exp = Vtb/R*2*np.sqrt(2)/np.pi
-I3ph_tb_ac_exp = V3ph_tb / R * np.sqrt(2) * 1.654
-I3ph_tb_dc_exp = V3ph_tb / R * np.sqrt(2) * 1.655
+@pytest.mark.generate_netxml
+def test_generate_netxml(create_psim_netxml):
+    netxml_path = create_psim_netxml[1]
+    assert create_psim_netxml[0] == 0
+    assert os.path.isfile(netxml_path)
 
 
-@pytest.mark.parametrize("expected_values, ss_state, measurement_names, switch_names, block_name, source_name",
-                         [([0, 0], 0,
-                          ['I3ph_tb_ac', 'I3ph_tb_dc'], ['Sa_top', 'Sb_top', 'Sc_top'], 'BT32', 'V3ph_tb'),
-                          ([I3ph_tb_ac_exp, I3ph_tb_dc_exp], 1,
-                          ['I3ph_tb_ac', 'I3ph_tb_dc'], ['Sa_bot', 'Sb_bot', 'Sc_bot'], 'BT32', 'V3ph_tb')])
-def test_3ph_thyristor_bridge(convert_compile_load, expected_values, ss_state,
-                          measurement_names, switch_names, block_name, source_name):
+@pytest.mark.conversion_xml2tse
+def test_conversion_xml2tse(convert_xml2tse):
+    tse_path = convert_xml2tse
+    assert os.path.isfile(tse_path)
 
-    # Set source value.
-    hil.set_source_sine_waveform(name='V3ph_tb', rms=V3ph_tb, frequency=f)
-    start_capture(duration=0.1, signals=measurement_names, executeAt=1.0)
+
+@pytest.mark.parametrize("expected_value, ss_state",[(0.0, 0,), (51.49, 1)])
+def test_3ph_thyristor_bridge(convert_compile_load, expected_value, ss_state,):
+
+    measurement_name = 'I3ph_tb_ac'
+    switch_names = ['Sa_top', 'Sa_bot', 'Sb_top', 'Sb_bot', 'Sc_top', 'Sc_bot']
+
+    start_capture(duration=0.1, signals=[measurement_name], executeAt=1.0)
 
     # Set switch state
     for i, switch_name in enumerate(switch_names):
-        hil.set_pe_switching_block_control_mode(blockName=block_name, switchName=switch_name,
+        hil.set_pe_switching_block_control_mode(blockName='BT32', switchName=switch_name,
                                                 swControl=True)
-        hil.set_pe_switching_block_software_value(blockName=block_name, switchName=switch_name,
+        hil.set_pe_switching_block_software_value(blockName='BT32', switchName=switch_name,
                                                   value=ss_state)
     # Start simulation
     hil.start_simulation()
 
     # Data acquisition
     cap_data = get_capture_results(wait_capture=True)
-    measurements = cap_data
+    measurement = cap_data[measurement_name]
 
     # Tests:
-    for j, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(measurements[measurement_names[j]], at_value=around(expected_value, tol_p=0.01))
+    sig.assert_is_constant(measurement, at_value=around(expected_value, tol_p=0.01))
 
     # Stop simulation
     hil.stop_simulation()

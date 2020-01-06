@@ -1,19 +1,19 @@
-### Basic Simscape Electrical elements
+### All basic Simscape Electrical elements
 
-# AC Current Source --- Done
-# AC Voltage Source --- Done
-# Controlled Current Source --- Done
-# Controlled Voltage Source --- Done
-# DC Voltage Source --- Done
-# Three-Phase Source --- Done
+# AC Current Source --- Missing Terminals
+# AC Voltage Source --- Missing Terminals
+# Controlled Current Source --- Missing Terminals
+# Controlled Voltage Source --- Missing Terminals
+# DC Voltage Source --- Missing Terminals
+# Three-Phase Source --- Missing Terminals
 # Three-Phase Programmable Voltage Source --- SKIP?
-# Breaker --- Use typhoonHILlib
-# Connection Port --- SKIP?
-# Distributed Parameters Line --- Use typhoonHILlib
-# Ground --- Done
+# Breaker --- TODO (Masked)
+# Connection Port --- Missing Terminals
+# Distributed Parameters Line --- TODO (Masked)
+# Ground --- Missing Terminals
 # Grounding Transformer --- SKIP?
-# Linear Transformer --- Use typhoonHILlib
-# Multi-Winding Transformer --- Use typhoonHILlib
+# Linear Transformer --- Missing Terminals (Masked)
+# Multi-Winding Transformer --- Missing Terminals (Masked)
 # Mutual Inductance --- TODO (We support up to 4 coupled inductors)
 # Neutral --- SKIP?
 # Parallel RLC Branch --- TODO
@@ -23,7 +23,7 @@
 # Series RLC Branch --- TODO
 # Series RLC Load --- TODO
 # Surge Arrester --- SKIP?
-# Three-Phase Breaker --- Use typhoonHILlib
+# Three-Phase Breaker --- TODO (Masked)
 # Three-Phase Fault --- TODO (Masked)
 # Three-Phase Transformer 12 Terminals --- SKIP?
 # Three-Phase Transformer Inductance Matrix Type (Three Windings) --- SKIP?
@@ -36,13 +36,13 @@
 # Three-Phase PI Section Line --- TODO
 # Three-Phase Series RLC Branch  --- TODO
 # Three-Phase Series RLC Load --- TODO
-# Three-Phase Transformer (Three Windings) --- Done
-# Three-Phase Transformer (Two Windings) --- Done
+# Three-Phase Transformer (Three Windings) --- Missing Terminals (Masked)
+# Three-Phase Transformer (Two Windings) --- Missing Terminals (Masked)
 # Zigzag Phase-Shifting Transformer --- SKIP?
 # Asynchronous Machine pu Units --- TODO (Masked)
 # Asynchronous Machine SI Units --- TODO (Masked)
 # DC Machine --- TODO (Masked)
-# Permanent Magnet Synchronous Machine --- Use typhoonHILlib
+# Permanent Magnet Synchronous Machine --- TODO (Masked)
 # Simplified Synchronous Machine pu Units --- TODO (Masked)
 # Simplified Synchronous Machine SI Units --- TODO (Masked)
 # Single Phase Asynchronous Machine --- TODO (Masked)
@@ -51,16 +51,6 @@
 # Synchronous Machine pu Fundamental --- TODO (Masked)
 # Synchronous Machine pu Standard --- TODO (Masked)
 # Synchronous Machine SI Fundamental --- TODO (Masked)
-
-### typhoonHILlib components
-
-# Inverter --- Done
-# DC-DC Converter --- Done
-# Switching Leg --- Done
-# Transformer --- Done
-# PMSM --- Done
-# Rectifier --- Done
-# Contactor --- TODO
 
 
 powerlib/Electrical Sources/AC Current Source => core/Current Source:
@@ -164,7 +154,7 @@ typhoonHILlib/Transformer/Single-Phase Two Windings => core/Single Phase Two Win
     L2 = L2;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1 = on_off_to_bool(coup12)
+    embedded_cp1 = on_off_to_bool(coup12);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -193,8 +183,8 @@ typhoonHILlib/Transformer/Single-Phase Three Windings => core/Single Phase Three
     L3 = L3;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1_12 = on_off_to_bool(coup12)
-    embedded_cp1_13 = on_off_to_bool(coup13)
+    embedded_cp1_12 = on_off_to_bool(coup12);
+    embedded_cp1_13 = on_off_to_bool(coup13);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -229,9 +219,9 @@ typhoonHILlib/Transformer/Single-Phase Four Windings => core/Single Phase Four W
     L4 = L4;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1_12 = on_off_to_bool(coup12)
-    embedded_cp1_13 = on_off_to_bool(coup13)
-    embedded_cp1_14 = on_off_to_bool(coup14)
+    embedded_cp1_12 = on_off_to_bool(coup12);
+    embedded_cp1_13 = on_off_to_bool(coup13);
+    embedded_cp1_14 = on_off_to_bool(coup14);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -263,7 +253,7 @@ typhoonHILlib/Transformer/Three-Phase Two Windings => core/Three Phase Two Windi
     Lm = Lm;
     winding_1_connection = wye_delta_names(conn_1);
     winding_2_connection = wye_delta_names(conn_2);
-    embedded_cp1 = on_off_to_bool(coup12)
+    embedded_cp1 = on_off_to_bool(coup12);
 
 	Terminals:
 		PRM1[pe] = lconn:1;
@@ -297,8 +287,8 @@ typhoonHILlib/Transformer/Three-Phase Three Windings => core/Three Phase Three W
     winding_1_connection = wye_delta_names(conn_1);
     winding_2_connection = wye_delta_names(conn_2);
     winding_3_connection = wye_delta_names(conn_3);
-    embedded_cp1_12 = on_off_to_bool(coup12)
-    embedded_cp1_13 = on_off_to_bool(coup13)
+    embedded_cp1_12 = on_off_to_bool(coup12);
+    embedded_cp1_13 = on_off_to_bool(coup13);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -337,14 +327,14 @@ typhoonHILlib/Rectifier/Three-Phase Diode => core/Three Phase Diode Rectifier:
 ;
 
 typhoonHILlib/Rectifier/Single-Phase Thyristor => core/Single Phase Thyristor Rectifier:
-    Sa_top = di_sa_top
-    Sa_bot = di_sa_bot
-    Sb_top = di_sb_top
-    Sb_bot = di_sb_bot
-    Sa_top_logic = sa_top_logic
-    Sa_bot_logic = sa_bot_logic
-    Sb_top_logic = sb_top_logic
-    Sb_bot_logic = sb_bot_logic
+    Sa_top = di_sa_top;
+    Sa_bot = di_sa_bot;
+    Sb_top = di_sb_top;
+    Sb_bot = di_sb_bot;
+    Sa_top_logic = sa_top_logic;
+    Sa_bot_logic = sa_bot_logic;
+    Sb_top_logic = sb_top_logic;
+    Sb_bot_logic = sb_bot_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -355,18 +345,18 @@ typhoonHILlib/Rectifier/Single-Phase Thyristor => core/Single Phase Thyristor Re
 ;
 
 typhoonHILlib/Rectifier/Three-Phase Thyristor => core/Three Phase Thyristor Rectifier:
-    Sa_top = di_sa_top
-    Sa_bot = di_sa_bot
-    Sb_top = di_sb_top
-    Sb_bot = di_sb_bot
-    Sc_top = di_sc_top
-    Sc_bot = di_sc_bot
-    Sa_top_logic = sa_top_logic
-    Sa_bot_logic = sa_bot_logic
-    Sb_top_logic = sb_top_logic
-    Sb_bot_logic = sb_bot_logic
-    Sc_top_logic = sc_top_logic
-    Sc_bot_logic = sc_bot_logic
+    Sa_top = di_sa_top;
+    Sa_bot = di_sa_bot;
+    Sb_top = di_sb_top;
+    Sb_bot = di_sb_bot;
+    Sc_top = di_sc_top;
+    Sc_bot = di_sc_bot;
+    Sa_top_logic = sa_top_logic;
+    Sa_bot_logic = sa_bot_logic;
+    Sb_top_logic = sb_top_logic;
+    Sb_bot_logic = sb_bot_logic;
+    Sc_top_logic = sc_top_logic;
+    Sc_bot_logic = sc_bot_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -378,12 +368,12 @@ typhoonHILlib/Rectifier/Three-Phase Thyristor => core/Three Phase Thyristor Rect
 ;
 
 typhoonHILlib/Rectifier/Vienna => core/Vienna Rectifier:
-    Sa = di_sa_top
-    Sb = di_sa_bot
-    Sc = di_sb_top
-    Sa_logic = sa_top_logic
-    Sb_logic = sa_bot_logic
-    Sc_logic = sb_top_logic
+    Sa = di_sa_top;
+    Sb = di_sa_bot;
+    Sc = di_sb_top;
+    Sa_logic = sa_top_logic;
+    Sb_logic = sa_bot_logic;
+    Sc_logic = sb_top_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -397,8 +387,8 @@ typhoonHILlib/Rectifier/Vienna => core/Vienna Rectifier:
 
 
 typhoonHILlib/DC-DC Converter/Buck => core/Buck:
-    S1 = di_s1
-    S1_logic = s1_logic
+    S1 = di_s1;
+    S1_logic = s1_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -409,8 +399,8 @@ typhoonHILlib/DC-DC Converter/Buck => core/Buck:
 ;
 
 typhoonHILlib/DC-DC Converter/Boost => core/Boost:
-    S1 = di_s1
-    S1_logic = s1_logic
+    S1 = di_s1;
+    S1_logic = s1_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -421,10 +411,10 @@ typhoonHILlib/DC-DC Converter/Boost => core/Boost:
 ;
 
 typhoonHILlib/DC-DC Converter/Boost => core/Symmetrical Boost:
-    S1 = di_s1
-    S2 = di_s2
-    S1_logic = s1_logic
-    S2_logic = s2_logic
+    S1 = di_s1;
+    S2 = di_s2;
+    S1_logic = s1_logic;
+    S2_logic = s2_logic;
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -436,14 +426,14 @@ typhoonHILlib/DC-DC Converter/Boost => core/Symmetrical Boost:
 ;
 
 typhoonHILlib/Inverter/Single-Phase VSI => core/Single Phase Inverter:
-    Sa_top = di_sa1
-    Sa_bot = di_sa2
-    Sb_top = di_sa3
-    Sb_bot = di_sa4
-    Sa_top_logic = sa1_logic
-    Sa_bot_logic = sa2_logic
-    Sb_top_logic = sa3_logic
-    Sb_bot_logic = sa4_logic
+    Sa_top = di_sa1;
+    Sa_bot = di_sa2;
+    Sb_top = di_sa3;
+    Sb_bot = di_sa4;
+    Sa_top_logic = sa1_logic;
+    Sa_bot_logic = sa2_logic;
+    Sb_top_logic = sa3_logic;
+    Sb_bot_logic = sa4_logic;
 
 	Terminals:
 		neg_out[pe] = lconn:1;
@@ -454,24 +444,24 @@ typhoonHILlib/Inverter/Single-Phase VSI => core/Single Phase Inverter:
 ;
 
 typhoonHILlib/Inverter/Three-Phase VSI => core/Three Phase Inverter:
-    Sa_top = di_sa1
-    Sa_bot = di_sa2
-    Sb_top = di_sa3
-    Sb_bot = di_sa4
-    Sc_top = di_sa5
-    Sc_bot = di_sa6
-    Sa_top_logic = sa1_logic
-    Sa_bot_logic = sa2_logic
-    Sb_top_logic = sa3_logic
-    Sb_bot_logic = sa4_logic
-    Sc_top_logic = sa5_logic
-    Sc_bot_logic = sa6_logic
-    Sa_top_I = i_sa1
-    Sa_bot_I = i_sa2
-    Sb_top_I = i_sa3
-    Sb_bot_I = i_sa4
-    Sc_top_I = i_sa5
-    Sc_bot_I = i_sa6
+    Sa_top = di_sa1;
+    Sa_bot = di_sa2;
+    Sb_top = di_sa3;
+    Sb_bot = di_sa4;
+    Sc_top = di_sa5;
+    Sc_bot = di_sa6;
+    Sa_top_logic = sa1_logic;
+    Sa_bot_logic = sa2_logic;
+    Sb_top_logic = sa3_logic;
+    Sb_bot_logic = sa4_logic;
+    Sc_top_logic = sa5_logic;
+    Sc_bot_logic = sa6_logic;
+    Sa_top_I = i_sa1;
+    Sa_bot_I = i_sa2;
+    Sb_top_I = i_sa3;
+    Sb_bot_I = i_sa4;
+    Sc_top_I = i_sa5;
+    Sc_bot_I = i_sa6;
 
 	Terminals:
 		neg_out[pe] = lconn:1;
@@ -483,30 +473,30 @@ typhoonHILlib/Inverter/Three-Phase VSI => core/Three Phase Inverter:
 ;
 
 typhoonHILlib/Inverter/NPC => core/Three Phase NPC Inverter:
-    Sa_1 = di_sa1
-    Sa_2 = di_sa2
-    Sa_3 = di_sa3
-    Sa_4 = di_sa4
-    Sb_1 = di_sa5
-    Sb_2 = di_sa6
-    Sb_3 = di_sb1
-    Sb_4 = di_sb2
-    Sc_1 = di_sb3
-    Sc_2 = di_sb4
-    Sc_3 = di_sb5
-    Sc_4 = di_sb6
-    Sa_1_logic = sa1_logic
-    Sa_2_logic = sa2_logic
-    Sa_3_logic = sa3_logic
-    Sa_4_logic = sa4_logic
-    Sb_1_logic = sa5_logic
-    Sb_2_logic = sa6_logic
-    Sb_3_logic = sb1_logic
-    Sb_4_logic = sb2_logic
-    Sc_1_logic = sb3_logic
-    Sc_2_logic = sb4_logic
-    Sc_3_logic = sb5_logic
-    Sc_4_logic = sb6_logic
+    Sa_1 = di_sa1;
+    Sa_2 = di_sa2;
+    Sa_3 = di_sa3;
+    Sa_4 = di_sa4;
+    Sb_1 = di_sa5;
+    Sb_2 = di_sa6;
+    Sb_3 = di_sb1;
+    Sb_4 = di_sb2;
+    Sc_1 = di_sb3;
+    Sc_2 = di_sb4;
+    Sc_3 = di_sb5;
+    Sc_4 = di_sb6;
+    Sa_1_logic = sa1_logic;
+    Sa_2_logic = sa2_logic;
+    Sa_3_logic = sa3_logic;
+    Sa_4_logic = sa4_logic;
+    Sb_1_logic = sa5_logic;
+    Sb_2_logic = sa6_logic;
+    Sb_3_logic = sb1_logic;
+    Sb_4_logic = sb2_logic;
+    Sc_1_logic = sb3_logic;
+    Sc_2_logic = sb4_logic;
+    Sc_3_logic = sb5_logic;
+    Sc_4_logic = sb6_logic;
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -519,30 +509,30 @@ typhoonHILlib/Inverter/NPC => core/Three Phase NPC Inverter:
 ;
 
 typhoonHILlib/Inverter/T-Type => core/Three Phase T Type Inverter:
-    Sa_1 = di_sa1
-    Sa_2 = di_sa2
-    Sa_3 = di_sa3
-    Sa_4 = di_sa4
-    Sb_1 = di_sa5
-    Sb_2 = di_sa6
-    Sb_3 = di_sb1
-    Sb_4 = di_sb2
-    Sc_1 = di_sb3
-    Sc_2 = di_sb4
-    Sc_3 = di_sb5
-    Sc_4 = di_sb6
-    Sa_1_logic = sa1_logic
-    Sa_2_logic = sa2_logic
-    Sa_3_logic = sa3_logic
-    Sa_4_logic = sa4_logic
-    Sb_1_logic = sa5_logic
-    Sb_2_logic = sa6_logic
-    Sb_3_logic = sb1_logic
-    Sb_4_logic = sb2_logic
-    Sc_1_logic = sb3_logic
-    Sc_2_logic = sb4_logic
-    Sc_3_logic = sb5_logic
-    Sc_4_logic = sb6_logic
+    Sa_1 = di_sa1;
+    Sa_2 = di_sa2;
+    Sa_3 = di_sa3;
+    Sa_4 = di_sa4;
+    Sb_1 = di_sa5;
+    Sb_2 = di_sa6;
+    Sb_3 = di_sb1;
+    Sb_4 = di_sb2;
+    Sc_1 = di_sb3;
+    Sc_2 = di_sb4;
+    Sc_3 = di_sb5;
+    Sc_4 = di_sb6;
+    Sa_1_logic = sa1_logic;
+    Sa_2_logic = sa2_logic;
+    Sa_3_logic = sa3_logic;
+    Sa_4_logic = sa4_logic;
+    Sb_1_logic = sa5_logic;
+    Sb_2_logic = sa6_logic;
+    Sb_3_logic = sb1_logic;
+    Sb_4_logic = sb2_logic;
+    Sc_1_logic = sb3_logic;
+    Sc_2_logic = sb4_logic;
+    Sc_3_logic = sb5_logic;
+    Sc_4_logic = sb6_logic;
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -555,30 +545,30 @@ typhoonHILlib/Inverter/T-Type => core/Three Phase T Type Inverter:
 ;
 
 typhoonHILlib/Inverter/Flying-Capacitor (3L) => core/Three Phase Three Level Flying Capacitor Inverter:
-    Sa_1 = di_sa1
-    Sa_2 = di_sa2
-    Sa_3 = di_sa3
-    Sa_4 = di_sa4
-    Sb_1 = di_sb1
-    Sb_2 = di_sb2
-    Sb_3 = di_sb3
-    Sb_4 = di_sb4
-    Sc_1 = di_sc1
-    Sc_2 = di_sc2
-    Sc_3 = di_sc3
-    Sc_4 = di_sc4
-    Sa_1_logic = sa1_logic
-    Sa_2_logic = sa2_logic
-    Sa_3_logic = sa3_logic
-    Sa_4_logic = sa4_logic
-    Sb_1_logic = sb1_logic
-    Sb_2_logic = sb2_logic
-    Sb_3_logic = sb3_logic
-    Sb_4_logic = sb4_logic
-    Sc_1_logic = sc1_logic
-    Sc_2_logic = sc2_logic
-    Sc_3_logic = sc3_logic
-    Sc_4_logic = sc4_logic
+    Sa_1 = di_sa1;
+    Sa_2 = di_sa2;
+    Sa_3 = di_sa3;
+    Sa_4 = di_sa4;
+    Sb_1 = di_sb1;
+    Sb_2 = di_sb2;
+    Sb_3 = di_sb3;
+    Sb_4 = di_sb4;
+    Sc_1 = di_sc1;
+    Sc_2 = di_sc2;
+    Sc_3 = di_sc3;
+    Sc_4 = di_sc4;
+    Sa_1_logic = sa1_logic;
+    Sa_2_logic = sa2_logic;
+    Sa_3_logic = sa3_logic;
+    Sa_4_logic = sa4_logic;
+    Sb_1_logic = sb1_logic;
+    Sb_2_logic = sb2_logic;
+    Sb_3_logic = sb3_logic;
+    Sb_4_logic = sb4_logic;
+    Sc_1_logic = sc1_logic;
+    Sc_2_logic = sc2_logic;
+    Sc_3_logic = sc3_logic;
+    Sc_4_logic = sc4_logic;
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -590,18 +580,18 @@ typhoonHILlib/Inverter/Flying-Capacitor (3L) => core/Three Phase Three Level Fly
 ;
 
 typhoonHILlib/Inverter/CSI (2L) => core/Three Phase Two Level Current Source Inverter:
-    Sa_top = di_sa1
-    Sa_bot = di_sa2
-    Sb_top = di_sa3
-    Sb_bot = di_sa4
-    Sc_top = di_sa5
-    Sc_bot = di_sa6
-    Sa_top_logic = sa1_logic
-    Sa_bot_logic = sa2_logic
-    Sb_top_logic = sa3_logic
-    Sb_bot_logic = sa4_logic
-    Sc_top_logic = sa5_logic
-    Sc_bot_logic = sa6_logic
+    Sa_top = di_sa1;
+    Sa_bot = di_sa2;
+    Sb_top = di_sa3;
+    Sb_bot = di_sa4;
+    Sc_top = di_sa5;
+    Sc_bot = di_sa6;
+    Sa_top_logic = sa1_logic;
+    Sa_bot_logic = sa2_logic;
+    Sb_top_logic = sa3_logic;
+    Sb_bot_logic = sa4_logic;
+    Sc_top_logic = sa5_logic;
+    Sc_bot_logic = sa6_logic;
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -613,16 +603,16 @@ typhoonHILlib/Inverter/CSI (2L) => core/Three Phase Two Level Current Source Inv
 ;
 
 typhoonHILlib/Inverter/H5 (2L) => core/Single Phase Two Level H5 Inverter:
-    Sa_top = di_sa1
-    Sa_bot = di_sa2
-    Sb_top = di_sa3
-    Sb_bot = di_sa4
-    S5 = di_sa5
-    Sa_top_logic = sa1_logic
-    Sa_bot_logic = sa2_logic
-    Sb_top_logic = sa3_logic
-    Sb_bot_logic = sa4_logic
-    S5_logic = sa5_logic
+    Sa_top = di_sa1;
+    Sa_bot = di_sa2;
+    Sb_top = di_sa3;
+    Sb_bot = di_sa4;
+    S5 = di_sa5;
+    Sa_top_logic = sa1_logic;
+    Sa_bot_logic = sa2_logic;
+    Sb_top_logic = sa3_logic;
+    Sb_bot_logic = sa4_logic;
+    S5_logic = sa5_logic;
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -633,18 +623,18 @@ typhoonHILlib/Inverter/H5 (2L) => core/Single Phase Two Level H5 Inverter:
 ;
 
 typhoonHILlib/Inverter/H6 => core/H6 Single Phase Inverter:
-    S_1 = di_sa1
-    S_2 = di_sa2
-    S_3 = di_sa3
-    S_4 = di_sa4
-    S_5 = di_sa5
-    S_6 = di_sa6
-    S_1_logic = sa1_logic
-    S_2_logic = sa2_logic
-    S_3_logic = sa3_logic
-    S_4_logic = sa4_logic
-    S_5_logic = sa5_logic
-    S_6_logic = sa6_logic
+    S_1 = di_sa1;
+    S_2 = di_sa2;
+    S_3 = di_sa3;
+    S_4 = di_sa4;
+    S_5 = di_sa5;
+    S_6 = di_sa6;
+    S_1_logic = sa1_logic;
+    S_2_logic = sa2_logic;
+    S_3_logic = sa3_logic;
+    S_4_logic = sa4_logic;
+    S_5_logic = sa5_logic;
+    S_6_logic = sa6_logic;
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -655,18 +645,18 @@ typhoonHILlib/Inverter/H6 => core/H6 Single Phase Inverter:
 ;
 
 typhoonHILlib/Inverter/H6_5 => core/H6_5 Single Phase Inverter:
-    S_1 = di_sa1
-    S_2 = di_sa2
-    S_3 = di_sa3
-    S_4 = di_sa4
-    S_5 = di_sa5
-    S_6 = di_sa6
-    S_1_logic = sa1_logic
-    S_2_logic = sa2_logic
-    S_3_logic = sa3_logic
-    S_4_logic = sa4_logic
-    S_5_logic = sa5_logic
-    S_6_logic = sa6_logic
+    S_1 = di_sa1;
+    S_2 = di_sa2;
+    S_3 = di_sa3;
+    S_4 = di_sa4;
+    S_5 = di_sa5;
+    S_6 = di_sa6;
+    S_1_logic = sa1_logic;
+    S_2_logic = sa2_logic;
+    S_3_logic = sa3_logic;
+    S_4_logic = sa4_logic;
+    S_5_logic = sa5_logic;
+    S_6_logic = sa6_logic;
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -678,23 +668,23 @@ typhoonHILlib/Inverter/H6_5 => core/H6_5 Single Phase Inverter:
 
 
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Cylindrical => core/Permanent Magnet Synchronous Machine with Cylindrical Rotor:
-    Rms = Rs
-    Lms = Lms
-    psi_pm = psi_pm
-    pms = pms
-    Jm = Jm
-    friction_coeff = fc
-    load_src = loadsource
-    ext_mdl_load_type = loadtype
-    load_ai_pin_addr = load_ai
-    load_ai_offset = load_offset
-    load_ai_gain = load_gain
-    enc_ppr = ppr
-    res_pole_pairs = resolver_pp
-    res_carr_source = resolver_source
-    res_int_carr_f = resolver_freq
-    Rsnb_stator = Rsnb
-    theta_ab = theta_ab
+    Rms = Rs;
+    Lms = Lms;
+    psi_pm = psi_pm;
+    pms = pms;
+    Jm = Jm;
+    friction_coeff = fc;
+    load_src = loadsource;
+    ext_mdl_load_type = loadtype;
+    load_ai_pin_addr = load_ai;
+    load_ai_offset = load_offset;
+    load_ai_gain = load_gain;
+    enc_ppr = ppr;
+    res_pole_pairs = resolver_pp;
+    res_carr_source = resolver_source;
+    res_int_carr_f = resolver_freq;
+    Rsnb_stator = Rsnb;
+    theta_ab = theta_ab;
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -704,24 +694,24 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Cylindrical => core/Pe
 ;
 
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole => core/Permanent Magnet Synchronous Machine with Salient Rotor:
-    Rs = Rs
-    Ld = Ld
-    Lq = Lq
-    Psi_pm = psi_pm
-    pms = pms
-    star_delta = stardelta
-    Jm = Jm
-    friction_coeff = fc
-    load_src = loadsource
-    ext_mdl_load_type = loadtype
-    load_ai_pin_addr = load_ai
-    load_ai_offset = load_offset
-    load_ai_gain = load_gain
-    enc_ppr = ppr
-    res_pole_pairs = resolver_pp
-    res_carr_source = resolver_source
-    res_int_carr_f = resolver_freq
-    theta_ab = theta_ab
+    Rs = Rs;
+    Ld = Ld;
+    Lq = Lq;
+    Psi_pm = psi_pm;
+    pms = pms;
+    star_delta = stardelta;
+    Jm = Jm;
+    friction_coeff = fc;
+    load_src = loadsource;
+    ext_mdl_load_type = loadtype;
+    load_ai_pin_addr = load_ai;
+    load_ai_offset = load_offset;
+    load_ai_gain = load_gain;
+    enc_ppr = ppr;
+    res_pole_pairs = resolver_pp;
+    res_carr_source = resolver_source;
+    res_int_carr_f = resolver_freq;
+    theta_ab = theta_ab;
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -730,24 +720,24 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole => core/P
 	;
 ;
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole VBR => core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance:
-    Rs = Rs
-    Ld = Ld
-    Lq = Lq
-    Psi_pm = psi_pm
-    pms = pms
-    star_delta = stardelta
-    Jm = Jm
-    friction_coeff = fc
-    load_src = loadsource
-    ext_mdl_load_type = loadtype
-    load_ai_pin_addr = load_ai
-    load_ai_offset = load_offset
-    load_ai_gain = load_gain
-    enc_ppr = ppr
-    res_pole_pairs = resolver_pp
-    res_carr_source = resolver_source
-    res_int_carr_f = resolver_freq
-    theta_ab = theta_ab
+    Rs = Rs;
+    Ld = Ld;
+    Lq = Lq;
+    Psi_pm = psi_pm;
+    pms = pms;
+    star_delta = stardelta;
+    Jm = Jm;
+    friction_coeff = fc;
+    load_src = loadsource;
+    ext_mdl_load_type = loadtype;
+    load_ai_pin_addr = load_ai;
+    load_ai_offset = load_offset;
+    load_ai_gain = load_gain;
+    enc_ppr = ppr;
+    res_pole_pairs = resolver_pp;
+    res_carr_source = resolver_source;
+    res_int_carr_f = resolver_freq;
+    theta_ab = theta_ab;
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -766,12 +756,12 @@ typhoonHILlib/Switching Leg/Diode => core/Diode Leg:
 ;
 
 typhoonHILlib/Switching Leg/IGBT => core/IGBT Leg:
-    S_top = di_s1
-    S_bot = di_s2
-    S_top_logic = s1_logic
-    S_bot_logic = s2_logic
-    S_top_I = on_off_to_str(i_s1)
-    S_bot_I = on_off_to_str(i_s2)
+    S_top = di_s1;
+    S_bot = di_s2;
+    S_top_logic = s1_logic;
+    S_bot_logic = s2_logic;
+    S_top_I = on_off_to_str(i_s1);
+    S_bot_I = on_off_to_str(i_s2);
 
 
 	Terminals:
@@ -782,14 +772,14 @@ typhoonHILlib/Switching Leg/IGBT => core/IGBT Leg:
 ;
 
 typhoonHILlib/Switching Leg/NPC => core/NPC Leg:
-    S1 = di_s1
-    S2 = di_s2
-    S3 = di_s3
-    S4 = di_s4
-    S1_logic = s1_logic
-    S2_logic = s2_logic
-    S3_logic = s3_logic
-    S4_logic = s4_logic
+    S1 = di_s1;
+    S2 = di_s2;
+    S3 = di_s3;
+    S4 = di_s4;
+    S1_logic = s1_logic;
+    S2_logic = s2_logic;
+    S3_logic = s3_logic;
+    S4_logic = s4_logic;
 
 	Terminals:
         DC+[pe] = lconn:1;
@@ -800,14 +790,14 @@ typhoonHILlib/Switching Leg/NPC => core/NPC Leg:
 ;
 
 typhoonHILlib/Switching Leg/T-Type NPC => core/NPC T Type Leg:
-    S1 = di_s1
-    S2 = di_s2
-    S3 = di_s3
-    S4 = di_s4
-    S1_logic = s1_logic
-    S2_logic = s2_logic
-    S3_logic = s3_logic
-    S4_logic = s4_logic
+    S1 = di_s1;
+    S2 = di_s2;
+    S3 = di_s3;
+    S4 = di_s4;
+    S1_logic = s1_logic;
+    S2_logic = s2_logic;
+    S3_logic = s3_logic;
+    S4_logic = s4_logic;
 
 	Terminals:
         DC+[pe] = lconn:1;
@@ -818,10 +808,10 @@ typhoonHILlib/Switching Leg/T-Type NPC => core/NPC T Type Leg:
 ;
 
 typhoonHILlib/Switching Leg/Antiparallel Thyristor => core/Antiparallel Thryristor Leg:
-    S1 = di_s1
-    S2 = di_s2
-    S1_logic = s1_logic
-    S2_logic = s2_logic
+    S1 = di_s1;
+    S2 = di_s2;
+    S1_logic = s1_logic;
+    S2_logic = s2_logic;
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -831,38 +821,38 @@ typhoonHILlib/Switching Leg/Antiparallel Thyristor => core/Antiparallel Thryrist
 
 # Depends on level number property
 typhoonHILlib/Switching Leg/Flying Capacitor => core/X Level Flying Capacitor Inverter Leg:
-    S_1 = di_s1
-    S_2 = di_s2
-    S_3 = di_s3
-    S_4 = di_s4
-    S_5 = di_s5
-    S_6 = di_s6
-    S_7 = di_s7
-    S_8 = di_s8
-    S_9 = di_s9
-    S_10 = di_s10
-    S_11 = di_s11
-    S_12 = di_s12
-    S_13 = di_s13
-    S_14 = di_s14
-    S_15 = di_s15
-    S_16 = di_s16
-    S_1_logic = s1_logic
-    S_2_logic = s2_logic
-    S_3_logic = s3_logic
-    S_4_logic = s4_logic
-    S_5_logic = s5_logic
-    S_6_logic = s6_logic
-    S_7_logic = s7_logic
-    S_8_logic = s8_logic
-    S_9_logic = s9_logic
-    S_10_logic = s10_logic
-    S_11_logic = s11_logic
-    S_12_logic = s12_logic
-    S_13_logic = s13_logic
-    S_14_logic = s14_logic
-    S_15_logic = s15_logic
-    S_16_logic = s16_logic
+    S_1 = di_s1;
+    S_2 = di_s2;
+    S_3 = di_s3;
+    S_4 = di_s4;
+    S_5 = di_s5;
+    S_6 = di_s6;
+    S_7 = di_s7;
+    S_8 = di_s8;
+    S_9 = di_s9;
+    S_10 = di_s10;
+    S_11 = di_s11;
+    S_12 = di_s12;
+    S_13 = di_s13;
+    S_14 = di_s14;
+    S_15 = di_s15;
+    S_16 = di_s16;
+    S_1_logic = s1_logic;
+    S_2_logic = s2_logic;
+    S_3_logic = s3_logic;
+    S_4_logic = s4_logic;
+    S_5_logic = s5_logic;
+    S_6_logic = s6_logic;
+    S_7_logic = s7_logic;
+    S_8_logic = s8_logic;
+    S_9_logic = s9_logic;
+    S_10_logic = s10_logic;
+    S_11_logic = s11_logic;
+    S_12_logic = s12_logic;
+    S_13_logic = s13_logic;
+    S_14_logic = s14_logic;
+    S_15_logic = s15_logic;
+    S_16_logic = s16_logic;
 
 	# Terminals:
 	# 	p_node[pe] = 0;

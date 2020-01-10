@@ -1,0 +1,293 @@
+version = 4.2
+
+//
+// Saved by sw version: 2019.4 DEV
+// Save timestamp: 19-Dec-2019 @ 04:49:09 PM
+//
+
+model "New schematic 19-Dec-2019@16-49-08" {
+    configuration {
+        hil_device = "HIL604"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+    }
+
+    component Subsystem Root {
+        component "core/Single Pole Single Throw Contactor" SS6 {
+        }
+        [
+            position = 672, 352
+        ]
+
+        component "core/Single Pole Single Throw Contactor" SS7 {
+        }
+        [
+            position = 648, 648
+            rotation = down
+        ]
+
+        component "core/Single Pole Single Throw Contactor" SS5 {
+        }
+        [
+            position = 392, 672
+            rotation = down
+        ]
+
+        component "core/Single Phase Four Winding Transformer" Vt_4w {
+            L1 = "0.0001"
+            L2 = "0.0004"
+            L3 = "0.0009000000000000001"
+            L4 = "0.0016"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.004"
+            R3 = "0.009000000000000001"
+            R4 = "0.016"
+            n1 = "110.0"
+            n2 = "220.0"
+            n3 = "330.0"
+            n4 = "440.0"
+        }
+        [
+            position = 488, 472
+        ]
+
+        component "core/Voltage RMS" Vt_4w_21_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 600, 400
+            rotation = right
+        ]
+
+        component "core/Voltage RMS" Vt_4w_22_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 576, 576
+            rotation = right
+        ]
+
+        component "core/Voltage RMS" Vt_4w_12_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 384, 560
+        ]
+
+        component "core/Current RMS" It_4w_21_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 656, 464
+        ]
+
+        component "core/Current RMS" It_4w_22_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 640, 544
+        ]
+
+        component "core/Current RMS" It_4w_12_ac {
+            frequency = "50.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 320, 624
+            rotation = right
+        ]
+
+        component src_voltage Vt4w {
+            init_rms_value = "109.99858581398617"
+            init_source_nature = "Sine"
+        }
+        [
+            position = 336, 408
+            rotation = right
+        ]
+
+        junction Junction1 pe
+        [
+            position = 584, 408
+        ]
+
+        junction Junction2 pe
+        [
+            position = 576, 568
+        ]
+
+        junction Junction3 pe
+        [
+            position = 416, 568
+        ]
+
+        junction Junction4 pe
+        [
+            position = 400, 552
+        ]
+
+        junction Junction5 pe
+        [
+            position = 584, 440
+        ]
+
+        junction Junction6 pe
+        [
+            position = 568, 528
+        ]
+
+        connect Junction1 SS6.a_in as Connection1
+        connect Junction1 Vt_4w.sec_3 as Connection2
+        connect Junction1 Vt_4w_21_ac.p_node as Connection3
+        connect SS6.a_out It_4w_21_ac.n_node as Connection4
+        connect SS7.a_in It_4w_22_ac.n_node as Connection5
+        connect Junction2 SS7.a_out as Connection6
+        connect Junction2 Vt_4w.sec_6 as Connection7
+        connect Junction2 Vt_4w_22_ac.n_node as Connection8
+        connect Junction3 SS5.a_in as Connection9
+        connect Junction3 Vt_4w.sec_2 as Connection10
+        connect Junction3 Vt_4w_12_ac.n_node as Connection11
+        connect SS5.a_out It_4w_12_ac.n_node as Connection12
+        connect Vt_4w.prm_1 Vt4w.p_node as Connection13
+        connect Vt_4w.prm_2 Vt4w.n_node as Connection14
+        connect Junction4 Vt_4w.sec_1 as Connection15
+        connect Junction4 Vt_4w_12_ac.p_node as Connection16
+        connect Junction4 It_4w_12_ac.p_node as Connection17
+        connect Junction5 Vt_4w.sec_4 as Connection18
+        connect Junction5 Vt_4w_21_ac.n_node as Connection19
+        connect Junction5 It_4w_21_ac.p_node as Connection20
+        connect Junction6 Vt_4w.sec_5 as Connection21
+        connect Junction6 Vt_4w_22_ac.p_node as Connection22
+        connect Junction6 It_4w_22_ac.p_node as Connection23
+    }
+
+    default {
+        src_voltage {
+            sig_input = "False"
+            type = "signal generator"
+            param_set = "1phase"
+            parent_label = ""
+            addr = "0"
+            spc_nb = "0"
+            execution_rate = "100e-6"
+            cpd_visible = "True"
+            enable_snb = "False"
+            snb_type = "R2"
+            R2 = "0.0"
+            L1 = "0.1"
+            override_signal_name = "False"
+            signal_name = ""
+            init_source_nature = "Constant"
+            init_const_value = "0.0"
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "core/Single Phase Four Winding Transformer" {
+            input = "SI"
+            core_sat = "False"
+            Sn = "10e3"
+            f = "50"
+            n1 = "100"
+            n2 = "100"
+            n3 = "100"
+            n4 = "100"
+            R1 = "0.1"
+            L1 = "0.001"
+            I1 = "0"
+            R2 = "0.1"
+            L2 = "0.001"
+            I2 = "0"
+            R3 = "0.1"
+            L3 = "0.001"
+            I3 = "0"
+            R4 = "0.1"
+            L4 = "0.001"
+            I4 = "0"
+            Rm = "1e5"
+            Lm = "5"
+            flux_vals_SI = "[0.001, 0.005]"
+            current_vals_SI = "[1.0, 2.0]"
+            r1 = ".1"
+            l1 = ".314159265359"
+            i1 = "0"
+            r2 = ".1"
+            l2 = ".314159265359"
+            i2 = "0"
+            r3 = ".1"
+            l3 = ".314159265359"
+            i3 = "0"
+            r4 = ".1"
+            l4 = ".314159265359"
+            i4 = "0"
+            rm = "100000.0"
+            lm = "1570.79632679"
+            flux_vals_pu = "[0.001, 0.005]"
+            current_vals_pu = "[1.0, 2.0]"
+            import_from_pu = "Import from PU"
+            import_from_si = "Import from SI"
+            embedded_cpl_12 = "false"
+            coupling_type_12 = "core"
+            embedded_cpl_13 = "false"
+            coupling_type_13 = "core"
+            embedded_cpl_14 = "false"
+            coupling_type_14 = "core"
+        }
+
+        "core/Current RMS" {
+            op_mode = "PLL based"
+            frequency = "50"
+            sig_output = "False"
+            execution_rate = "inherit"
+            feed_forward = "false"
+            nd_msr_estimation = "false"
+        }
+
+        "core/Single Pole Single Throw Contactor" {
+            ctrl_src = "Digital input"
+            Sa = "1"
+            Sa_logic = "active high"
+            enable_fb_out = "False"
+            fb_out_type = "real"
+            execution_rate = "inherit"
+            initial_state = "off"
+            on_delay = "0"
+            off_delay = "0"
+            switching = "any current"
+        }
+
+        "core/Voltage RMS" {
+            op_mode = "PLL based"
+            frequency = "50"
+            sig_output = "False"
+            execution_rate = "inherit"
+            feed_forward = "false"
+            nd_msr_estimation = "false"
+        }
+    }
+}

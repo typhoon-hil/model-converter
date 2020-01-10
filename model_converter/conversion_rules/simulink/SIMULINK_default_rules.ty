@@ -1,58 +1,3 @@
-### All basic Simscape Electrical elements
-
-# AC Current Source --- Missing Terminals
-# AC Voltage Source --- Missing Terminals
-# Controlled Current Source --- Missing Terminals
-# Controlled Voltage Source --- Missing Terminals
-# DC Voltage Source --- Missing Terminals
-# Three-Phase Source --- Missing Terminals
-# Three-Phase Programmable Voltage Source --- SKIP?
-# Breaker --- TODO (Masked)
-# Connection Port --- Missing Terminals
-# Distributed Parameters Line --- TODO (Masked)
-# Ground --- Missing Terminals
-# Grounding Transformer --- SKIP?
-# Linear Transformer --- Missing Terminals (Masked)
-# Multi-Winding Transformer --- Missing Terminals (Masked)
-# Mutual Inductance --- TODO (We support up to 4 coupled inductors)
-# Neutral --- SKIP?
-# Parallel RLC Branch --- TODO
-# Parallel RLC Load --- TODO
-# Pi Section Line --- TODO (Masked)
-# Saturable Transformer --- SKIP?
-# Series RLC Branch --- TODO
-# Series RLC Load --- TODO
-# Surge Arrester --- SKIP?
-# Three-Phase Breaker --- TODO (Masked)
-# Three-Phase Fault --- TODO (Masked)
-# Three-Phase Transformer 12 Terminals --- SKIP?
-# Three-Phase Transformer Inductance Matrix Type (Three Windings) --- SKIP?
-# Three-Phase Transformer Inductance Matrix Type (Two Windings) --- SKIP?
-# Three-Phase Dynamic Load --- SKIP?
-# Three-Phase Harmonic Filter --- SKIP?
-# Three-Phase Mutual Inductance Z1-Z0 --- SKIP?
-# Three-Phase Parallel RLC Branch --- TODO
-# Three-Phase Parallel RLC Load --- TODO
-# Three-Phase PI Section Line --- TODO
-# Three-Phase Series RLC Branch  --- TODO
-# Three-Phase Series RLC Load --- TODO
-# Three-Phase Transformer (Three Windings) --- Missing Terminals (Masked)
-# Three-Phase Transformer (Two Windings) --- Missing Terminals (Masked)
-# Zigzag Phase-Shifting Transformer --- SKIP?
-# Asynchronous Machine pu Units --- TODO (Masked)
-# Asynchronous Machine SI Units --- TODO (Masked)
-# DC Machine --- TODO (Masked)
-# Permanent Magnet Synchronous Machine --- TODO (Masked)
-# Simplified Synchronous Machine pu Units --- TODO (Masked)
-# Simplified Synchronous Machine SI Units --- TODO (Masked)
-# Single Phase Asynchronous Machine --- TODO (Masked)
-# Stepper Motor --- SKIP?
-# Switched Reluctance Motor --- SKIP?
-# Synchronous Machine pu Fundamental --- TODO (Masked)
-# Synchronous Machine pu Standard --- TODO (Masked)
-# Synchronous Machine SI Fundamental --- TODO (Masked)
-
-
 powerlib/Electrical Sources/AC Current Source => core/Current Source:
     init_source_nature="Sine";
     init_rms_value=amplitude_to_rms(amplitude=Amplitude);
@@ -113,7 +58,7 @@ powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Sourc
 		a_node[pe] = rconn:1;
         b_node[pe] = rconn:2;
         c_node[pe] = rconn:3;
-		n_node[pe] = lconn:1; # Yg, Yn, Y dependent
+		n_node[pe] = lconn:1;
 	;
 ;
 
@@ -123,9 +68,6 @@ powerlib/Elements/Ground => core/Ground:
 		node[pe] = lconn:1;
 	;
 ;
-
-
-########## Typhoon Library
 
 typhoonHILlib/Transformer/Single-Phase Ideal => core/Ideal Transformer:
     n1 = n1;
@@ -420,7 +362,6 @@ typhoonHILlib/DC-DC Converter/Boost => core/Symmetrical Boost:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
         a_out[pe] = rconn:1;
-        #n_out[pe] = rconn:2;
         b_out[pe] = rconn:3;
 	;
 ;
@@ -819,7 +760,7 @@ typhoonHILlib/Switching Leg/Antiparallel Thyristor => core/Antiparallel Thryrist
 	;
 ;
 
-# Depends on level number property
+
 typhoonHILlib/Switching Leg/Flying Capacitor => core/X Level Flying Capacitor Inverter Leg:
     S_1 = di_s1;
     S_2 = di_s2;
@@ -854,8 +795,6 @@ typhoonHILlib/Switching Leg/Flying Capacitor => core/X Level Flying Capacitor In
     S_15_logic = s15_logic;
     S_16_logic = s16_logic;
 
-	# Terminals:
-	# 	p_node[pe] = 0;
-	# 	n_node[pe] = 1;
-	# ;
+	Terminals:
+	;
 ;

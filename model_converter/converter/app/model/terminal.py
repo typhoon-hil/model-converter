@@ -4,17 +4,14 @@ from model_converter.converter.app.model.component import Component
 class Terminal:
 
     def __init__(self, position:list=None, node_id:int=None,
-                 index:int=None, parent_component:Component=None):
-        # assert position is not None
-        # assert node_id is not None
-        # assert index is not None
-        # assert isinstance(parent_component, Component) or parent_component is None
+                 index:(int,str)=None, parent_component:Component=None,
+                 name:str=None, kind:str="pe"):
         self.position = position
         self.node_id = node_id
         self.index = index
         self.parent_component = parent_component
-        self.kind = "pe"
-        self.name = None
+        self.kind = kind
+        self.name = name
 
     def clone(self):
         terminal = Terminal()

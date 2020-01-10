@@ -1,0 +1,2174 @@
+version = 4.2
+
+//
+// Saved by sw version: 2019.4 DEV
+// Save timestamp: 22-Nov-2019 @ 04:39:08 PM
+//
+
+model "New schematic 22-Nov-2019@16-39-04" {
+    configuration {
+        hil_device = "HIL604"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+    }
+
+    component Subsystem Root {
+        component pas_resistor R1 {
+            resistance = "10.0"
+        }
+        [
+            position = 1168, 64
+        ]
+
+        component pas_inductor L1 {
+            inductance = "0.001"
+        }
+        [
+            position = 1168, 120
+        ]
+
+        component pas_capacitor C1 {
+            capacitance = "1e-06"
+            initial_voltage = "0.0"
+        }
+        [
+            position = 1168, 176
+        ]
+
+        component pas_capacitor C_p1 {
+            capacitance = "0.0"
+            initial_voltage = "0.0"
+        }
+        [
+            position = 1328, 176
+        ]
+
+        component Subsystem RLC1 {
+            layout = dynamic
+            component pas_resistor R {
+                resistance = "10.0"
+            }
+            [
+                position = 1192, 256
+            ]
+
+            component pas_inductor L {
+                inductance = "0.001"
+            }
+            [
+                position = 1192, 256
+            ]
+
+            component pas_capacitor C {
+                capacitance = "1e-06"
+                initial_voltage = "0.0"
+            }
+            [
+                position = 1192, 256
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            connect R.n_node L.p_node as Connection1
+            connect L.n_node C.p_node as Connection2
+            connect Port0 R.p_node as Connection3
+            connect Port1 C.n_node as Connection4
+        }
+        [
+            position = 1192, 256
+        ]
+
+        component Subsystem R3 {
+            layout = dynamic
+            component pas_resistor R1 {
+                resistance = "10.0"
+            }
+            [
+                position = 1552, 120
+            ]
+
+            component pas_resistor R2 {
+                resistance = "10.0"
+            }
+            [
+                position = 1552, 120
+            ]
+
+            component pas_resistor R3 {
+                resistance = "10.0"
+            }
+            [
+                position = 1552, 120
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect Port0 R1.p_node as Connection1
+            connect Port1 R2.p_node as Connection2
+            connect Port2 R3.p_node as Connection3
+            connect Port3 R1.n_node as Connection4
+            connect Port4 R2.n_node as Connection5
+            connect Port5 R3.n_node as Connection6
+        }
+        [
+            position = 1552, 120
+        ]
+
+        component Subsystem L31 {
+            layout = dynamic
+            component pas_inductor L1 {
+                inductance = "0.001"
+            }
+            [
+                position = 1728, 120
+            ]
+
+            component pas_inductor L2 {
+                inductance = "0.001"
+            }
+            [
+                position = 1728, 120
+            ]
+
+            component pas_inductor L3 {
+                inductance = "0.001"
+            }
+            [
+                position = 1728, 120
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect Port0 L1.p_node as Connection1
+            connect Port1 L2.p_node as Connection2
+            connect Port2 L3.p_node as Connection3
+            connect Port3 L1.n_node as Connection4
+            connect Port4 L2.n_node as Connection5
+            connect Port5 L3.n_node as Connection6
+        }
+        [
+            position = 1728, 120
+        ]
+
+        component Subsystem C31 {
+            layout = dynamic
+            component pas_capacitor C1 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1552, 336
+            ]
+
+            component pas_capacitor C2 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1552, 336
+            ]
+
+            component pas_capacitor C3 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1552, 336
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect Port0 C1.p_node as Connection1
+            connect Port1 C2.p_node as Connection2
+            connect Port2 C3.p_node as Connection3
+            connect Port3 C1.n_node as Connection4
+            connect Port4 C2.n_node as Connection5
+            connect Port5 C3.n_node as Connection6
+        }
+        [
+            position = 1552, 336
+        ]
+
+        component Subsystem RL1 {
+            layout = dynamic
+            component pas_resistor R1 {
+                resistance = "10.0"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            component pas_resistor R2 {
+                resistance = "10.0"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            component pas_resistor R3 {
+                resistance = "10.0"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            component pas_inductor L1 {
+                inductance = "0.001"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            component pas_inductor L2 {
+                inductance = "0.001"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            component pas_inductor L3 {
+                inductance = "0.001"
+            }
+            [
+                position = 1752, 336
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect R1.n_node L1.p_node as Connection1
+            connect R2.n_node L2.p_node as Connection2
+            connect R3.n_node L3.p_node as Connection3
+            connect Port0 R1.p_node as Connection4
+            connect Port1 R2.p_node as Connection5
+            connect Port2 R3.p_node as Connection6
+            connect Port3 L1.n_node as Connection7
+            connect Port4 L2.n_node as Connection8
+            connect Port5 L3.n_node as Connection9
+        }
+        [
+            position = 1752, 336
+        ]
+
+        component Subsystem RC1 {
+            layout = dynamic
+            component pas_resistor R1 {
+                resistance = "10.0"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            component pas_resistor R2 {
+                resistance = "10.0"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            component pas_resistor R3 {
+                resistance = "10.0"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            component pas_capacitor C1 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            component pas_capacitor C2 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            component pas_capacitor C3 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1992, 120
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect R1.n_node C1.p_node as Connection1
+            connect R2.n_node C2.p_node as Connection2
+            connect R3.n_node C3.p_node as Connection3
+            connect Port0 R1.p_node as Connection4
+            connect Port1 R2.p_node as Connection5
+            connect Port2 R3.p_node as Connection6
+            connect Port3 C1.n_node as Connection7
+            connect Port4 C2.n_node as Connection8
+            connect Port5 C3.n_node as Connection9
+        }
+        [
+            position = 1992, 120
+        ]
+
+        component Subsystem RLC2 {
+            layout = dynamic
+            component pas_resistor R1 {
+                resistance = "10.0"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_resistor R2 {
+                resistance = "10.0"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_resistor R3 {
+                resistance = "10.0"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_inductor L1 {
+                inductance = "0.001"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_inductor L2 {
+                inductance = "0.001"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_inductor L3 {
+                inductance = "0.001"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_capacitor C1 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_capacitor C2 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            component pas_capacitor C3 {
+                capacitance = "1e-06"
+            }
+            [
+                position = 1968, 336
+            ]
+
+            port Port0 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 48
+            ]
+
+            port Port1 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 96
+            ]
+
+            port Port2 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 152
+            ]
+
+            port Port3 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 200
+            ]
+
+            port Port4 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 248
+            ]
+
+            port Port5 {
+                position = left:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 16, 304
+            ]
+
+            connect R1.n_node L1.p_node as Connection1
+            connect L1.n_node C1.p_node as Connection2
+            connect R2.n_node L2.p_node as Connection3
+            connect L2.n_node C2.p_node as Connection4
+            connect R3.n_node L3.p_node as Connection5
+            connect L3.n_node C3.p_node as Connection6
+            connect Port0 R1.p_node as Connection7
+            connect Port1 R2.p_node as Connection8
+            connect Port2 R3.p_node as Connection9
+            connect Port3 C1.n_node as Connection10
+            connect Port4 C2.n_node as Connection11
+            connect Port5 C3.n_node as Connection12
+        }
+        [
+            position = 1968, 336
+        ]
+
+        component "core/Variable Resistor" R2 {
+        }
+        [
+            position = 1168, 352
+        ]
+
+        component "core/Nonlinear Inductor" L2 {
+        }
+        [
+            position = 1168, 432
+        ]
+
+        component "core/Two Coupled Inductors" M1 {
+            R1 = "0.0"
+            R2 = "0.0"
+            k = "0.8999999999999999"
+        }
+        [
+            position = 1168, 568
+        ]
+
+        component "core/Three Coupled Inductors" MUT1 {
+            R1 = "0.0"
+            R2 = "0.0"
+            R3 = "0.0"
+            k12 = "0.8999999999999999"
+            k13 = "0.8999999999999999"
+            k23 = "0.8999999999999999"
+        }
+        [
+            position = 1168, 736
+        ]
+
+        component "core/Four Coupled Inductors" MUT2 {
+            R1 = "0.0"
+            R2 = "0.0"
+            R3 = "0.0"
+            R4 = "0.0"
+            k12 = "0.8999999999999999"
+            k13 = "0.8999999999999999"
+            k14 = "0.8999999999999999"
+            k23 = "0.8999999999999999"
+            k24 = "0.8999999999999999"
+            k34 = "0.8999999999999999"
+        }
+        [
+            position = 1352, 632
+        ]
+
+        component "core/Transmission Line" CABLE1 {
+            C_sequence_metric = "[[1.2e-07, 0, 0], [0, 2.1e-07, 0], [0, 0, 2.1e-07]]"
+            Frequency = "50.0"
+            L_sequence_metric = "[[0.0007999127439798661, 0, 0], [0, 0.0003787887645587109, 0], [0, 0, 0.0003787887645587109]]"
+            Length_metric = "31.0"
+            R_sequence_metric = "[[0.3358, 0, 0], [0, 0.0991, 0], [0, 0, 0.0991]]"
+            model = "PI"
+            model_def = "Sequence"
+            unit_sys = "metric"
+        }
+        [
+            position = 1680, 568
+        ]
+
+        component "core/Diode" D1 {
+        }
+        [
+            position = 152, 360
+        ]
+
+        component "core/IGBT" Q1 {
+        }
+        [
+            position = 160, 472
+        ]
+
+        component "core/IGBT" Q2 {
+        }
+        [
+            position = 280, 472
+        ]
+
+        component "core/Thyristor" THY1 {
+        }
+        [
+            position = 408, 464
+        ]
+
+        component "core/Single Pole Single Throw Contactor" SW1 {
+        }
+        [
+            position = 128, 1072
+        ]
+
+        component "core/Triple Pole Single Throw Contactor" SW2 {
+        }
+        [
+            position = 312, 1072
+        ]
+
+        component "core/Single Phase Diode Rectifier" BD11 {
+        }
+        [
+            position = 736, 160
+        ]
+
+        component "core/Three Phase Diode Rectifier" BD31 {
+        }
+        [
+            position = 960, 160
+        ]
+
+        component "core/Single Phase Thyristor Rectifier" BT11 {
+            ctrl_src = "Digital input"
+        }
+        [
+            position = 736, 392
+        ]
+
+        component "core/Three Phase Thyristor Rectifier" BT31 {
+            ctrl_src = "Digital input"
+        }
+        [
+            position = 960, 392
+        ]
+
+        component "core/Three Phase Inverter" Q3 {
+        }
+        [
+            position = 736, 608
+        ]
+
+        component "core/Three Phase Inverter" Q4 {
+        }
+        [
+            position = 976, 608
+        ]
+
+        component "core/Ideal Transformer" TI1 {
+            n1 = "1.0"
+            n2 = "1.0"
+        }
+        [
+            position = 2352, 112
+        ]
+
+        component "core/Ideal Transformer" TI2 {
+            n1 = "1.0"
+            n2 = "-1.0"
+        }
+        [
+            position = 2568, 112
+        ]
+
+        component "core/Single Phase Two Winding Transformer" T1 {
+            L1 = "0.0001"
+            L2 = "0.0001"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            n1 = "1.0"
+            n2 = "1.0"
+        }
+        [
+            position = 2352, 288
+        ]
+
+        component "core/Single Phase Two Winding Transformer" T2 {
+            L1 = "0.0001"
+            L2 = "0.0001"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            n1 = "1.0"
+            n2 = "1.0"
+        }
+        [
+            position = 2568, 288
+        ]
+
+        component "core/Single Phase Three Winding Transformer" T_31 {
+            L1 = "0.0001"
+            L2 = "0.0001"
+            L3 = "0.0001"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            R3 = "0.001"
+            n1 = "1.0"
+            n2 = "1.0"
+            n3 = "1.0"
+        }
+        [
+            position = 2352, 488
+        ]
+
+        component "core/Single Phase Four Winding Transformer" T_41 {
+            L1 = "0.0001"
+            L2 = "0.0004"
+            L3 = "0.0009000000000000001"
+            L4 = "0.0016"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.004"
+            R3 = "0.009000000000000001"
+            R4 = "0.016"
+            n1 = "1.0"
+            n2 = "2.0"
+            n3 = "3.0"
+            n4 = "4.0"
+        }
+        [
+            position = 2568, 488
+        ]
+
+        component "core/Three Phase Two Winding Transformer" TYY1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            V1 = "1.0"
+            V2 = "1.0"
+            input = "SI"
+        }
+        [
+            position = 2768, 144
+        ]
+
+        component "core/Three Phase Two Winding Transformer" TF_3YD1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            V1 = "1.0"
+            V2 = "0.5773502691896258"
+            clock_number = "1"
+            input = "SI"
+            winding_2_connection = "D"
+        }
+        [
+            position = 2792, 360
+        ]
+
+        component "core/Three Phase Two Winding Transformer" TF_3DY1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            V1 = "0.5773502691896258"
+            V2 = "1.0"
+            clock_number = "1"
+            input = "SI"
+            winding_1_connection = "D"
+        }
+        [
+            position = 2792, 576
+        ]
+
+        component "core/Three Phase Two Winding Transformer" TDD1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            V1 = "1.0"
+            V2 = "1.0"
+            input = "SI"
+            winding_1_connection = "D"
+            winding_2_connection = "D"
+        }
+        [
+            position = 2792, 784
+        ]
+
+        component "core/Three Phase Three Winding Transformer" TYDD1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            L3 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            R3 = "0.001"
+            V1 = "1.0"
+            V2 = "0.5773502691896258"
+            V3 = "0.5773502691896258"
+            clk_num_12 = "1"
+            clk_num_13 = "1"
+            winding_2_connection = "D"
+            winding_3_connection = "D"
+        }
+        [
+            position = 2360, 736
+        ]
+
+        component "core/Three Phase Three Winding Transformer" TYYD1 {
+            L1 = "1e-05"
+            L2 = "1e-05"
+            L3 = "1e-05"
+            Lm = "0.5"
+            R1 = "0.001"
+            R2 = "0.001"
+            R3 = "0.001"
+            V1 = "1.0"
+            V2 = "1.0"
+            V3 = "0.5773502691896258"
+            clk_num_13 = "1"
+            winding_3_connection = "D"
+        }
+        [
+            position = 2360, 1040
+        ]
+
+        component "core/Induction Machine with Squirrel Cage" M2 {
+            Jm = "0.4"
+            Llr = "0.00074"
+            Lls = "0.00139"
+            Lm = "0.041"
+            Rr = "0.156"
+            Rs = "0.294"
+            pms = "3.0"
+        }
+        [
+            position = 3184, 120
+        ]
+
+        component "core/Doubly-Fed Induction Machine" M3 {
+            Jm = "0.4"
+            Llr = "0.00074"
+            Lls = "0.00139"
+            Lm = "0.041"
+            Rr = "0.156"
+            Rs = "0.294"
+            m = "1.0"
+            pms = "4.0"
+        }
+        [
+            position = 3152, 320
+        ]
+
+        component "core/DC Machine with Separate or Parallel Excitation" M4 {
+            Jm = "0.4"
+            La = "0.01"
+            Laf = "0.5719631"
+            Lf = "0.02"
+            Ra = "0.5"
+            Rf = "75.0"
+        }
+        [
+            position = 3160, 640
+        ]
+
+        component "core/Permanent Magnet Synchronous Machine with Salient Rotor" M5 {
+            Jm = "0.00179"
+            Ld = "0.027"
+            Lq = "0.067"
+            Psi_pm = "0.2719981105563411"
+            Rs = "4.3"
+            Rsnb_stator = "1000"
+            friction_coeff = "0.000179"
+            pms = "2.0"
+            theta_ab = "0"
+        }
+        [
+            position = 3160, 920
+        ]
+
+        component "core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance" M6 {
+            Jm = "0.00179"
+            Ld = "0.027"
+            Lq = "0.067"
+            Psi_pm = "0.2719981105563411"
+            Rs = "4.3"
+            friction_coeff = "0.000179"
+            pms = "2.0"
+        }
+        [
+            position = 3160, 1136
+        ]
+
+        component "core/Synchronous Machine with Wound Rotor" M7 {
+            Jm = "0.2"
+            Llfd = "0.00037"
+            Llkd = "0.00028"
+            Llkq = "0.00091"
+            Lls = "0.00079"
+            Lmd = "0.0041"
+            Lmq = "0.002"
+            Rf = "0.016"
+            Rkd = "0.17"
+            Rkq = "0.17"
+            Rs = "0.1"
+            pms = "4.0"
+        }
+        [
+            position = 3520, 160
+        ]
+
+        component "core/Synchronous Machine with Wound Rotor" M8 {
+            Jm = "0.2"
+            Llfd = "0.00037"
+            Llkd = "0.00028"
+            Llkq = "0.00091"
+            Lls = "0.00079"
+            Lmd = "0.0041"
+            Lmq = "0.002"
+            Rf = "0.016"
+            Rkd = "0.17"
+            Rkq = "0.17"
+            Rs = "0.1"
+            pms = "4.0"
+        }
+        [
+            position = 3520, 440
+        ]
+
+        component "core/Voltage Measurement" VP1 {
+        }
+        [
+            position = 1184, 920
+        ]
+
+        component "core/Voltage Measurement" VPDC1 {
+            bw_limit = "True"
+            frequency = "1.0"
+        }
+        [
+            position = 1376, 920
+        ]
+
+        component "core/Voltage Measurement" VSEN1 {
+        }
+        [
+            position = 1712, 1000
+        ]
+
+        component "core/Current Measurement" I1 {
+        }
+        [
+            position = 1184, 976
+        ]
+
+        component "core/Current Measurement" ADC1 {
+            bw_limit = "True"
+            frequency = "1.0"
+        }
+        [
+            position = 1360, 1000
+        ]
+
+        component "core/Current Measurement" ISEN1 {
+        }
+        [
+            position = 1696, 896
+        ]
+
+        component "core/Voltage RMS" VPAC1 {
+            frequency = "60.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 1504, 920
+        ]
+
+        component "core/Current RMS" AAC1 {
+            frequency = "60.0"
+            op_mode = "Fixed frequency"
+        }
+        [
+            position = 1504, 1000
+        ]
+
+        component src_voltage VDC1 {
+            init_const_value = "100.0"
+        }
+        [
+            position = 1800, 712
+            rotation = right
+        ]
+
+        component src_voltage V1 {
+            init_frequency = "60.0"
+            init_rms_value = "77.78174593052022"
+            init_source_nature = "Sine"
+        }
+        [
+            position = 1560, 688
+            rotation = right
+        ]
+
+        component "core/Three Phase Voltage Source" VSIN31 {
+            init_frequency = "60.0"
+            init_rms_value = "63.50852961085884"
+        }
+        [
+            position = 1672, 704
+        ]
+
+        component src_current IDC1 {
+            init_const_value = "100.0"
+        }
+        [
+            position = 1904, 712
+            rotation = right
+        ]
+
+        component src_current I2 {
+            init_frequency = "60.0"
+            init_rms_value = "77.78174593052022"
+            init_source_nature = "Sine"
+        }
+        [
+            position = 1984, 712
+            rotation = right
+        ]
+    }
+
+    default {
+        pas_capacitor {
+            capacitance = "1e-6"
+            initial_voltage = "0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        pas_inductor {
+            inductance = "1e-3"
+            initial_current = "0.0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        pas_resistor {
+            resistance = "1"
+        }
+
+        src_current {
+            sig_input = "False"
+            type = "signal generator"
+            param_set = "1phase"
+            parent_label = ""
+            addr = "0"
+            spc_nb = "0"
+            execution_rate = "100e-6"
+            cpd_visible = "True"
+            enable_snb = "False"
+            snb_type = "R1"
+            R1 = "inf"
+            C1 = "1e-06"
+            override_signal_name = "False"
+            signal_name = ""
+            init_source_nature = "Constant"
+            init_const_value = "0.0"
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        src_voltage {
+            sig_input = "False"
+            type = "signal generator"
+            param_set = "1phase"
+            parent_label = ""
+            addr = "0"
+            spc_nb = "0"
+            execution_rate = "100e-6"
+            cpd_visible = "True"
+            enable_snb = "False"
+            snb_type = "R2"
+            R2 = "0.0"
+            L1 = "0.1"
+            override_signal_name = "False"
+            signal_name = ""
+            init_source_nature = "Constant"
+            init_const_value = "0.0"
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "core/DC Machine with Separate or Parallel Excitation" {
+            Ra = "2.581"
+            Rf = "281.3"
+            La = "0.028"
+            Lf = "156.0"
+            Laf = "0.9483"
+            Jm = "0.02215"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5000.0"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            Rsnb_rotor = "inf"
+            Rsnb_stator = "inf"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+        }
+
+        "core/Permanent Magnet Synchronous Machine with Salient Rotor" {
+            model_type = "linear"
+            sat_parametrization = "flux vs current"
+            Rs = "2.35"
+            Ld = "7e-3"
+            Lq = "3e-3"
+            Psi_pm = "0.30204"
+            id_vector = "[0.0, 0.0]"
+            iq_vector = "[0.0, 0.0]"
+            psid_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            psiq_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            Ld_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            Lq_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            pms = "2"
+            star_delta = "star"
+            Jm = "31e-6"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5e+3"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            theta_ab = "-pi/2"
+            Rsnb_stator = "inf"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+        }
+
+        "core/Voltage Measurement" {
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Thyristor" {
+            switches_option = "False"
+            resistance = "1.0"
+            ctrl_src = "Digital inputs"
+            S1 = "1"
+            S1_logic = "active high"
+            snb_type = "none"
+            R = "100e3"
+            C = "1e-6"
+            execution_rate = "inherit"
+            show_monitoring = "false"
+        }
+
+        "core/Current RMS" {
+            op_mode = "PLL based"
+            frequency = "50"
+            sig_output = "False"
+            execution_rate = "inherit"
+            feed_forward = "false"
+            nd_msr_estimation = "false"
+        }
+
+        "core/Doubly-Fed Induction Machine" {
+            model_type = "linear"
+            Rs = "13.12"
+            Rr = "11.202"
+            Lls = "0.0276"
+            Llr = "0.0194"
+            Lm = "0.3482"
+            curve_type = "flux vs current"
+            im_vector = "[0.0, 0.0]"
+            psim_vector = "[0.0, 0.0]"
+            Lm_vector = "[0.0, 0.0]"
+            m = "1"
+            pms = "2"
+            star_delta = "star"
+            Jm = "0.00142"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5e+3"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            theta_ab = "-pi/2"
+            Rsnb_rotor = "inf"
+            Rsnb_stator = "inf"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+        }
+
+        "core/IGBT" {
+            ctrl_src = "Digital inputs"
+            S1 = "1"
+            S1_logic = "active high"
+            execution_rate = "inherit"
+            snb_type = "none"
+            R = "100e3"
+            C = "1e-6"
+            spc_nb = "0"
+            addr = "0"
+            show_monitoring = "false"
+        }
+
+        "core/Three Phase Three Winding Transformer" {
+            input = "SI"
+            core_sat = "False"
+            Sn = "160000.0"
+            f = "50.0"
+            V1 = "10000.0"
+            V2 = "400.0"
+            V3 = "400.0"
+            R1 = "4.58984375"
+            L1 = ".0370093710364"
+            R2 = ".00734375"
+            L2 = "5.92149936583e-05"
+            R3 = ".00734375"
+            L3 = "5.92149936583e-05"
+            Rm = "217391.304348"
+            Lm = "311.709196788"
+            flux_vals_SI = "[1910.3, 2419.7]"
+            current_vals_SI = "[0.66653, 277.72]"
+            r1 = ".00734375"
+            l1 = ".0186029389059"
+            r2 = ".00734375"
+            l2 = ".0186029389059"
+            r3 = ".00734375"
+            l3 = ".0186029389059"
+            rm = "347.826086957"
+            lm = "156.68213163"
+            flux_vals_pu = "[1.2, 1.52]"
+            current_vals_pu = "[0.0024, 1]"
+            import_from_pu2SI = "Import from PU"
+            import_from_SI2pu = "Import from SI"
+            winding_1_connection = "Y"
+            winding_2_connection = "Y"
+            clk_num_12 = "0"
+            winding_3_connection = "Y"
+            clk_num_13 = "0"
+            embedded_cpl_12 = "false"
+            coupling_type_12 = "core"
+            embedded_cpl_13 = "false"
+            coupling_type_13 = "core"
+        }
+
+        "core/Three Phase Voltage Source" {
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "core/Single Phase Diode Rectifier" {
+            FSM_select = "converter"
+            show_monitoring = "False"
+            dynamic_ac_voltage = "False"
+            pesb_optimization = "True"
+        }
+
+        "core/Triple Pole Single Throw Contactor" {
+            ctrl_src = "Digital input"
+            Sa = "1"
+            Sa_logic = "active high"
+            enable_fb_out = "False"
+            fb_out_type = "real"
+            execution_rate = "inherit"
+            initial_state = "off"
+            on_delay = "0"
+            off_delay = "0"
+        }
+
+        "core/Four Coupled Inductors" {
+            L1 = "0.001"
+            I1_0 = "0.0"
+            R1 = "0.01"
+            L2 = "0.001"
+            I2_0 = "0.0"
+            R2 = "0.01"
+            L3 = "0.001"
+            I3_0 = "0.0"
+            R3 = "0.01"
+            L4 = "0.001"
+            R4 = "0.01"
+            I4_0 = "0.0"
+            k12 = "0.0"
+            k13 = "0.0"
+            k14 = "0.0"
+            k23 = "0.0"
+            k24 = "0.0"
+            k34 = "0.0"
+        }
+
+        "core/Three Phase Diode Rectifier" {
+            show_monitoring = "false"
+        }
+
+        "core/Voltage RMS" {
+            op_mode = "PLL based"
+            frequency = "50"
+            sig_output = "False"
+            execution_rate = "inherit"
+            feed_forward = "false"
+            nd_msr_estimation = "false"
+        }
+
+        "core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance" {
+            model_type = "linear"
+            sat_parametrization = "flux vs current"
+            Rs = "2.35"
+            Ld = "7e-3"
+            Lq = "3e-3"
+            Psi_pm = "0.30204"
+            id_vector = "[0.0, 0.0]"
+            iq_vector = "[0.0, 0.0]"
+            psid_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            psiq_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            Ld_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            Lq_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            pms = "2"
+            star_delta = "star"
+            Jm = "31e-6"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5e+3"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            theta_ab = "-pi/2"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+        }
+
+        "core/Three Phase Thyristor Rectifier" {
+            ctrl_src = "Digital inputs"
+            Sa_top = "1"
+            Sa_top_logic = "active high"
+            Sa_bot = "2"
+            Sa_bot_logic = "active high"
+            Sb_top = "3"
+            Sb_top_logic = "active high"
+            Sb_bot = "4"
+            Sb_bot_logic = "active high"
+            Sc_top = "5"
+            Sc_top_logic = "active high"
+            Sc_bot = "6"
+            Sc_bot_logic = "active high"
+            execution_rate = "inherit"
+            show_monitoring = "false"
+            PESB_Optimization = "True"
+            _control_property = "all high"
+        }
+
+        "core/Variable Resistor" {
+            inductance = "1e-3"
+            initial_current = "0.0"
+        }
+
+        "core/Three Coupled Inductors" {
+            L1 = "0.001"
+            I1_0 = "0.0"
+            R1 = "0.01"
+            L2 = "0.001"
+            I2_0 = "0.0"
+            R2 = "0.01"
+            L3 = "0.001"
+            I3_0 = "0.0"
+            R3 = "0.01"
+            k12 = "0.0"
+            k13 = "0.0"
+            k23 = "0.0"
+        }
+
+        "core/Diode" {
+            switches_option = "False"
+            resistance = "1.0"
+            snb_type = "none"
+            R = "100e3"
+            C = "1e-6"
+            show_monitoring = "false"
+        }
+
+        "core/Induction Machine with Squirrel Cage" {
+            model_type = "linear"
+            Rs = "13.12"
+            Rr = "11.202"
+            Lls = "0.0276"
+            Llr = "0.0194"
+            Lm = "0.3482"
+            curve_type = "flux vs current"
+            im_vector = "[0.0, 0.0]"
+            psim_vector = "[0.0, 0.0]"
+            Lm_vector = "[0.0, 0.0]"
+            pms = "2"
+            Jm = "10e-6"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5e+3"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            Rsnb_stator = "20e3"
+            calculate_max_snubber = "Calculate"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+        }
+
+        "core/Synchronous Machine with Wound Rotor" {
+            model_type = "linear"
+            rated_speed = "1.0"
+            Rs = "1.62"
+            Lls = "0.004527"
+            Lmd = "0.1086"
+            Lmq = "0.1086"
+            curve_type = "no load curve"
+            if_vector = "[0.0, 0.0]"
+            vs_vector = "[0.0, 0.0]"
+            imd_vector = "[0.0, 0.0]"
+            imq_vector = "[0.0, 0.0]"
+            psimd_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            psimq_table = "[[0.0, 0.0], [0.0, 0.0]]"
+            Rf = "1.208"
+            Llfd = "0.01132"
+            Rkd = "3.142"
+            Rkq = "4.772"
+            Llkd = "0.007334"
+            Llkq = "0.01015"
+            Ns_div_Nfd = "1.0"
+            Ns_div_Nkd = "1.0"
+            Ns_div_Nkq = "1.0"
+            pms = "2"
+            star_delta = "star"
+            Jm = "0.0923"
+            friction_coeff = "0"
+            unconstrained_angle = "disabled"
+            load_src = "SCADA / external"
+            ext_mdl_load_type = "torque"
+            load_ai_pin_addr = "1"
+            load_ai_offset = "0"
+            load_ai_gain = "1"
+            enc_ppr = "1024"
+            res_pole_pairs = "1"
+            res_carr_source = "internal"
+            res_int_carr_f = "5e+3"
+            res_ai_pin_addr = "1"
+            res_ai_offset = "0"
+            res_ai_gain = "1"
+            absenc_type = "None"
+            endat_clock_di_addr = "1"
+            endat_clock_di_logic = "active high"
+            endat_data_di_addr = "2"
+            endat_data_di_logic = "active high"
+            biss_clock_di_addr = "1"
+            biss_clock_di_logic = "active high"
+            biss_data_di_addr = "2"
+            ssi_clock_di_addr = "1"
+            ssi_clock_di_logic = "active high"
+            ssi_data_di_addr = "2"
+            theta_ab = "-pi/2"
+            field_input = "voltage"
+            Rsnb_rotor = "inf"
+            Rsnb_stator = "inf"
+            enb_sig_out = "False"
+            execution_rate = "100e-6"
+            machine_id = "0"
+            me_speed_out_addr = "0"
+            el_torque_out_addr = "0"
+            me_angle_out_addr = "0"
+        }
+
+        "core/Ideal Transformer" {
+            n1 = "1"
+            n2 = "1"
+        }
+
+        "core/Single Phase Three Winding Transformer" {
+            input = "SI"
+            core_sat = "False"
+            Sn = "10e3"
+            f = "50"
+            n1 = "100"
+            n2 = "100"
+            n3 = "100"
+            R1 = "0.1"
+            L1 = "0.001"
+            I1 = "0"
+            R2 = "0.1"
+            L2 = "0.001"
+            I2 = "0"
+            R3 = "0.1"
+            L3 = "0.001"
+            I3 = "0"
+            Rm = "1e5"
+            Lm = "5"
+            flux_vals_SI = "[0.001, 0.005]"
+            current_vals_SI = "[1.0, 2.0]"
+            r1 = ".1"
+            l1 = ".314159265359"
+            i1 = "0"
+            r2 = ".1"
+            l2 = ".314159265359"
+            i2 = "0"
+            r3 = ".1"
+            l3 = ".314159265359"
+            i3 = "0"
+            rm = "100000.0"
+            lm = "1570.79632679"
+            flux_vals_pu = "[0.001, 0.005]"
+            current_vals_pu = "[1.0, 2.0]"
+            import_from_pu = "Import from PU"
+            import_from_si = "Import from SI"
+            embedded_cpl_12 = "false"
+            coupling_type_12 = "core"
+            embedded_cpl_13 = "false"
+            coupling_type_13 = "core"
+        }
+
+        "core/Current Measurement" {
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Single Pole Single Throw Contactor" {
+            ctrl_src = "Digital input"
+            Sa = "1"
+            Sa_logic = "active high"
+            enable_fb_out = "False"
+            fb_out_type = "real"
+            execution_rate = "inherit"
+            initial_state = "off"
+            on_delay = "0"
+            off_delay = "0"
+            switching = "any current"
+        }
+
+        "core/Single Phase Thyristor Rectifier" {
+            ctrl_src = "Digital inputs"
+            Sa_top = "1"
+            Sa_top_logic = "active high"
+            Sa_bot = "2"
+            Sa_bot_logic = "active high"
+            Sb_top = "3"
+            Sb_top_logic = "active high"
+            Sb_bot = "4"
+            Sb_bot_logic = "active high"
+            show_monitoring = "False"
+            spc_nb = "0"
+            addr1 = "0"
+            addr2 = "0"
+            execution_rate = "inherit"
+            _control_property = "all high"
+        }
+
+        "core/Two Coupled Inductors" {
+            L1 = "0.001"
+            I1_0 = "0.0"
+            R1 = "0.01"
+            L2 = "0.001"
+            I2_0 = "0.0"
+            R2 = "0.01"
+            k = "0.0"
+        }
+
+        "core/Nonlinear Inductor" {
+            param_definition = "flux"
+            flux_vals = "[0.001, 0.0011]"
+            inductance_vals = "[0.001, 0.0011]"
+            current_vals = "[1.0, 2.0]"
+            initial_current = "0.0"
+            preview_flux_current = "Preview"
+            enb_snubber = "False"
+            snubber_value = "10"
+        }
+
+        "core/Single Phase Two Winding Transformer" {
+            input = "SI"
+            core_sat = "False"
+            Sn = "10e3"
+            f = "50.0"
+            n1 = "100.0"
+            n2 = "100.0"
+            R1 = "0.1"
+            L1 = "0.001"
+            I1 = "0.0"
+            R2 = "0.1"
+            L2 = "0.001"
+            I2 = "0.0"
+            Rm = "1e5"
+            Lm = "5.0"
+            flux_vals_SI = "[0.001, 0.005]"
+            current_vals_SI = "[1.0, 2.0]"
+            r1 = ".1"
+            l1 = ".314159265359"
+            i1 = "0.0"
+            r2 = ".1"
+            l2 = ".314159265359"
+            i2 = "0.0"
+            rm = "100000.0"
+            lm = "1570.79632679"
+            flux_vals_pu = "[0.001, 0.005]"
+            current_vals_pu = "[1.0, 2.0]"
+            import_from_pu = "Import from PU"
+            import_from_si = "Import from SI"
+            embedded_cpl = "false"
+            coupling_type = "core"
+        }
+
+        "core/Three Phase Inverter" {
+            ctrl_src = "Digital input per switch"
+            op_mode = "Fixed carrier frequency"
+            carrier_freq = "10000.0"
+            carr_ph_offset = "0.0"
+            d_time = "5e-6"
+            ref_sig_min_max = "[-1.0, 1.0]"
+            execution_rate = "inherit"
+            Sa_top = "1"
+            Sa_top_logic = "active high"
+            Sa_bot = "2"
+            Sa_bot_logic = "active high"
+            Sb_top = "3"
+            Sb_top_logic = "active high"
+            Sb_bot = "4"
+            Sb_bot_logic = "active high"
+            Sc_top = "5"
+            Sc_top_logic = "active high"
+            Sc_bot = "6"
+            Sc_bot_logic = "active high"
+            delay_enabled = "False"
+            fixed_delay = "1e-6"
+            var_delay_lut = "[-10.0, 1e-6, 10.0, 1e-6]"
+            preview_var_delay = "Preview"
+            Sa_top_I = "False"
+            Sa_bot_I = "False"
+            Sb_top_I = "False"
+            Sb_bot_I = "False"
+            Sc_top_I = "False"
+            Sc_bot_I = "False"
+            losses_estimation = "False"
+            Xml_losses = "Import from XML"
+            Vce = "1.3"
+            Rce = "0"
+            Vd = "1.2"
+            Rd = "0"
+            i_sw = "[0.0, 6.0, 12.0, 18.0, 24.0]"
+            v_sw = "[0.0, 600.0]"
+            temp_sw = "[25.0, 50.0, 75.0, 100.0, 125.0]"
+            et_on_table_out = "[[0.0, 0.0275e-3, 0.15e-3, 0.275e-3, 0.3e-3], [0.35*3.8e-3, 0.4*3.8e-3, 0.8*3.8e-3, 0.68*3.8e-3, 0.9*3.8e-3], [0.65*3.8e-3, 0.9*3.8e-3, 1.2*3.8e-3, 1.5*3.8e-3, 1.7*3.8e-3], [0.9*3.8e-3, 1.3*3.8e-3, 1.7*3.8e-3, 1.9*3.8e-3, 2.25*3.8e-3], [1.1*3.8e-3, 1.7*3.8e-3, 2.1*3.8e-3, 2.3*3.8e-3, 2.5*3.8e-3]]"
+            et_off_table_out = "[[0.0, 0.0275e-3, 0.15e-3, 0.275e-3, 0.3e-3], [0.35*2.1e-3, 0.4*2.1e-3, 0.8*2.1e-3, 0.68*2.1e-3, 0.9*2.1e-3], [0.65*2.1e-3, 0.9*2.1e-3, 1.2*2.1e-3, 1.5*2.1e-3, 1.7*2.1e-3], [0.9*2.1e-3, 1.3*2.1e-3, 1.7*2.1e-3, 1.9*2.1e-3, 2.25*2.1e-3], [1.1*2.1e-3, 1.7*2.1e-3, 2.1*2.1e-3, 2.3*2.1e-3, 2.5*2.1e-3]]"
+            ed_off_table_out = "[[0.0, 0.0275e-3, 0.15e-3, 0.275e-3, 0.3e-3], [0.35*2.2e-3, 0.4*2.2e-3, 0.8*2.2e-3, 0.68*2.2e-3, 0.9*2.2e-3], [0.65*2.2e-3, 0.9*2.2e-3, 1.2*2.2e-3, 1.5*2.2e-3, 1.7*2.2e-3], [0.9*2.2e-3, 1.3*2.2e-3, 1.7*2.2e-3, 1.9*2.2e-3, 2.25*2.2e-3], [1.1*2.2e-3, 1.7*2.2e-3, 2.1*2.2e-3, 2.3*2.2e-3, 2.5*2.2e-3]]"
+            loss_exec_rate = "100e-6"
+            vout_cmp_pullup_mode = "False"
+            show_cnt_out = "False"
+            show_monitoring = "false"
+            _control_property = "all high"
+            dtv_flag_en = "True"
+        }
+
+        "core/Transmission Line" {
+            model = "RL coupled"
+            num_of_phases = "3"
+            model_def = "Geometry"
+            unit_sys = "imperial"
+            Length_metric = "100.0"
+            Length_miles = "62.1371"
+            Frequency = "60.0"
+            Earth_resistivity = "100"
+            X_axis_1_metric = "-1.0668"
+            Y_axis_1_metric = "8.5344"
+            GMR_1_metric = "0.00743712"
+            RD_1_metric = "0.009156192"
+            Rs_1_metric = "0.19013958482462417"
+            X_axis_1_imperial = "-3.5"
+            Y_axis_1_imperial = "28.0"
+            GMR_1_imperial = "0.0244"
+            RD_1_imperial = "0.03004"
+            Rs_1_imperial = "0.306"
+            X_axis_2_metric = "-0.3048"
+            Y_axis_2_metric = "8.5344"
+            GMR_2_metric = "0.00743712"
+            RD_2_metric = "0.009156192"
+            Rs_2_metric = "0.19013958482462417"
+            X_axis_2_imperial = "-1.0"
+            Y_axis_2_imperial = "28.0"
+            GMR_2_imperial = "0.0244"
+            RD_2_imperial = "0.03004"
+            Rs_2_imperial = "0.306"
+            X_axis_3_metric = "1.0668"
+            Y_axis_3_metric = "8.5344"
+            GMR_3_metric = "0.00743712"
+            RD_3_metric = "0.009156192"
+            Rs_3_metric = "0.19013958482462417"
+            X_axis_3_imperial = "3.5"
+            Y_axis_3_imperial = "28.0"
+            GMR_3_imperial = "0.0244"
+            RD_3_imperial = "0.03004"
+            Rs_3_imperial = "0.306"
+            X_axis_4_metric = "0.1524"
+            Y_axis_4_metric = "7.3152"
+            GMR_4_metric = "0.00248"
+            RD_4_metric = "0.00714"
+            Rs_4_metric = "0.3678"
+            X_axis_4_imperial = "0.5"
+            Y_axis_4_imperial = "24.0"
+            GMR_4_imperial = "0.00814"
+            RD_4_imperial = "0.02345"
+            Rs_4_imperial = "0.592"
+            R_metric = "[[0.2481, 0.0579, 0.0579], [0.0579, 0.2481, 0.0579], [0.0579, 0.0579, 0.2481]]"
+            R_imperial = "[[0.4, 0.093, 0.093], [0.093, 0.4, 0.093], [0.093, 0.093, 0.4]]"
+            L_metric = "[[0.00233, 0.00140, 0.00140], [0.00140, 0.00233, 0.00140], [0.00140, 0.00140, 0.00233]]"
+            L_imperial = "[[0.00374, 0.0022, 0.0022], [0.0022, 0.00374, 0.0022], [0.0022, 0.0022, 0.00374]]"
+            C_metric = "[[8.546e-9, 0, 0], [0, 8.546e-9, 0], [0, 0, 8.546e-9]]"
+            C_imperial = "[[1.471e-8, 0, 0], [0, 1.530e-8, 0], [0, 0, 1.375e-8]]"
+            R_sequence_metric = "[[0.3864, 0, 0],[0, 0.01273, 0], [0, 0, 0.01273]]"
+            L_sequence_metric = "[[4.1264e-3, 0, 0],[0, 0.9337e-3, 0], [0, 0, 0.9337e-3]]"
+            C_sequence_metric = "[[7.751e-9, 0, 0],[0, 12.74e-9, 0], [0, 0, 12.74e-9]]"
+            R_sequence_imperial = "[[0.6218, 0, 0],[0, 0.0204, 0], [0, 0, 0.0204]]"
+            L_sequence_imperial = "[[0.00664, 0, 0],[0, 0.00150, 0], [0, 0, 0.00150]]"
+            C_sequence_imperial = "[[1.247e-8, 0, 0],[0, 2.0503e-8, 0], [0, 0, 2.0503e-8]]"
+            import_from_geometry = "Import from Geometry"
+            import_from_RLC = "Import from RLC"
+        }
+
+        "core/Single Phase Four Winding Transformer" {
+            input = "SI"
+            core_sat = "False"
+            Sn = "10e3"
+            f = "50"
+            n1 = "100"
+            n2 = "100"
+            n3 = "100"
+            n4 = "100"
+            R1 = "0.1"
+            L1 = "0.001"
+            I1 = "0"
+            R2 = "0.1"
+            L2 = "0.001"
+            I2 = "0"
+            R3 = "0.1"
+            L3 = "0.001"
+            I3 = "0"
+            R4 = "0.1"
+            L4 = "0.001"
+            I4 = "0"
+            Rm = "1e5"
+            Lm = "5"
+            flux_vals_SI = "[0.001, 0.005]"
+            current_vals_SI = "[1.0, 2.0]"
+            r1 = ".1"
+            l1 = ".314159265359"
+            i1 = "0"
+            r2 = ".1"
+            l2 = ".314159265359"
+            i2 = "0"
+            r3 = ".1"
+            l3 = ".314159265359"
+            i3 = "0"
+            r4 = ".1"
+            l4 = ".314159265359"
+            i4 = "0"
+            rm = "100000.0"
+            lm = "1570.79632679"
+            flux_vals_pu = "[0.001, 0.005]"
+            current_vals_pu = "[1.0, 2.0]"
+            import_from_pu = "Import from PU"
+            import_from_si = "Import from SI"
+            embedded_cpl_12 = "false"
+            coupling_type_12 = "core"
+            embedded_cpl_13 = "false"
+            coupling_type_13 = "core"
+            embedded_cpl_14 = "false"
+            coupling_type_14 = "core"
+        }
+
+        "core/Three Phase Two Winding Transformer" {
+            input = "SC and OC tests"
+            core_sat = "False"
+            Sn = "160000.0"
+            f = "50.0"
+            V1 = "10000.0"
+            V2 = "400.0"
+            usc1 = "4.0"
+            Psc1 = "2350.0"
+            ioc1 = "0.7"
+            Poc1 = "460.0"
+            R1 = "4.58984375"
+            L1 = ".0370093710364"
+            R2 = ".00734375"
+            L2 = "5.92149936583e-05"
+            Rm = "217391.304348"
+            Lm = "311.709196788"
+            flux_vals_SI = "[1910.3, 2419.7]"
+            current_vals_SI = "[0.66653, 277.72]"
+            r1 = ".00734375"
+            l1 = ".0186029389059"
+            r2 = ".00734375"
+            l2 = ".0186029389059"
+            rm = "347.826086957"
+            lm = "156.68213163"
+            flux_vals_pu = "[1.2, 1.52]"
+            current_vals_pu = "[0.0024, 1]"
+            flux_vals_SCOC = "[1.2, 1.52]"
+            current_vals_SCOC = "[0.0024, 1]"
+            import_from_SI2SCOC = "Import from SI"
+            import_from_pu2SCOC = "Import from PU"
+            import_from_SCOC2SI = "Import from SC OC"
+            import_from_pu2SI = "Import from PU"
+            import_from_SCOC2pu = "Import from SC OC"
+            import_from_SI2pu = "Import from SI"
+            winding_1_connection = "Y"
+            winding_2_connection = "Y"
+            clock_number = "0"
+            embedded_cpl = "false"
+            coupling_type = "core"
+            Rshunt = "inf"
+        }
+    }
+}

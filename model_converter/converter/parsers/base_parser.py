@@ -381,8 +381,10 @@ class BaseParser:
             subsystem = SubsystemDataHolder()
             subsystem.name = component_parent.name.split(".")[-1]
             subsystem.components["Subsystem"] = []
-            for port in component_parent.terminals:
-                subsystem.ports.append(port.clone())
+            subsystem.ports = {port.index:port.clone() for port
+                               in component_parent.terminals.values()}
+            # for port in component_parent.terminals:
+            #     subsystem.ports.append(port.clone())
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
         if current_sub is not None:
@@ -439,6 +441,7 @@ class BaseParser:
 
     def _save_single_component(self, component, parent=None):
         from typhoon.api.schematic_editor.exception import SchApiException
+        component.parent = parent
         component_handle = \
             self.mdl.create_component(
                         component.typhoon_type,
@@ -563,7 +566,7 @@ class BaseParser:
             # Counter for unique port names.
             UID = 0
             init_pos = [15, 50]
-            for port in component.ports:
+            for port in component.ports.values():
                 port_name = "Port" + str(UID)
                 port_handle = self.mdl.create_port(parent=component_handle,
                                                    kind=port.kind,
@@ -741,9 +744,12 @@ class BaseParser:
             position[0] = int(position[0]/len(connectable_list))
             position[1] = int(position[1]/len(connectable_list))
             connectable_parent = connectable_list[0][2].parent
-            junction = \
-                self.mdl.create_junction(parent=connectable_parent,
-                                         position=position)
+            try:
+                junction = \
+                    self.mdl.create_junction(parent=connectable_parent,
+                                             position=position)
+            except SchApiException as ex:
+                print(ex)
         #
         # Connecting all terminals from the same
         # node with the newly created junction
@@ -1074,6 +1080,7 @@ class BaseParser:
             terminal_obj.kind = values[0]
             terminal_obj.name = values[2]
             terminal_obj.position = [i * 2 for i in orig_terminal.position]
+            terminal_obj.parent_component = dh
             dh.terminals.append(terminal_obj)
 
         component.converted = True

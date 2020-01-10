@@ -13,7 +13,7 @@ if __name__ == "__main__":
             MainApplication(root).grid(row=0, column=1)
             root.mainloop()
         else:
-            converter = Converter(source_file_format="psim",
+            converter = Converter(source_file_format="simulink",
                                   input_file_path=sys.argv[1])
             converter.convert_schema()
             print("Done. Check the report.txt file located in "

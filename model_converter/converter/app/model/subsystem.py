@@ -6,6 +6,7 @@ class Subsystem:
         self.position = [0,0]
         self.orientation = 0
         self.terminals = []
+        self.properties = {}
         #
         # Dictionary which holds all components and subsystems
         #

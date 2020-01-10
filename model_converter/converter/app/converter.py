@@ -2,6 +2,7 @@ import os
 
 from model_converter.converter.app import util
 from model_converter.converter.parsers.PSIM_parser import PSIMParser
+from model_converter.converter.parsers.Simulink_parser import SimulinkParser
 
 
 class Converter:
@@ -16,7 +17,11 @@ class Converter:
     default_rule_file_path = {"psim": os.path.join(util.get_root_path(),
                                                    "conversion_rules",
                                                    "psim",
-                                                   "PSIM_default_rules.ty")}
+                                                   "PSIM_default_rules.ty"),
+                              "simulink": os.path.join(util.get_root_path(),
+                                                       "conversion_rules",
+                                                       "simulink",
+                                                       "SIMULINK_default_rules.ty")}
 
     def __init__(self,
                  source_file_format: str,
@@ -39,8 +44,9 @@ class Converter:
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)
 
-        elif source_file_format.lower() == "ml":
-            print("ml")
+        elif source_file_format.lower() == "simulink":
+            self.parser = SimulinkParser(input_file_path,
+                                         rule_file_path)
         else:
             raise InvalidArgumentException()
 

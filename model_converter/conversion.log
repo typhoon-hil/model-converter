@@ -1,1 +1,0 @@
-WARNING:root:[1:1 - powerlib/Electrical Sources/Three-Phase Source (Three-Phase Source) -> core/Three Phase Voltage Source] Missing property "Phase" in source component, unable to set "init_phase".

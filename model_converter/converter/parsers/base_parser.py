@@ -381,10 +381,9 @@ class BaseParser:
             subsystem = SubsystemDataHolder()
             subsystem.name = component_parent.name.split(".")[-1]
             subsystem.components["Subsystem"] = []
-            subsystem.ports = {port.index:port.clone() for port
-                               in component_parent.terminals.values()}
-            # for port in component_parent.terminals:
-            #     subsystem.ports.append(port.clone())
+            subsystem.ports = [port.clone() for port
+                               in component_parent.terminals]
+
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
         if current_sub is not None:
@@ -480,12 +479,9 @@ class BaseParser:
                     subsystem_dict = new_subsystem
                 connectables = subsystem_dict.get(term.node_id, None)
                 if connectables is None:
-                    subsystem_dict[term.node_id] = [[False,
-                                                     terminal_handle,
-                                                     component]]
-                else:
-                    subsystem_dict[term.node_id].append(
-                        [False, terminal_handle, component])
+                    subsystem_dict[term.node_id] = []
+                subsystem_dict[term.node_id].append(
+                    [False, terminal_handle, component])
             except SchApiException:
                 logging.warning(f"[Terminal connection error] Cannot retrieve "
                                 f"terminal \"{term.name}\" of the "
@@ -566,12 +562,20 @@ class BaseParser:
             # Counter for unique port names.
             UID = 0
             init_pos = [15, 50]
-            for port in component.ports.values():
-                port_name = "Port" + str(UID)
-                port_handle = self.mdl.create_port(parent=component_handle,
-                                                   kind=port.kind,
-                                                   name=port_name,
-                                                   position=init_pos)
+            for port in component.ports:
+                port_name = "Port" + str(UID) if port.name is None \
+                    else port.name
+                if port.kind == "sp":
+                    port_handle = self.mdl.create_port(parent=component_handle,
+                                                       kind=port.kind,
+                                                       direction=port.direction,
+                                                       name=port_name,
+                                                       position=init_pos)
+                else:
+                    port_handle = self.mdl.create_port(parent=component_handle,
+                                                       kind=port.kind,
+                                                       name=port_name,
+                                                       position=init_pos)
                 #
                 # Checking if the parent_component of this port is
                 # a string value. If it is, the Subsystem was not
@@ -597,14 +601,14 @@ class BaseParser:
                 else:
                     connectables = level.get(port.node_id, None)
                     if connectables is None:
-                        level[port.node_id] = [
-                            [False, port_handle, component]]
-                    else:
-                        level[port.node_id].append(
-                            [False, port_handle, component])
+                        level[port.node_id] = []
+
+                    level[port.node_id].append(
+                        [False, port_handle, component])
+
                 parent_level = self.node_dict.get(
                     parent, None)
-                if not parent_level:
+                if parent_level is None:
                     self.node_dict[parent] = {
                         port.node_id: [
                             [False, self.mdl.term(component_handle, port_name),
@@ -613,13 +617,11 @@ class BaseParser:
                     parent_connectables = parent_level.get(port.node_id,
                                                            None)
                     if parent_connectables is None:
-                        parent_level[port.node_id] = [
-                            [False, self.mdl.term(component_handle, port_name),
-                             component]]
-                    else:
-                        parent_level[port.node_id].append(
-                            [False, self.mdl.term(component_handle, port_name),
-                             component])
+                        parent_level[port.node_id] = []
+
+                    parent_level[port.node_id].append(
+                        [False, self.mdl.term(component_handle, port_name),
+                         component])
 
         else:
             self._save_single_component(component, parent)
@@ -737,6 +739,9 @@ class BaseParser:
         # Checking if a junction should be used to connect
         # terminals from this node list
         if len(connectable_list) > 2 and junction is None:
+            kind = "sp" if [term for term in connectable_list
+                            if self.mdl.get_connectable_kind(term[1]) == "sp"] \
+                else "pe"
             position = [0, 0]
             for connectable in connectable_list:
                 position[0] += connectable[2].position[0]
@@ -747,7 +752,8 @@ class BaseParser:
             try:
                 junction = \
                     self.mdl.create_junction(parent=connectable_parent,
-                                             position=position)
+                                             position=position,
+                                             kind=kind)
             except SchApiException as ex:
                 print(ex)
         #

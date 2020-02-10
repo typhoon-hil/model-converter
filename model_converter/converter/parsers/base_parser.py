@@ -749,13 +749,11 @@ class BaseParser:
             position[0] = int(position[0]/len(connectable_list))
             position[1] = int(position[1]/len(connectable_list))
             connectable_parent = connectable_list[0][2].parent
-            try:
-                junction = \
-                    self.mdl.create_junction(parent=connectable_parent,
-                                             position=position,
-                                             kind=kind)
-            except SchApiException as ex:
-                print(ex)
+
+            junction = \
+                self.mdl.create_junction(parent=connectable_parent,
+                                         position=position,
+                                         kind=kind)
         #
         # Connecting all terminals from the same
         # node with the newly created junction

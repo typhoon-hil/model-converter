@@ -505,6 +505,7 @@ class BaseParser:
             #
             for handle, child_comp_list in component.components.items():
                 for child_comp in child_comp_list:
+                    child_comp.parent = component_handle
                     if isinstance(child_comp, SubsystemDataHolder):
                         self.save_component(child_comp, component_handle)
                     else:

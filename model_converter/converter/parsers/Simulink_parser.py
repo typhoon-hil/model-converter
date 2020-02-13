@@ -444,8 +444,13 @@ class SimulinkParser(BaseParser):
                 if terminal.node_id is None:
                     terminal.node_id = self.__node_id
             terminals_in_node.append(terminal)
-        if increment_id:
-            self.__node_id += 1
+        # If increment_id is set to False, the method was called recursively,
+        # and the setting of node IDs should be left to the original
+        # call of the method (initial parse of the Line element)
+        if increment_id is False:
+            return terminals_in_node
+
+        self.__node_id += 1
         #
         # The following code sets all terminals' node ID
         # to the node ID of the ports of the same node

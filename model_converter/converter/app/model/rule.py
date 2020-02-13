@@ -185,7 +185,7 @@ class Predicate:
         try:
             self.condition_value = float(condition_value)
         except ValueError:
-            if self.operator == "==":
+            if self.operator == "eq":
                 self.condition_value = condition_value.strip("\"")
             else:
                 raise Exception("Predicate operator must be '==' "

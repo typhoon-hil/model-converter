@@ -313,7 +313,10 @@ class PSIMParser(BaseParser):
             return self._extract_component(node)
 
         elif node[1] == "SubCircuit":
-            return self._extract_subsystem(node)
+            try:
+                return self._extract_subsystem(node)
+            except:
+                return self._extract_component(node)
 
         elif node[1] == "CNode":
             return self._extract_terminal(node)

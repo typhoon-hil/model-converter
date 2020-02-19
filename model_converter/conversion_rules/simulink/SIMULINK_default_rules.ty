@@ -48,11 +48,11 @@ powerlib/Electrical Sources/DC Voltage Source => core/Voltage Source:
 	;
 ;
 
-
+@InternalConnection == Yn
 powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Source:
     init_rms_value = Voltage;
     init_frequency = Frequency;
-    init_phase = Phase;
+    init_phase = PhaseAngle;
 
 	Terminals:
 		a_node[pe] = rconn:1;
@@ -69,7 +69,8 @@ powerlib/Elements/Ground => core/Ground:
 	;
 ;
 
-typhoonHILlib/Transformer/Single-Phase Ideal => core/Ideal Transformer:
+@TransfType == "Single-Phase Ideal"
+typhoonHILlib/Transformer => core/Ideal Transformer:
     n1 = n1;
     n2 = n2;
 
@@ -81,9 +82,10 @@ typhoonHILlib/Transformer/Single-Phase Ideal => core/Ideal Transformer:
 	;
 ;
 
-typhoonHILlib/Transformer/Single-Phase Two Windings => core/Single Phase Two Winding Transformer:
+@TransfType == Single-Phase Two Windings
+typhoonHILlib/Transformer => core/Single Phase Two Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool(sat_toggle);
+    core_sat = sat_toggle;
     Sn = Sn;
     f = fn;
     V1 = V1;
@@ -96,7 +98,7 @@ typhoonHILlib/Transformer/Single-Phase Two Windings => core/Single Phase Two Win
     L2 = L2;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1 = on_off_to_bool(coup12);
+    embedded_cpl = on_off_to_bool_str(logic_str=coup12);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -106,9 +108,10 @@ typhoonHILlib/Transformer/Single-Phase Two Windings => core/Single Phase Two Win
 	;
 ;
 
-typhoonHILlib/Transformer/Single-Phase Three Windings => core/Single Phase Three Winding Transformer:
+@TransfType == "Single-Phase Three Windings"
+typhoonHILlib/Transformer => core/Single Phase Three Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool(sat_toggle);
+    core_sat = sat_toggle;
     Sn = Sn;
     f = fn;
     V1 = V1;
@@ -125,8 +128,8 @@ typhoonHILlib/Transformer/Single-Phase Three Windings => core/Single Phase Three
     L3 = L3;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1_12 = on_off_to_bool(coup12);
-    embedded_cp1_13 = on_off_to_bool(coup13);
+    embedded_cpl_12 = on_off_to_bool_str(logic_str=coup12);
+    embedded_cpl_13 = on_off_to_bool_str(logic_str=coup13);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -138,9 +141,10 @@ typhoonHILlib/Transformer/Single-Phase Three Windings => core/Single Phase Three
 	;
 ;
 
-typhoonHILlib/Transformer/Single-Phase Four Windings => core/Single Phase Four Winding Transformer:
+@TransfType == "Single-Phase Four Windings"
+typhoonHILlib/Transformer => core/Single Phase Four Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool(sat_toggle);
+    core_sat = sat_toggle;
     Sn = Sn;
     f = fn;
     V1 = V1;
@@ -161,9 +165,9 @@ typhoonHILlib/Transformer/Single-Phase Four Windings => core/Single Phase Four W
     L4 = L4;
     Rm = Rm;
     Lm = Lm;
-    embedded_cp1_12 = on_off_to_bool(coup12);
-    embedded_cp1_13 = on_off_to_bool(coup13);
-    embedded_cp1_14 = on_off_to_bool(coup14);
+    embedded_cpl_12 = on_off_to_bool_str(logic_str=coup12);
+    embedded_cpl_13 = on_off_to_bool_str(logic_str=coup13);
+    embedded_cpl_14 = on_off_to_bool_str(logic_str=coup14);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -177,46 +181,43 @@ typhoonHILlib/Transformer/Single-Phase Four Windings => core/Single Phase Four W
 	;
 ;
 
-
-typhoonHILlib/Transformer/Three-Phase Two Windings => core/Three Phase Two Winding Transformer:
+@TransfType == "Three-Phase Two Windings"
+typhoonHILlib/Transformer => core/Three Phase Two Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool(sat_toggle);
+    core_sat = on_off_to_bool_str(logic_str=sat_toggle, capitalize="True");
     Sn = Sn;
     f = fn;
     V1 = V1;
     V2 = V2;
-    I1 = I1;
-    I2 = I2;
     R1 = R1;
     R2 = R2;
     L1 = L1;
     L2 = L2;
     Rm = Rm;
     Lm = Lm;
-    winding_1_connection = wye_delta_names(conn_1);
-    winding_2_connection = wye_delta_names(conn_2);
-    embedded_cp1 = on_off_to_bool(coup12);
+    winding_1_connection = conn_1;
+    winding_2_connection = conn_2;
+    embedded_cpl = on_off_to_bool_str(logic_str=coup12);
 
 	Terminals:
-		PRM1[pe] = lconn:1;
-		PRM2[pe] = lconn:2;
-        PRM3[pe] = lconn:3;
-        SEC1[pe] = rconn:1;
-		SEC2[pe] = rconn:2;
-        SEC3[pe] = rconn:3;
+		prm_1[pe] = lconn:1;
+		prm_2[pe] = lconn:2;
+        prm_3[pe] = lconn:3;
+        sec_1[pe] = rconn:1;
+		sec_2[pe] = rconn:2;
+        sec_3[pe] = rconn:3;
 	;
 ;
 
-typhoonHILlib/Transformer/Three-Phase Three Windings => core/Three Phase Three Winding Transformer:
+@TransfType == "Three-Phase Three Windings"
+typhoonHILlib/Transformer => core/Three Phase Three Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool(sat_toggle);
+    core_sat = sat_toggle;
     Sn = Sn;
     f = fn;
     V1 = V1;
     V2 = V2;
     V3 = V3;
-    I1 = I1;
-    I2 = I2;
     I3 = I3;
     R1 = R1;
     R2 = R2;
@@ -229,8 +230,8 @@ typhoonHILlib/Transformer/Three-Phase Three Windings => core/Three Phase Three W
     winding_1_connection = wye_delta_names(conn_1);
     winding_2_connection = wye_delta_names(conn_2);
     winding_3_connection = wye_delta_names(conn_3);
-    embedded_cp1_12 = on_off_to_bool(coup12);
-    embedded_cp1_13 = on_off_to_bool(coup13);
+    embedded_cpl_12 = on_off_to_bool_str(logic_str=coup12);
+    embedded_cpl_13 = on_off_to_bool_str(logic_str=coup13);
 
 	Terminals:
 		prm_1[pe] = lconn:1;
@@ -245,38 +246,9 @@ typhoonHILlib/Transformer/Three-Phase Three Windings => core/Three Phase Three W
 	;
 ;
 
-
-typhoonHILlib/Rectifier/Single-Phase Diode => core/Single Phase Diode Rectifier:
-
-	Terminals:
-		a_in[pe] = lconn:1;
-		b_in[pe] = lconn:2;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
-	;
-;
-
-
-typhoonHILlib/Rectifier/Three-Phase Diode => core/Three Phase Diode Rectifier:
-
-	Terminals:
-		a_in[pe] = lconn:1;
-		b_in[pe] = lconn:2;
-        c_in[pe] = lconn:3;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
-	;
-;
-
-typhoonHILlib/Rectifier/Single-Phase Thyristor => core/Single Phase Thyristor Rectifier:
-    Sa_top = di_sa_top;
-    Sa_bot = di_sa_bot;
-    Sb_top = di_sb_top;
-    Sb_bot = di_sb_bot;
-    Sa_top_logic = sa_top_logic;
-    Sa_bot_logic = sa_bot_logic;
-    Sb_top_logic = sb_top_logic;
-    Sb_bot_logic = sb_bot_logic;
+@RecType == "Diode"
+@ThreePhase == "off"
+typhoonHILlib/Rectifier => core/Single Phase Diode Rectifier:
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -286,19 +258,9 @@ typhoonHILlib/Rectifier/Single-Phase Thyristor => core/Single Phase Thyristor Re
 	;
 ;
 
-typhoonHILlib/Rectifier/Three-Phase Thyristor => core/Three Phase Thyristor Rectifier:
-    Sa_top = di_sa_top;
-    Sa_bot = di_sa_bot;
-    Sb_top = di_sb_top;
-    Sb_bot = di_sb_bot;
-    Sc_top = di_sc_top;
-    Sc_bot = di_sc_bot;
-    Sa_top_logic = sa_top_logic;
-    Sa_bot_logic = sa_bot_logic;
-    Sb_top_logic = sb_top_logic;
-    Sb_bot_logic = sb_bot_logic;
-    Sc_top_logic = sc_top_logic;
-    Sc_bot_logic = sc_bot_logic;
+@RecType == "Diode"
+@ThreePhase == "on"
+typhoonHILlib/Rectifier => core/Three Phase Diode Rectifier:
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -309,13 +271,59 @@ typhoonHILlib/Rectifier/Three-Phase Thyristor => core/Three Phase Thyristor Rect
 	;
 ;
 
-typhoonHILlib/Rectifier/Vienna => core/Vienna Rectifier:
-    Sa = di_sa_top;
-    Sb = di_sa_bot;
-    Sc = di_sb_top;
-    Sa_logic = sa_top_logic;
-    Sb_logic = sa_bot_logic;
-    Sc_logic = sb_top_logic;
+@RecType == "Thyristor"
+@ThreePhase == "off"
+typhoonHILlib/Rectifier => core/Single Phase Thyristor Rectifier:
+    Sa_top = int2string(int_value=di_sa_top);
+    Sa_bot = int2string(int_value=di_sa_bot);
+    Sb_top = int2string(int_value=di_sb_top);
+    Sb_bot = int2string(int_value=di_sb_bot);
+    Sa_top_logic = simulink_switch_logic(logic_str=sa_top_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa_bot_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sb_top_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sb_bot_logic);
+
+	Terminals:
+		a_in[pe] = lconn:1;
+		b_in[pe] = lconn:2;
+        pos_out[pe] = rconn:1;
+        neg_out[pe] = rconn:2;
+	;
+;
+
+@RecType == "Thyristor"
+@ThreePhase == "on"
+typhoonHILlib/Rectifier => core/Three Phase Thyristor Rectifier:
+    Sa_top = int2string(int_value=di_sa_top);
+    Sa_bot = int2string(int_value=di_sa_bot);
+    Sb_top = int2string(int_value=di_sb_top);
+    Sb_bot = int2string(int_value=di_sb_bot);
+    Sc_top = int2string(int_value=di_sc_top);
+    Sc_bot = int2string(int_value=di_sc_bot);
+    Sa_top_logic = simulink_switch_logic(logic_str=sa_top_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa_bot_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sb_top_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sb_bot_logic);
+    Sc_top_logic = simulink_switch_logic(logic_str=sc_top_logic);
+    Sc_bot_logic = simulink_switch_logic(logic_str=sc_bot_logic);
+
+	Terminals:
+		a_in[pe] = lconn:1;
+		b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        pos_out[pe] = rconn:1;
+        neg_out[pe] = rconn:2;
+	;
+;
+
+@RecType == "Vienna"
+typhoonHILlib/Rectifier => core/Vienna Rectifier:
+    Sa = int2string(int_value=di_sa_top);
+    Sb = int2string(int_value=di_sa_bot);
+    Sc = int2string(int_value=di_sb_top);
+    Sa_logic = simulink_switch_logic(logic_str=sa_top_logic);
+    Sb_logic = simulink_switch_logic(logic_str=sa_bot_logic);
+    Sc_logic = simulink_switch_logic(logic_str=sb_top_logic);
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -328,9 +336,10 @@ typhoonHILlib/Rectifier/Vienna => core/Vienna Rectifier:
 ;
 
 
-typhoonHILlib/DC-DC Converter/Buck => core/Buck:
-    S1 = di_s1;
-    S1_logic = s1_logic;
+@ConvType == "Buck"
+typhoonHILlib/DC-DC Converter => core/Buck:
+    S1 = int2string(int_value=di_s1);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -340,9 +349,11 @@ typhoonHILlib/DC-DC Converter/Buck => core/Buck:
 	;
 ;
 
-typhoonHILlib/DC-DC Converter/Boost => core/Boost:
-    S1 = di_s1;
-    S1_logic = s1_logic;
+@ConvType == "Boost"
+@Symmetrical == "off"
+typhoonHILlib/DC-DC Converter => core/Boost:
+    S1 = int2string(int_value=di_s1);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -352,11 +363,13 @@ typhoonHILlib/DC-DC Converter/Boost => core/Boost:
 	;
 ;
 
-typhoonHILlib/DC-DC Converter/Boost => core/Symmetrical Boost:
-    S1 = di_s1;
-    S2 = di_s2;
-    S1_logic = s1_logic;
-    S2_logic = s2_logic;
+@ConvType == "Boost"
+@Symmetrical == "on"
+typhoonHILlib/DC-DC Converter => core/Symmetrical Boost:
+    S1 = int2string(int_value=di_s1);
+    S2 = int2string(int_value=di_s2);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S2_logic = simulink_switch_logic(logic_str=s2_logic);
 
 	Terminals:
 		a_in[pe] = lconn:1;
@@ -366,15 +379,39 @@ typhoonHILlib/DC-DC Converter/Boost => core/Symmetrical Boost:
 	;
 ;
 
-typhoonHILlib/Inverter/Single-Phase VSI => core/Single Phase Inverter:
-    Sa_top = di_sa1;
-    Sa_bot = di_sa2;
-    Sb_top = di_sa3;
-    Sb_bot = di_sa4;
-    Sa_top_logic = sa1_logic;
-    Sa_bot_logic = sa2_logic;
-    Sb_top_logic = sa3_logic;
-    Sb_bot_logic = sa4_logic;
+@ConvType == "Flyback"
+typhoonHILlib/DC-DC Converter => core/Flyback:
+    S1 = int2string(int_value=di_s1);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
+    n1 = n1;
+    n2 = n2;
+    R1 = R1;
+    R2 = R2;
+    Rm = Rm;
+    L1 = L1;
+    L2 = L2;
+    I1 = I1;
+    I2 = I2;
+
+	Terminals:
+		a_in[pe] = lconn:1;
+		b_in[pe] = lconn:2;
+        a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@InvType == "VSI"
+@ThreePhase == "off"
+typhoonHILlib/Inverter => core/Single Phase Inverter:
+    Sa_top = int2string(int_value=di_sa1);
+    Sa_bot = int2string(int_value=di_sa2);
+    Sb_top = int2string(int_value=di_sa3);
+    Sb_bot = int2string(int_value=di_sa4);
+    Sa_top_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sa4_logic);
 
 	Terminals:
 		neg_out[pe] = lconn:1;
@@ -384,19 +421,21 @@ typhoonHILlib/Inverter/Single-Phase VSI => core/Single Phase Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/Three-Phase VSI => core/Three Phase Inverter:
-    Sa_top = di_sa1;
-    Sa_bot = di_sa2;
-    Sb_top = di_sa3;
-    Sb_bot = di_sa4;
-    Sc_top = di_sa5;
-    Sc_bot = di_sa6;
-    Sa_top_logic = sa1_logic;
-    Sa_bot_logic = sa2_logic;
-    Sb_top_logic = sa3_logic;
-    Sb_bot_logic = sa4_logic;
-    Sc_top_logic = sa5_logic;
-    Sc_bot_logic = sa6_logic;
+@InvType == "VSI"
+@ThreePhase == "on"
+typhoonHILlib/Inverter => core/Three Phase Inverter:
+    Sa_top = int2string(int_value=di_sa1);
+    Sa_bot = int2string(int_value=di_sa2);
+    Sb_top = int2string(int_value=di_sa3);
+    Sb_bot = int2string(int_value=di_sa4);
+    Sc_top = int2string(int_value=di_sa5);
+    Sc_bot = int2string(int_value=di_sa6);
+    Sa_top_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sc_top_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sc_bot_logic = simulink_switch_logic(logic_str=sa6_logic);
     Sa_top_I = i_sa1;
     Sa_bot_I = i_sa2;
     Sb_top_I = i_sa3;
@@ -413,31 +452,32 @@ typhoonHILlib/Inverter/Three-Phase VSI => core/Three Phase Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/NPC => core/Three Phase NPC Inverter:
-    Sa_1 = di_sa1;
-    Sa_2 = di_sa2;
-    Sa_3 = di_sa3;
-    Sa_4 = di_sa4;
-    Sb_1 = di_sa5;
-    Sb_2 = di_sa6;
-    Sb_3 = di_sb1;
-    Sb_4 = di_sb2;
-    Sc_1 = di_sb3;
-    Sc_2 = di_sb4;
-    Sc_3 = di_sb5;
-    Sc_4 = di_sb6;
-    Sa_1_logic = sa1_logic;
-    Sa_2_logic = sa2_logic;
-    Sa_3_logic = sa3_logic;
-    Sa_4_logic = sa4_logic;
-    Sb_1_logic = sa5_logic;
-    Sb_2_logic = sa6_logic;
-    Sb_3_logic = sb1_logic;
-    Sb_4_logic = sb2_logic;
-    Sc_1_logic = sb3_logic;
-    Sc_2_logic = sb4_logic;
-    Sc_3_logic = sb5_logic;
-    Sc_4_logic = sb6_logic;
+@InvType == "NPC"
+typhoonHILlib/Inverter => core/Three Phase NPC Inverter:
+    Sa_1 = int2string(int_value=di_sa1);
+    Sa_2 = int2string(int_value=di_sa2);
+    Sa_3 = int2string(int_value=di_sa3);
+    Sa_4 = int2string(int_value=di_sa4);
+    Sb_1 = int2string(int_value=di_sa5);
+    Sb_2 = int2string(int_value=di_sa6);
+    Sb_3 = int2string(int_value=di_sb1);
+    Sb_4 = int2string(int_value=di_sb2);
+    Sc_1 = int2string(int_value=di_sb3);
+    Sc_2 = int2string(int_value=di_sb4);
+    Sc_3 = int2string(int_value=di_sb5);
+    Sc_4 = int2string(int_value=di_sb6);
+    Sa_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sa_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sa_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sb_1_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sb_2_logic = simulink_switch_logic(logic_str=sa6_logic);
+    Sb_3_logic = simulink_switch_logic(logic_str=sb1_logic);
+    Sb_4_logic = simulink_switch_logic(logic_str=sb2_logic);
+    Sc_1_logic = simulink_switch_logic(logic_str=sb3_logic);
+    Sc_2_logic = simulink_switch_logic(logic_str=sb4_logic);
+    Sc_3_logic = simulink_switch_logic(logic_str=sb5_logic);
+    Sc_4_logic = simulink_switch_logic(logic_str=sb6_logic);
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -449,31 +489,32 @@ typhoonHILlib/Inverter/NPC => core/Three Phase NPC Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/T-Type => core/Three Phase T Type Inverter:
-    Sa_1 = di_sa1;
-    Sa_2 = di_sa2;
-    Sa_3 = di_sa3;
-    Sa_4 = di_sa4;
-    Sb_1 = di_sa5;
-    Sb_2 = di_sa6;
-    Sb_3 = di_sb1;
-    Sb_4 = di_sb2;
-    Sc_1 = di_sb3;
-    Sc_2 = di_sb4;
-    Sc_3 = di_sb5;
-    Sc_4 = di_sb6;
-    Sa_1_logic = sa1_logic;
-    Sa_2_logic = sa2_logic;
-    Sa_3_logic = sa3_logic;
-    Sa_4_logic = sa4_logic;
-    Sb_1_logic = sa5_logic;
-    Sb_2_logic = sa6_logic;
-    Sb_3_logic = sb1_logic;
-    Sb_4_logic = sb2_logic;
-    Sc_1_logic = sb3_logic;
-    Sc_2_logic = sb4_logic;
-    Sc_3_logic = sb5_logic;
-    Sc_4_logic = sb6_logic;
+@InvType == "T-Type"
+typhoonHILlib/Inverter => core/Three Phase T Type Inverter:
+    Sa_1 = int2string(int_value=di_sa1);
+    Sa_2 = int2string(int_value=di_sa2);
+    Sa_3 = int2string(int_value=di_sa3);
+    Sa_4 = int2string(int_value=di_sa4);
+    Sb_1 = int2string(int_value=di_sa5);
+    Sb_2 = int2string(int_value=di_sa6);
+    Sb_3 = int2string(int_value=di_sb1);
+    Sb_4 = int2string(int_value=di_sb2);
+    Sc_1 = int2string(int_value=di_sb3);
+    Sc_2 = int2string(int_value=di_sb4);
+    Sc_3 = int2string(int_value=di_sb5);
+    Sc_4 = int2string(int_value=di_sb6);
+    Sa_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sa_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sa_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sb_1_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sb_2_logic = simulink_switch_logic(logic_str=sa6_logic);
+    Sb_3_logic = simulink_switch_logic(logic_str=sb1_logic);
+    Sb_4_logic = simulink_switch_logic(logic_str=sb2_logic);
+    Sc_1_logic = simulink_switch_logic(logic_str=sb3_logic);
+    Sc_2_logic = simulink_switch_logic(logic_str=sb4_logic);
+    Sc_3_logic = simulink_switch_logic(logic_str=sb5_logic);
+    Sc_4_logic = simulink_switch_logic(logic_str=sb6_logic);
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -485,31 +526,81 @@ typhoonHILlib/Inverter/T-Type => core/Three Phase T Type Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/Flying-Capacitor (3L) => core/Three Phase Three Level Flying Capacitor Inverter:
-    Sa_1 = di_sa1;
-    Sa_2 = di_sa2;
-    Sa_3 = di_sa3;
-    Sa_4 = di_sa4;
-    Sb_1 = di_sb1;
-    Sb_2 = di_sb2;
-    Sb_3 = di_sb3;
-    Sb_4 = di_sb4;
-    Sc_1 = di_sc1;
-    Sc_2 = di_sc2;
-    Sc_3 = di_sc3;
-    Sc_4 = di_sc4;
-    Sa_1_logic = sa1_logic;
-    Sa_2_logic = sa2_logic;
-    Sa_3_logic = sa3_logic;
-    Sa_4_logic = sa4_logic;
-    Sb_1_logic = sb1_logic;
-    Sb_2_logic = sb2_logic;
-    Sb_3_logic = sb3_logic;
-    Sb_4_logic = sb4_logic;
-    Sc_1_logic = sc1_logic;
-    Sc_2_logic = sc2_logic;
-    Sc_3_logic = sc3_logic;
-    Sc_4_logic = sc4_logic;
+@InvType == "ANPC"
+typhoonHILlib/Inverter => core/Three Phase ANPC Inverter:
+    Sa_1 = int2string(int_value=di_sa1);
+    Sa_2 = int2string(int_value=di_sa2);
+    Sa_3 = int2string(int_value=di_sa3);
+    Sa_4 = int2string(int_value=di_sa4);
+    Sa_5 = int2string(int_value=di_sa5);
+    Sb_6 = int2string(int_value=di_sb6);
+    Sb_1 = int2string(int_value=di_sb1);
+    Sb_2 = int2string(int_value=di_sb2);
+    Sb_3 = int2string(int_value=di_sb3);
+    Sb_4 = int2string(int_value=di_sb4);
+    Sb_5 = int2string(int_value=di_sb5);
+    Sb_6 = int2string(int_value=di_sb6);
+    Sc_1 = int2string(int_value=di_sc1);
+    Sc_2 = int2string(int_value=di_sc2);
+    Sc_3 = int2string(int_value=di_sc3);
+    Sc_4 = int2string(int_value=di_sc4);
+    Sc_5 = int2string(int_value=di_sc5);
+    Sc_6 = int2string(int_value=di_sc6);
+    Sa_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sa_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sa_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sa_5_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sa_6_logic = simulink_switch_logic(logic_str=sa6_logic);
+    Sb_1_logic = simulink_switch_logic(logic_str=sb1_logic);
+    Sb_2_logic = simulink_switch_logic(logic_str=sb2_logic);
+    Sb_3_logic = simulink_switch_logic(logic_str=sb3_logic);
+    Sb_4_logic = simulink_switch_logic(logic_str=sb4_logic);
+    Sb_5_logic = simulink_switch_logic(logic_str=sb5_logic);
+    Sb_6_logic = simulink_switch_logic(logic_str=sb6_logic);
+    Sc_1_logic = simulink_switch_logic(logic_str=sc1_logic);
+    Sc_2_logic = simulink_switch_logic(logic_str=sc2_logic);
+    Sc_3_logic = simulink_switch_logic(logic_str=sc3_logic);
+    Sc_4_logic = simulink_switch_logic(logic_str=sc4_logic);
+    Sc_5_logic = simulink_switch_logic(logic_str=sc5_logic);
+    Sc_6_logic = simulink_switch_logic(logic_str=sc6_logic);
+
+	Terminals:
+		DC+[pe] = lconn:1;
+        DCn[pe] = lconn:2;
+        DC-[pe] = lconn:3;
+        A[pe] = rconn:1;
+		B[pe] = rconn:2;
+        C[pe] = rconn:3;
+	;
+;
+
+@InvType == "Flying-Capacitor (3L)"
+typhoonHILlib/Inverter => core/Three Phase Three Level Flying Capacitor Inverter:
+    Sa_1 = int2string(int_value=di_sa1);
+    Sa_2 = int2string(int_value=di_sa2);
+    Sa_3 = int2string(int_value=di_sa3);
+    Sa_4 = int2string(int_value=di_sa4);
+    Sb_1 = int2string(int_value=di_sa5);
+    Sb_2 = int2string(int_value=di_sa6);
+    Sb_3 = int2string(int_value=di_sb1);
+    Sb_4 = int2string(int_value=di_sb2);
+    Sc_1 = int2string(int_value=di_sb3);
+    Sc_2 = int2string(int_value=di_sb4);
+    Sc_3 = int2string(int_value=di_sb5);
+    Sc_4 = int2string(int_value=di_sb6);
+    Sa_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sa_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sa_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sb_1_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sb_2_logic = simulink_switch_logic(logic_str=sa6_logic);
+    Sb_3_logic = simulink_switch_logic(logic_str=sb1_logic);
+    Sb_4_logic = simulink_switch_logic(logic_str=sb2_logic);
+    Sc_1_logic = simulink_switch_logic(logic_str=sb3_logic);
+    Sc_2_logic = simulink_switch_logic(logic_str=sb4_logic);
+    Sc_3_logic = simulink_switch_logic(logic_str=sb5_logic);
+    Sc_4_logic = simulink_switch_logic(logic_str=sb6_logic);
 
 	Terminals:
 		DC+[pe] = lconn:1;
@@ -520,19 +611,20 @@ typhoonHILlib/Inverter/Flying-Capacitor (3L) => core/Three Phase Three Level Fly
 	;
 ;
 
-typhoonHILlib/Inverter/CSI (2L) => core/Three Phase Two Level Current Source Inverter:
-    Sa_top = di_sa1;
-    Sa_bot = di_sa2;
-    Sb_top = di_sa3;
-    Sb_bot = di_sa4;
-    Sc_top = di_sa5;
-    Sc_bot = di_sa6;
-    Sa_top_logic = sa1_logic;
-    Sa_bot_logic = sa2_logic;
-    Sb_top_logic = sa3_logic;
-    Sb_bot_logic = sa4_logic;
-    Sc_top_logic = sa5_logic;
-    Sc_bot_logic = sa6_logic;
+@InvType == "CSI (2L)"
+typhoonHILlib/Inverter => core/Three Phase Two Level Current Source Inverter:
+    Sa_top = int2string(int_value=di_sa1);
+    Sa_bot = int2string(int_value=di_sa2);
+    Sb_top = int2string(int_value=di_sa3);
+    Sb_bot = int2string(int_value=di_sa4);
+    Sc_top = int2string(int_value=di_sa5);
+    Sc_bot = int2string(int_value=di_sa6);
+    Sa_top_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sa4_logic);
+    Sc_top_logic = simulink_switch_logic(logic_str=sa5_logic);
+    Sc_bot_logic = simulink_switch_logic(logic_str=sa6_logic);
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -543,17 +635,18 @@ typhoonHILlib/Inverter/CSI (2L) => core/Three Phase Two Level Current Source Inv
 	;
 ;
 
-typhoonHILlib/Inverter/H5 (2L) => core/Single Phase Two Level H5 Inverter:
-    Sa_top = di_sa1;
-    Sa_bot = di_sa2;
-    Sb_top = di_sa3;
-    Sb_bot = di_sa4;
-    S5 = di_sa5;
-    Sa_top_logic = sa1_logic;
-    Sa_bot_logic = sa2_logic;
-    Sb_top_logic = sa3_logic;
-    Sb_bot_logic = sa4_logic;
-    S5_logic = sa5_logic;
+@InvType == "H5 (2L)"
+typhoonHILlib/Inverter => core/Single Phase Two Level H5 Inverter:
+    Sa_top = int2string(int_value=di_sa1);
+    Sa_bot = int2string(int_value=di_sa2);
+    Sb_top = int2string(int_value=di_sa3);
+    Sb_bot = int2string(int_value=di_sa4);
+    S5 = int2string(int_value=di_sa5;
+    Sa_top_logic = simulink_switch_logic(logic_str=sa1_logic);
+    Sa_bot_logic = simulink_switch_logic(logic_str=sa2_logic);
+    Sb_top_logic = simulink_switch_logic(logic_str=sa3_logic);
+    Sb_bot_logic = simulink_switch_logic(logic_str=sa4_logic);
+    S5_logic = simulink_switch_logic(logic_str=sa5_logic);
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -563,19 +656,20 @@ typhoonHILlib/Inverter/H5 (2L) => core/Single Phase Two Level H5 Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/H6 => core/H6 Single Phase Inverter:
-    S_1 = di_sa1;
-    S_2 = di_sa2;
-    S_3 = di_sa3;
-    S_4 = di_sa4;
-    S_5 = di_sa5;
-    S_6 = di_sa6;
-    S_1_logic = sa1_logic;
-    S_2_logic = sa2_logic;
-    S_3_logic = sa3_logic;
-    S_4_logic = sa4_logic;
-    S_5_logic = sa5_logic;
-    S_6_logic = sa6_logic;
+@InvType == "H6"
+typhoonHILlib/Inverter => core/H6 Single Phase Inverter:
+    S_1 = int2string(int_value=di_sa1);
+    S_2 = int2string(int_value=di_sa2);
+    S_3 = int2string(int_value=di_sa3);
+    S_4 = int2string(int_value=di_sa4);
+    S_5 = int2string(int_value=di_sa5);
+    S_6 = int2string(int_value=di_sa6);
+    S_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=sa5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=sa6_logic);
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -585,19 +679,20 @@ typhoonHILlib/Inverter/H6 => core/H6 Single Phase Inverter:
 	;
 ;
 
-typhoonHILlib/Inverter/H6_5 => core/H6_5 Single Phase Inverter:
-    S_1 = di_sa1;
-    S_2 = di_sa2;
-    S_3 = di_sa3;
-    S_4 = di_sa4;
-    S_5 = di_sa5;
-    S_6 = di_sa6;
-    S_1_logic = sa1_logic;
-    S_2_logic = sa2_logic;
-    S_3_logic = sa3_logic;
-    S_4_logic = sa4_logic;
-    S_5_logic = sa5_logic;
-    S_6_logic = sa6_logic;
+@InvType == "H6_5"
+typhoonHILlib/Inverter => core/H6_5 Single Phase Inverter:
+    S_1 = int2string(int_value=di_sa1);
+    S_2 = int2string(int_value=di_sa2);
+    S_3 = int2string(int_value=di_sa3);
+    S_4 = int2string(int_value=di_sa4);
+    S_5 = int2string(int_value=di_sa5);
+    S_6 = int2string(int_value=di_sa6);
+    S_1_logic = simulink_switch_logic(logic_str=sa1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=sa2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=sa3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=sa4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=sa5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=sa6_logic);
 
 	Terminals:
 		pos_out[pe] = lconn:1;
@@ -607,8 +702,8 @@ typhoonHILlib/Inverter/H6_5 => core/H6_5 Single Phase Inverter:
 	;
 ;
 
-
-typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Cylindrical => core/Permanent Magnet Synchronous Machine with Cylindrical Rotor:
+@RotType == "Cylindrical"
+typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Cylindrical Rotor:
     Rms = Rs;
     Lms = Lms;
     psi_pm = psi_pm;
@@ -634,7 +729,9 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Cylindrical => core/Pe
 	;
 ;
 
-typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole => core/Permanent Magnet Synchronous Machine with Salient Rotor:
+@RotType == "Salient Pole"
+@vbr == "off"
+typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Salient Rotor:
     Rs = Rs;
     Ld = Ld;
     Lq = Lq;
@@ -660,7 +757,10 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole => core/P
         c_in[pe] = lconn:3;
 	;
 ;
-typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole VBR => core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance:
+
+@RotType == "Salient Pole"
+@vbr == "on"
+typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance:
     Rs = Rs;
     Ld = Ld;
     Lq = Lq;
@@ -687,7 +787,8 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM)/Salient Pole VBR => co
 	;
 ;
 
-typhoonHILlib/Switching Leg/Diode => core/Diode Leg:
+@LegType == "Diode"
+typhoonHILlib/Switching Leg => core/Diode Leg:
 
 	Terminals:
         pos_out[pe] = lconn:1;
@@ -696,13 +797,14 @@ typhoonHILlib/Switching Leg/Diode => core/Diode Leg:
 	;
 ;
 
-typhoonHILlib/Switching Leg/IGBT => core/IGBT Leg:
-    S_top = di_s1;
-    S_bot = di_s2;
-    S_top_logic = s1_logic;
-    S_bot_logic = s2_logic;
-    S_top_I = on_off_to_str(i_s1);
-    S_bot_I = on_off_to_str(i_s2);
+@LegType == "IGBT"
+typhoonHILlib/Switching Leg => core/IGBT Leg:
+    S_top = int2string(int_value=di_s1);
+    S_bot = int2string(int_value=di_s2);
+    S_top_logic = on_off_to_bool_str(logic_str=s1_logic);
+    S_bot_logic = on_off_to_bool_str(logic_str=s2_logic);
+    S_top_I = i_s1;
+    S_bot_I = i_s2;
 
 
 	Terminals:
@@ -712,15 +814,17 @@ typhoonHILlib/Switching Leg/IGBT => core/IGBT Leg:
 	;
 ;
 
-typhoonHILlib/Switching Leg/NPC => core/NPC Leg:
-    S1 = di_s1;
-    S2 = di_s2;
-    S3 = di_s3;
-    S4 = di_s4;
-    S1_logic = s1_logic;
-    S2_logic = s2_logic;
-    S3_logic = s3_logic;
-    S4_logic = s4_logic;
+@LegType == "NPC"
+@Ttype == "off"
+typhoonHILlib/Switching Leg => core/NPC Leg:
+    S1 = int2string(int_value=di_s1);
+    S2 = int2string(int_value=di_s2);
+    S3 = int2string(int_value=di_s3);
+    S4 = int2string(int_value=di_s4);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S4_logic = simulink_switch_logic(logic_str=s4_logic);
 
 	Terminals:
         DC+[pe] = lconn:1;
@@ -730,15 +834,17 @@ typhoonHILlib/Switching Leg/NPC => core/NPC Leg:
 	;
 ;
 
-typhoonHILlib/Switching Leg/T-Type NPC => core/NPC T Type Leg:
-    S1 = di_s1;
-    S2 = di_s2;
-    S3 = di_s3;
-    S4 = di_s4;
-    S1_logic = s1_logic;
-    S2_logic = s2_logic;
-    S3_logic = s3_logic;
-    S4_logic = s4_logic;
+@LegType == "NPC"
+@Ttype == "on"
+typhoonHILlib/Switching Leg => core/NPC T Type Leg:
+    S1 = int2string(int_value=di_s1);
+    S2 = int2string(int_value=di_s2);
+    S3 = int2string(int_value=di_s3);
+    S4 = int2string(int_value=di_s4);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S4_logic = simulink_switch_logic(logic_str=s4_logic);
 
 	Terminals:
         DC+[pe] = lconn:1;
@@ -748,11 +854,12 @@ typhoonHILlib/Switching Leg/T-Type NPC => core/NPC T Type Leg:
 	;
 ;
 
-typhoonHILlib/Switching Leg/Antiparallel Thyristor => core/Antiparallel Thryristor Leg:
-    S1 = di_s1;
-    S2 = di_s2;
-    S1_logic = s1_logic;
-    S2_logic = s2_logic;
+@LegType == "Antiparallel Thyristor"
+typhoonHILlib/Switching Leg => core/Antiparallel Thryristor Leg:
+    S1 = int2string(int_value=di_s1);
+    S2 = int2string(int_value=di_s2);
+    S1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S2_logic = simulink_switch_logic(logic_str=s2_logic);
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -760,41 +867,323 @@ typhoonHILlib/Switching Leg/Antiparallel Thyristor => core/Antiparallel Thryrist
 	;
 ;
 
-
-typhoonHILlib/Switching Leg/Flying Capacitor => core/X Level Flying Capacitor Inverter Leg:
-    S_1 = di_s1;
-    S_2 = di_s2;
-    S_3 = di_s3;
-    S_4 = di_s4;
-    S_5 = di_s5;
-    S_6 = di_s6;
-    S_7 = di_s7;
-    S_8 = di_s8;
-    S_9 = di_s9;
-    S_10 = di_s10;
-    S_11 = di_s11;
-    S_12 = di_s12;
-    S_13 = di_s13;
-    S_14 = di_s14;
-    S_15 = di_s15;
-    S_16 = di_s16;
-    S_1_logic = s1_logic;
-    S_2_logic = s2_logic;
-    S_3_logic = s3_logic;
-    S_4_logic = s4_logic;
-    S_5_logic = s5_logic;
-    S_6_logic = s6_logic;
-    S_7_logic = s7_logic;
-    S_8_logic = s8_logic;
-    S_9_logic = s9_logic;
-    S_10_logic = s10_logic;
-    S_11_logic = s11_logic;
-    S_12_logic = s12_logic;
-    S_13_logic = s13_logic;
-    S_14_logic = s14_logic;
-    S_15_logic = s15_logic;
-    S_16_logic = s16_logic;
+@LegType == "Flying Capacitor"
+@FCLevels == "Three-Level"
+typhoonHILlib/Switching Leg => core/Three Level Flying Capacitor Inverter Leg:
+    S_1 = int2string(int_value=di_s1);
+    S_2 = int2string(int_value=di_s2);
+    S_3 = int2string(int_value=di_s3);
+    S_4 = int2string(int_value=di_s4);
+    S_1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=s4_logic);
 
 	Terminals:
+        DC+[pe] = lconn:1;
+		DC-[pe] = lconn:16;
+        A[pe] = rconn:1;
+        C1[pe] = lconn:2;
+        C2[pe] = lconn:3;
+	;
+;
+
+@LegType == "Flying Capacitor"
+@FCLevels == "Four-Level"
+typhoonHILlib/Switching Leg => core/Four Level Flying Capacitor Inverter Leg:
+    S_1 = int2string(int_value=di_s1);
+    S_2 = int2string(int_value=di_s2);
+    S_3 = int2string(int_value=di_s3);
+    S_4 = int2string(int_value=di_s4);
+    S_5 = int2string(int_value=di_s5);
+    S_6 = int2string(int_value=di_s6);
+    S_1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=s4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=s5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=s6_logic);
+
+	Terminals:
+        DC+[pe] = lconn:1;
+		DC-[pe] = lconn:16;
+        A[pe] = rconn:1;
+        C1[pe] = lconn:2;
+        C2[pe] = lconn:3;
+        C3[pe] = lconn:4;
+        C4[pe] = lconn:5;
+	;
+;
+
+@LegType == "Flying Capacitor"
+@FCLevels == "Five-Level"
+typhoonHILlib/Switching Leg => core/Five Level Flying Capacitor Inverter Leg:
+    S_1 = int2string(int_value=di_s1);
+    S_2 = int2string(int_value=di_s2);
+    S_3 = int2string(int_value=di_s3);
+    S_4 = int2string(int_value=di_s4);
+    S_5 = int2string(int_value=di_s5);
+    S_6 = int2string(int_value=di_s6);
+    S_7 = int2string(int_value=di_s7);
+    S_8 = int2string(int_value=di_s8);
+    S_1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=s4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=s5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=s6_logic);
+    S_7_logic = simulink_switch_logic(logic_str=s7_logic);
+    S_8_logic = simulink_switch_logic(logic_str=s8_logic);
+
+	Terminals:
+        DC+[pe] = lconn:1;
+		DC-[pe] = lconn:16;
+        A[pe] = rconn:1;
+        C1[pe] = lconn:2;
+        C2[pe] = lconn:3;
+        C3[pe] = lconn:4;
+        C4[pe] = lconn:5;
+        C5[pe] = lconn:6;
+        C6[pe] = lconn:7;
+	;
+;
+
+@LegType == "Flying Capacitor"
+@FCLevels == "Seven-Level"
+typhoonHILlib/Switching Leg => core/Seven Level Flying Capacitor Inverter Leg:
+    S_1 = int2string(int_value=di_s1);
+    S_2 = int2string(int_value=di_s2);
+    S_3 = int2string(int_value=di_s3);
+    S_4 = int2string(int_value=di_s4);
+    S_5 = int2string(int_value=di_s5);
+    S_6 = int2string(int_value=di_s6);
+    S_7 = int2string(int_value=di_s7);
+    S_8 = int2string(int_value=di_s8);
+    S_9 = int2string(int_value=di_s9);
+    S_10 = int2string(int_value=di_s10);
+    S_11 = int2string(int_value=di_s11);
+    S_12 = int2string(int_value=di_s12);
+    S_1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=s4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=s5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=s6_logic);
+    S_7_logic = simulink_switch_logic(logic_str=s7_logic);
+    S_8_logic = simulink_switch_logic(logic_str=s8_logic);
+    S_9_logic = simulink_switch_logic(logic_str=s9_logic);
+    S_10_logic = simulink_switch_logic(logic_str=s10_logic);
+    S_11_logic = simulink_switch_logic(logic_str=s11_logic);
+    S_12_logic = simulink_switch_logic(logic_str=s12_logic);
+
+	Terminals:
+        DC+[pe] = lconn:1;
+		DC-[pe] = lconn:16;
+        A[pe] = rconn:1;
+        C1[pe] = lconn:2;
+        C2[pe] = lconn:3;
+        C3[pe] = lconn:4;
+        C4[pe] = lconn:5;
+        C5[pe] = lconn:6;
+        C6[pe] = lconn:7;
+        C7[pe] = lconn:8;
+        C8[pe] = lconn:9;
+        C9[pe] = lconn:10;
+        C10[pe] = lconn:11;
+	;
+;
+
+@LegType == "Flying Capacitor"
+@FCLevels == "Nine-Level"
+typhoonHILlib/Switching Leg => core/Nine Level Flying Capacitor Inverter Leg:
+    S_1 = int2string(int_value=di_s1);
+    S_2 = int2string(int_value=di_s2);
+    S_3 = int2string(int_value=di_s3);
+    S_4 = int2string(int_value=di_s4);
+    S_5 = int2string(int_value=di_s5);
+    S_6 = int2string(int_value=di_s6);
+    S_7 = int2string(int_value=di_s7);
+    S_8 = int2string(int_value=di_s8);
+    S_9 = int2string(int_value=di_s9);
+    S_10 = int2string(int_value=di_s10);
+    S_11 = int2string(int_value=di_s11);
+    S_12 = int2string(int_value=di_s12);
+    S_13 = int2string(int_value=di_s13);
+    S_14 = int2string(int_value=di_s14);
+    S_15 = int2string(int_value=di_s15);
+    S_16 = int2string(int_value=di_s16);
+    S_1_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_2_logic = simulink_switch_logic(logic_str=s2_logic);
+    S_3_logic = simulink_switch_logic(logic_str=s3_logic);
+    S_4_logic = simulink_switch_logic(logic_str=s4_logic);
+    S_5_logic = simulink_switch_logic(logic_str=s5_logic);
+    S_6_logic = simulink_switch_logic(logic_str=s6_logic);
+    S_7_logic = simulink_switch_logic(logic_str=s7_logic);
+    S_8_logic = simulink_switch_logic(logic_str=s8_logic);
+    S_9_logic = simulink_switch_logic(logic_str=s9_logic);
+    S_10_logic = simulink_switch_logic(logic_str=s10_logic);
+    S_11_logic = simulink_switch_logic(logic_str=s11_logic);
+    S_12_logic = simulink_switch_logic(logic_str=s12_logic);
+    S_13_logic = simulink_switch_logic(logic_str=s13_logic);
+    S_14_logic = simulink_switch_logic(logic_str=s14_logic);
+    S_15_logic = simulink_switch_logic(logic_str=s15_logic);
+    S_16_logic = simulink_switch_logic(logic_str=s16_logic);
+
+	Terminals:
+        DC+[pe] = lconn:1;
+		DC-[pe] = lconn:16;
+        A[pe] = rconn:1;
+        C1[pe] = lconn:2;
+        C2[pe] = lconn:3;
+        C3[pe] = lconn:4;
+        C4[pe] = lconn:5;
+        C5[pe] = lconn:6;
+        C6[pe] = lconn:7;
+        C7[pe] = lconn:8;
+        C8[pe] = lconn:9;
+        C9[pe] = lconn:10;
+        C10[pe] = lconn:11;
+        C11[pe] = lconn:12;
+        C12[pe] = lconn:13;
+        C13[pe] = lconn:14;
+        C14[pe] = lconn:15;
+	;
+;
+
+@CouplingPhases == "Single-Phase"
+@IsTLM == "off"
+typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
+    snb_type_i = simulink_core_coupling_format(input=snb_type_i);
+    snb_type_u = simulink_core_coupling_format(input=snb_type_v);
+    R1 = R1;
+    R2 = R2;
+    C1 = C1;
+    L1 = L1;
+    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
+    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+		b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@CouplingPhases == "Single-Phase"
+@IsTLM == "on"
+typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
+    type = CouplingType;
+    inductance = coup_ind;
+    capacitance = coup_cap;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+		b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@ContType == "Single Pole Single Throw"
+typhoonHILlib/Contactor => core/Single Pole Single Throw Contactor:
+    Sa = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_st(initial_state=init_state);
+    on_delay = tr1_delay;
+    off_delay = tr2_delay;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	;
+;
+
+@ContType == "Single Pole Double Throw"
+typhoonHILlib/Contactor => core/Single Pole Double Throw Contactor:
+    Sa = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_dt(initial_state=init_state);
+    S2_to_S1_delay = tr1_delay;
+    S1_to_S2_delay = tr2_delay;
+
+	Terminals:
+        s1[pe] = lconn:1;
+        s2[pe] = lconn:2;
+        s0[pe] = rconn:1;
+	;
+;
+
+
+@ContType == "Double Pole Single Throw"
+typhoonHILlib/Contactor => core/Double Pole Single Throw Contactor:
+    Sa = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_st(initial_state=init_state);
+    on_delay = tr1_delay;
+    off_delay = tr2_delay;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+        b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@ContType == "Double Pole Double Throw"
+typhoonHILlib/Contactor => core/Double Pole Double Throw Contactor:
+    Sab = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_dt(initial_state=init_state);
+    S2_to_S1_delay = tr1_delay;
+    S1_to_S2_delay = tr2_delay;
+
+	Terminals:
+        sa1[pe] = lconn:1;
+        sa2[pe] = lconn:2;
+        sa0[pe] = rconn:1;
+        sb1[pe] = lconn:3;
+        sb2[pe] = lconn:4;
+        sb0[pe] = rconn:2;
+	;
+;
+
+@ContType == "Triple Pole Single Throw"
+typhoonHILlib/Contactor => core/Triple Pole Single Throw Contactor:
+    Sa = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_st(initial_state=init_state);
+    on_delay = tr1_delay;
+    off_delay = tr2_delay;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+        b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+	;
+;
+
+@ContType == "Triple Pole Double Throw"
+typhoonHILlib/Contactor => core/Triple Pole Double Throw Contactor:
+    Sabc = int2string(int_value=di_1);
+    Sa_logic = simulink_switch_logic(logic_str=s1_logic);
+    initial_state = simulink_contactor_init_state_dt(initial_state=init_state);
+    S2_to_S1_delay = tr1_delay;
+    S1_to_S2_delay = tr2_delay;
+
+	Terminals:
+        sa1[pe] = lconn:1;
+        sa2[pe] = lconn:2;
+        sa0[pe] = rconn:1;
+        sb1[pe] = lconn:3;
+        sb2[pe] = lconn:4;
+        sb0[pe] = rconn:2;
+        sc1[pe] = lconn:5;
+        sc2[pe] = lconn:6;
+        sc0[pe] = rconn:3;
 	;
 ;

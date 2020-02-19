@@ -1,6 +1,6 @@
-import sys
+import sys, os
 import tkinter
-
+sys.path.append(os.getcwd()) # Added to run in CMD
 from model_converter.converter.app.converter import Converter, InvalidArgumentException
 from model_converter.converter.app.gui.main_window import MainApplication
 

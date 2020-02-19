@@ -1,0 +1,2 @@
+WARNING:root:[1:1 - typhoonHILlib/Inverter (Inverter2) -> core/Three Phase NPC Inverter] Terminal mapping #2 is incorrect, missing terminal "lconn:3" in the source component.
+WARNING:root:[1:1 - typhoonHILlib/Inverter (Inverter4) -> core/Three Phase ANPC Inverter] Terminal mapping #2 is incorrect, missing terminal "lconn:3" in the source component.

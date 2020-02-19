@@ -1,0 +1,8 @@
+
+<ipvx_settings>
+    <pv_model>EN50530 Compatible</pv_model>
+    <Voc_ref>36.6</Voc_ref>
+    <Isc_ref>8.1</Isc_ref>
+    <pv_type>Thin film</pv_type>
+    <negative_current>False</negative_current>
+</ipvx_settings>

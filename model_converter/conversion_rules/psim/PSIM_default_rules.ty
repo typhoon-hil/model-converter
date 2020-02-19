@@ -739,6 +739,7 @@ TF_1F => core/Single Phase Two Winding Transformer:
 	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	Terminals:
 		prm_1[pe] = 0;
@@ -757,6 +758,7 @@ TF_1F_1 => core/Single Phase Two Winding Transformer:
 	R2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Rs (secondary));
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	Terminals:
 		prm_1[pe] = 0;
@@ -778,6 +780,7 @@ TF_1F_3W => core/Single Phase Three Winding Transformer:
 	R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
 	L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	Terminals:
 		prm_1[pe] = 0;
@@ -804,6 +807,7 @@ TF_1F_4W => core/Single Phase Four Winding Transformer:
 	R4= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_2 (secondary 2), Rs=Rs_2 (secondary 2));
 	L4= primary_to_secondary(Np=Np_1 (primary 1), Ns=Ns_2 (secondary 2), Rs=Ls_2 (sec. 2 leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	Terminals:
 		prm_1[pe] = 0;
@@ -826,6 +830,7 @@ TF_3YY	=> core/Three Phase Two Winding Transformer:
 	L1= Lp (pri. leakage);
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	input= "SI";
 	winding_1_connection= "Y";
@@ -852,6 +857,7 @@ TF_3YD => core/Three Phase Two Winding Transformer:
 	L1= Lp (pri. leakage);
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	input= "SI";
 	clock_number="1";
@@ -878,6 +884,7 @@ TF_3DY => core/Three Phase Two Winding Transformer:
 	L1= Lp (pri. leakage);
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	input= "SI";
 	clock_number="1";
@@ -904,6 +911,7 @@ TF_3DD => core/Three Phase Two Winding Transformer:
 	L1= Lp (pri. leakage);
 	L2= primary_to_secondary(Np=Np (primary), Ns=Ns (secondary), Rs=Ls (sec. leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	input= "SI";
 	winding_1_connection= "D";
@@ -931,6 +939,7 @@ TF_3YDD	=> core/Three Phase Three Winding Transformer:
 	R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
 	L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	winding_1_connection= "Y";
 	winding_2_connection= "D";
@@ -964,6 +973,7 @@ TF_3YYD	=> core/Three Phase Three Winding Transformer:
 	R3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Rt (tertiary));
 	L3= primary_to_secondary(Np=Np (primary), Ns=Nt (tertiary), Rs=Lt (tertiary leakage));
 	Lm= Lm (magnetizing);
+	Rm= "10e3";
 
 	winding_1_connection= "Y";
 	winding_2_connection= "Y";
@@ -1207,6 +1217,14 @@ VSEN => core/Voltage Measurement:
 
 
 ISEN => core/Current Measurement:
+
+	Terminals:
+		p_node[pe] = 0;
+		n_node[pe] = 1;
+	;
+;
+
+SOLAR_CELL_PHY => core/Photovoltaic Panel:
 
 	Terminals:
 		p_node[pe] = 0;

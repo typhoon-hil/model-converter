@@ -728,7 +728,12 @@ class BaseParser:
         # API calls for terminal connection
         #
         for connectable_dict in self.node_dict.values():
-            for connectable_list in connectable_dict.values():
+            for key, connectable_list in connectable_dict.items():
+                # Terminals might not be connected,
+                # in this case their Node ID is None.
+                # node_id:[terminal list]
+                if key is None:
+                    continue
                 self._connect(connectable_list)
         path = self.input_file_path.split(os.path.sep)
         path[0] += os.path.sep

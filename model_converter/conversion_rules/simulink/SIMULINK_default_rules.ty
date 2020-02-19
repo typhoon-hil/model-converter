@@ -56,8 +56,8 @@ powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Sourc
 
 	Terminals:
 		a_node[pe] = rconn:1;
-        b_node[pe] = rconn:2;
-        c_node[pe] = rconn:3;
+    b_node[pe] = rconn:2;
+    c_node[pe] = rconn:3;
 		n_node[pe] = lconn:1;
 	;
 ;
@@ -77,7 +77,7 @@ typhoonHILlib/Transformer => core/Ideal Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        sec_1[pe] = rconn:1;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
 	;
 ;
@@ -103,7 +103,7 @@ typhoonHILlib/Transformer => core/Single Phase Two Winding Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        sec_1[pe] = rconn:1;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
 	;
 ;
@@ -134,9 +134,9 @@ typhoonHILlib/Transformer => core/Single Phase Three Winding Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        sec_1[pe] = rconn:1;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
-        sec_3[pe] = rconn:3;
+    sec_3[pe] = rconn:3;
 		sec_4[pe] = rconn:4;
 	;
 ;
@@ -172,11 +172,11 @@ typhoonHILlib/Transformer => core/Single Phase Four Winding Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        sec_1[pe] = rconn:1;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
-        sec_3[pe] = rconn:3;
+    sec_3[pe] = rconn:3;
 		sec_4[pe] = rconn:4;
-        sec_5[pe] = rconn:5;
+    sec_5[pe] = rconn:5;
 		sec_6[pe] = rconn:6;
 	;
 ;
@@ -202,10 +202,10 @@ typhoonHILlib/Transformer => core/Three Phase Two Winding Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        prm_3[pe] = lconn:3;
-        sec_1[pe] = rconn:1;
+    prm_3[pe] = lconn:3;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
-        sec_3[pe] = rconn:3;
+    sec_3[pe] = rconn:3;
 	;
 ;
 
@@ -236,12 +236,12 @@ typhoonHILlib/Transformer => core/Three Phase Three Winding Transformer:
 	Terminals:
 		prm_1[pe] = lconn:1;
 		prm_2[pe] = lconn:2;
-        prm_3[pe] = lconn:3;
-        sec_1[pe] = rconn:1;
+    prm_3[pe] = lconn:3;
+    sec_1[pe] = rconn:1;
 		sec_2[pe] = rconn:2;
-        sec_3[pe] = rconn:3;
+    sec_3[pe] = rconn:3;
 		sec_4[pe] = rconn:4;
-        sec_5[pe] = rconn:5;
+    sec_5[pe] = rconn:5;
 		sec_6[pe] = rconn:6;
 	;
 ;
@@ -253,8 +253,8 @@ typhoonHILlib/Rectifier => core/Single Phase Diode Rectifier:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
+    pos_out[pe] = rconn:1;
+    neg_out[pe] = rconn:2;
 	;
 ;
 
@@ -265,9 +265,9 @@ typhoonHILlib/Rectifier => core/Three Phase Diode Rectifier:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        c_in[pe] = lconn:3;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
+    c_in[pe] = lconn:3;
+    pos_out[pe] = rconn:1;
+    neg_out[pe] = rconn:2;
 	;
 ;
 
@@ -286,8 +286,8 @@ typhoonHILlib/Rectifier => core/Single Phase Thyristor Rectifier:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
+    pos_out[pe] = rconn:1;
+    neg_out[pe] = rconn:2;
 	;
 ;
 
@@ -310,9 +310,9 @@ typhoonHILlib/Rectifier => core/Three Phase Thyristor Rectifier:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        c_in[pe] = lconn:3;
-        pos_out[pe] = rconn:1;
-        neg_out[pe] = rconn:2;
+    c_in[pe] = lconn:3;
+    pos_out[pe] = rconn:1;
+    neg_out[pe] = rconn:2;
 	;
 ;
 
@@ -328,10 +328,10 @@ typhoonHILlib/Rectifier => core/Vienna Rectifier:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        c_in[pe] = lconn:3;
-        DC+[pe] = rconn:1;
-        DCn[pe] = rconn:2;
-        DC-[pe] = rconn:3;
+    c_in[pe] = lconn:3;
+    DC+[pe] = rconn:1;
+    DCn[pe] = rconn:2;
+    DC-[pe] = rconn:3;
 	;
 ;
 
@@ -344,8 +344,8 @@ typhoonHILlib/DC-DC Converter => core/Buck:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        a_out[pe] = rconn:1;
-        b_out[pe] = rconn:2;
+    a_out[pe] = rconn:1;
+    b_out[pe] = rconn:2;
 	;
 ;
 
@@ -358,8 +358,8 @@ typhoonHILlib/DC-DC Converter => core/Boost:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        a_out[pe] = rconn:1;
-        b_out[pe] = rconn:2;
+    a_out[pe] = rconn:1;
+    b_out[pe] = rconn:2;
 	;
 ;
 
@@ -374,8 +374,8 @@ typhoonHILlib/DC-DC Converter => core/Symmetrical Boost:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        a_out[pe] = rconn:1;
-        b_out[pe] = rconn:3;
+    a_out[pe] = rconn:1;
+    b_out[pe] = rconn:3;
 	;
 ;
 
@@ -396,8 +396,8 @@ typhoonHILlib/DC-DC Converter => core/Flyback:
 	Terminals:
 		a_in[pe] = lconn:1;
 		b_in[pe] = lconn:2;
-        a_out[pe] = rconn:1;
-        b_out[pe] = rconn:2;
+    a_out[pe] = rconn:1;
+    b_out[pe] = rconn:2;
 	;
 ;
 
@@ -414,10 +414,10 @@ typhoonHILlib/Inverter => core/Single Phase Inverter:
     Sb_bot_logic = simulink_switch_logic(logic_str=sa4_logic);
 
 	Terminals:
-		neg_out[pe] = lconn:1;
-        pos_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
-		b_in[pe] = rconn:2;
+    neg_out[pe] = lconn:1;
+    pos_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
+    b_in[pe] = rconn:2;
 	;
 ;
 
@@ -444,11 +444,11 @@ typhoonHILlib/Inverter => core/Three Phase Inverter:
     Sc_bot_I = i_sa6;
 
 	Terminals:
-		neg_out[pe] = lconn:1;
-        pos_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
-		b_in[pe] = rconn:2;
-        c_in[pe] = rconn:3;
+    neg_out[pe] = lconn:1;
+    pos_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
+    b_in[pe] = rconn:2;
+    c_in[pe] = rconn:3;
 	;
 ;
 
@@ -481,11 +481,11 @@ typhoonHILlib/Inverter => core/Three Phase NPC Inverter:
 
 	Terminals:
 		DC+[pe] = lconn:1;
-        DCn[pe] = lconn:2;
-        DC-[pe] = lconn:3;
-        A[pe] = rconn:1;
+    DCn[pe] = lconn:2;
+    DC-[pe] = lconn:3;
+    A[pe] = rconn:1;
 		B[pe] = rconn:2;
-        C[pe] = rconn:3;
+    C[pe] = rconn:3;
 	;
 ;
 
@@ -518,11 +518,11 @@ typhoonHILlib/Inverter => core/Three Phase T Type Inverter:
 
 	Terminals:
 		DC+[pe] = lconn:1;
-        DCn[pe] = lconn:2;
-        DC-[pe] = lconn:3;
-        A[pe] = rconn:1;
+    DCn[pe] = lconn:2;
+    DC-[pe] = lconn:3;
+    A[pe] = rconn:1;
 		B[pe] = rconn:2;
-        C[pe] = rconn:3;
+    C[pe] = rconn:3;
 	;
 ;
 
@@ -567,11 +567,11 @@ typhoonHILlib/Inverter => core/Three Phase ANPC Inverter:
 
 	Terminals:
 		DC+[pe] = lconn:1;
-        DCn[pe] = lconn:2;
-        DC-[pe] = lconn:3;
-        A[pe] = rconn:1;
+    DCn[pe] = lconn:2;
+    DC-[pe] = lconn:3;
+    A[pe] = rconn:1;
 		B[pe] = rconn:2;
-        C[pe] = rconn:3;
+    C[pe] = rconn:3;
 	;
 ;
 
@@ -604,10 +604,10 @@ typhoonHILlib/Inverter => core/Three Phase Three Level Flying Capacitor Inverter
 
 	Terminals:
 		DC+[pe] = lconn:1;
-        DC-[pe] = lconn:2;
-        A[pe] = rconn:1;
+    DC-[pe] = lconn:2;
+    A[pe] = rconn:1;
 		B[pe] = rconn:2;
-        C[pe] = rconn:3;
+    C[pe] = rconn:3;
 	;
 ;
 
@@ -628,10 +628,10 @@ typhoonHILlib/Inverter => core/Three Phase Two Level Current Source Inverter:
 
 	Terminals:
 		pos_out[pe] = lconn:1;
-        neg_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
+    neg_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
 		b_in[pe] = rconn:2;
-        c_in[pe] = rconn:3;
+    c_in[pe] = rconn:3;
 	;
 ;
 
@@ -650,8 +650,8 @@ typhoonHILlib/Inverter => core/Single Phase Two Level H5 Inverter:
 
 	Terminals:
 		pos_out[pe] = lconn:1;
-        neg_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
+    neg_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
 		b_in[pe] = rconn:2;
 	;
 ;
@@ -673,8 +673,8 @@ typhoonHILlib/Inverter => core/H6 Single Phase Inverter:
 
 	Terminals:
 		pos_out[pe] = lconn:1;
-        neg_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
+    neg_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
 		b_in[pe] = rconn:2;
 	;
 ;
@@ -695,10 +695,10 @@ typhoonHILlib/Inverter => core/H6_5 Single Phase Inverter:
     S_6_logic = simulink_switch_logic(logic_str=sa6_logic);
 
 	Terminals:
-		pos_out[pe] = lconn:1;
-        neg_out[pe] = lconn:2;
-        a_in[pe] = rconn:1;
-		b_in[pe] = rconn:2;
+    pos_out[pe] = lconn:1;
+    neg_out[pe] = lconn:2;
+    a_in[pe] = rconn:1;
+    b_in[pe] = rconn:2;
 	;
 ;
 
@@ -724,7 +724,7 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
 
 	Terminals:
         a_in[pe] = lconn:1;
-		b_in[pe] = lconn:2;
+	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
 	;
 ;
@@ -753,7 +753,7 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
 
 	Terminals:
         a_in[pe] = lconn:1;
-		b_in[pe] = lconn:2;
+	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
 	;
 ;
@@ -782,7 +782,7 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
 
 	Terminals:
         a_in[pe] = lconn:1;
-		b_in[pe] = lconn:2;
+	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
 	;
 ;
@@ -792,7 +792,7 @@ typhoonHILlib/Switching Leg => core/Diode Leg:
 
 	Terminals:
         pos_out[pe] = lconn:1;
-		abc_in[pe] = rconn:1;
+	      abc_in[pe] = rconn:1;
         neg_out[pe] = lconn:2;
 	;
 ;
@@ -801,15 +801,15 @@ typhoonHILlib/Switching Leg => core/Diode Leg:
 typhoonHILlib/Switching Leg => core/IGBT Leg:
     S_top = int2string(int_value=di_s1);
     S_bot = int2string(int_value=di_s2);
-    S_top_logic = on_off_to_bool_str(logic_str=s1_logic);
-    S_bot_logic = on_off_to_bool_str(logic_str=s2_logic);
+    S_top_logic = simulink_switch_logic(logic_str=s1_logic);
+    S_bot_logic = simulink_switch_logic(logic_str=s2_logic);
     S_top_I = i_s1;
     S_bot_I = i_s2;
 
 
 	Terminals:
         pos_out[pe] = lconn:1;
-		a_in[pe] = rconn:1;
+	      a_in[pe] = rconn:1;
         neg_out[pe] = lconn:2;
 	;
 ;
@@ -828,7 +828,7 @@ typhoonHILlib/Switching Leg => core/NPC Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DCn[pe] = lconn:2;
+	      DCn[pe] = lconn:2;
         DC-[pe] = lconn:3;
         OUT[pe] = rconn:1;
 	;
@@ -848,21 +848,21 @@ typhoonHILlib/Switching Leg => core/NPC T Type Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DCn[pe] = lconn:2;
+	      DCn[pe] = lconn:2;
         DC-[pe] = lconn:3;
         A[pe] = rconn:1;
 	;
 ;
 
 @LegType == "Antiparallel Thyristor"
-typhoonHILlib/Switching Leg => core/Antiparallel Thryristor Leg:
+typhoonHILlib/Switching Leg => core/Antiparallel Thyristor Leg:
     S1 = int2string(int_value=di_s1);
     S2 = int2string(int_value=di_s2);
     S1_logic = simulink_switch_logic(logic_str=s1_logic);
     S2_logic = simulink_switch_logic(logic_str=s2_logic);
 
 	Terminals:
-        a_in[pe] = lconn:1;
+    a_in[pe] = lconn:1;
 		a_out[pe] = rconn:1;
 	;
 ;
@@ -881,7 +881,7 @@ typhoonHILlib/Switching Leg => core/Three Level Flying Capacitor Inverter Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DC-[pe] = lconn:16;
+	      DC-[pe] = lconn:4;
         A[pe] = rconn:1;
         C1[pe] = lconn:2;
         C2[pe] = lconn:3;
@@ -906,7 +906,7 @@ typhoonHILlib/Switching Leg => core/Four Level Flying Capacitor Inverter Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DC-[pe] = lconn:16;
+	      DC-[pe] = lconn:6;
         A[pe] = rconn:1;
         C1[pe] = lconn:2;
         C2[pe] = lconn:3;
@@ -937,7 +937,7 @@ typhoonHILlib/Switching Leg => core/Five Level Flying Capacitor Inverter Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DC-[pe] = lconn:16;
+	      DC-[pe] = lconn:8;
         A[pe] = rconn:1;
         C1[pe] = lconn:2;
         C2[pe] = lconn:3;
@@ -978,7 +978,7 @@ typhoonHILlib/Switching Leg => core/Seven Level Flying Capacitor Inverter Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DC-[pe] = lconn:16;
+	      DC-[pe] = lconn:12;
         A[pe] = rconn:1;
         C1[pe] = lconn:2;
         C2[pe] = lconn:3;
@@ -1031,7 +1031,7 @@ typhoonHILlib/Switching Leg => core/Nine Level Flying Capacitor Inverter Leg:
 
 	Terminals:
         DC+[pe] = lconn:1;
-		DC-[pe] = lconn:16;
+	      DC-[pe] = lconn:16;
         A[pe] = rconn:1;
         C1[pe] = lconn:2;
         C2[pe] = lconn:3;
@@ -1065,7 +1065,7 @@ typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
 	Terminals:
         a_in[pe] = lconn:1;
         a_out[pe] = rconn:1;
-		b_in[pe] = lconn:2;
+	      b_in[pe] = lconn:2;
         b_out[pe] = rconn:2;
 	;
 ;
@@ -1080,7 +1080,7 @@ typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
 	Terminals:
         a_in[pe] = lconn:1;
         a_out[pe] = rconn:1;
-		b_in[pe] = lconn:2;
+	      b_in[pe] = lconn:2;
         b_out[pe] = rconn:2;
 	;
 ;

@@ -28,13 +28,13 @@ class Converter:
                  input_file_path: str,
                  rule_file_path: str = None):
         """
-        Depending on the parameters, the converter will 
-        instantiate the appropriate parser and create the 
+        Depending on the parameters, the converter will
+        instantiate the appropriate parser and create the
         object model from the input file.
         Args:
             source_file_format(str): source file
             input_file_path(str):
-            rule_file_path: 
+            rule_file_path:
         """
         input_file_path = os.path.abspath(input_file_path)
         if rule_file_path is None:

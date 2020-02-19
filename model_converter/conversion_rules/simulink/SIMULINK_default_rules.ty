@@ -85,11 +85,11 @@ typhoonHILlib/Transformer => core/Ideal Transformer:
 @TransfType == Single-Phase Two Windings
 typhoonHILlib/Transformer => core/Single Phase Two Winding Transformer:
     input = units;
-    core_sat = sat_toggle;
+    core_sat = on_off_to_boolean(logic_str=sat_toggle);
     Sn = Sn;
     f = fn;
-    V1 = V1;
-    V2 = V2;
+    n1 = V1;
+    n2 = V2;
     I1 = I1;
     I2 = I2;
     R1 = R1;
@@ -111,12 +111,12 @@ typhoonHILlib/Transformer => core/Single Phase Two Winding Transformer:
 @TransfType == "Single-Phase Three Windings"
 typhoonHILlib/Transformer => core/Single Phase Three Winding Transformer:
     input = units;
-    core_sat = sat_toggle;
+    core_sat = on_off_to_boolean(logic_str=sat_toggle);
     Sn = Sn;
     f = fn;
-    V1 = V1;
-    V2 = V2;
-    V3 = V3;
+    n1 = V1;
+    n2 = V2;
+    n3 = V3;
     I1 = I1;
     I2 = I2;
     I3 = I3;
@@ -144,13 +144,13 @@ typhoonHILlib/Transformer => core/Single Phase Three Winding Transformer:
 @TransfType == "Single-Phase Four Windings"
 typhoonHILlib/Transformer => core/Single Phase Four Winding Transformer:
     input = units;
-    core_sat = sat_toggle;
+    core_sat = on_off_to_boolean(logic_str=sat_toggle);
     Sn = Sn;
     f = fn;
-    V1 = V1;
-    V2 = V2;
-    V3 = V3;
-    V4 = V4;
+    n1 = V1;
+    n2 = V2;
+    n3 = V3;
+    n4 = V4;
     I1 = I1;
     I2 = I2;
     I3 = I3;
@@ -184,7 +184,7 @@ typhoonHILlib/Transformer => core/Single Phase Four Winding Transformer:
 @TransfType == "Three-Phase Two Windings"
 typhoonHILlib/Transformer => core/Three Phase Two Winding Transformer:
     input = units;
-    core_sat = on_off_to_bool_str(logic_str=sat_toggle, capitalize="True");
+    core_sat = on_off_to_boolean(logic_str=sat_toggle);
     Sn = Sn;
     f = fn;
     V1 = V1;
@@ -195,8 +195,8 @@ typhoonHILlib/Transformer => core/Three Phase Two Winding Transformer:
     L2 = L2;
     Rm = Rm;
     Lm = Lm;
-    winding_1_connection = conn_1;
-    winding_2_connection = conn_2;
+    winding_1_connection = simulink_wye_delta_names(connection=conn_1);
+    winding_2_connection = simulink_wye_delta_names(connection=conn_2);
     embedded_cpl = on_off_to_bool_str(logic_str=coup12);
 
 	Terminals:
@@ -212,13 +212,12 @@ typhoonHILlib/Transformer => core/Three Phase Two Winding Transformer:
 @TransfType == "Three-Phase Three Windings"
 typhoonHILlib/Transformer => core/Three Phase Three Winding Transformer:
     input = units;
-    core_sat = sat_toggle;
+    core_sat = on_off_to_boolean(logic_str=sat_toggle);
     Sn = Sn;
     f = fn;
     V1 = V1;
     V2 = V2;
     V3 = V3;
-    I3 = I3;
     R1 = R1;
     R2 = R2;
     R3 = R3;
@@ -227,9 +226,9 @@ typhoonHILlib/Transformer => core/Three Phase Three Winding Transformer:
     L3 = L3;
     Rm = Rm;
     Lm = Lm;
-    winding_1_connection = wye_delta_names(conn_1);
-    winding_2_connection = wye_delta_names(conn_2);
-    winding_3_connection = wye_delta_names(conn_3);
+    winding_1_connection = simulink_wye_delta_names(connection=conn_1);
+    winding_2_connection = simulink_wye_delta_names(connection=conn_2);
+    winding_3_connection = simulink_wye_delta_names(connection=conn_3);
     embedded_cpl_12 = on_off_to_bool_str(logic_str=coup12);
     embedded_cpl_13 = on_off_to_bool_str(logic_str=coup13);
 
@@ -702,7 +701,7 @@ typhoonHILlib/Inverter => core/H6_5 Single Phase Inverter:
 	;
 ;
 
-@RotType == "Cylindrical"
+@RotorType == "Cylindrical"
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Cylindrical Rotor:
     Rms = Rs;
     Lms = Lms;
@@ -711,16 +710,18 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
     Jm = Jm;
     friction_coeff = fc;
     load_src = loadsource;
-    ext_mdl_load_type = loadtype;
-    load_ai_pin_addr = load_ai;
+    ext_mdl_load_type = lowercase(input_str=loadtype);
+    load_ai_pin_addr = int2string(int_value=load_ai);
     load_ai_offset = load_offset;
     load_ai_gain = load_gain;
     enc_ppr = ppr;
     res_pole_pairs = resolver_pp;
-    res_carr_source = resolver_source;
+    res_carr_source = lowercase(input_str=resolver_source);
+    res_ai_pin_addr = int2string(int_value=resolver_ai);
+    res_ai_offset = resolver_offset;
+    res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     Rsnb_stator = Rsnb;
-    theta_ab = theta_ab;
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -729,7 +730,7 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
 	;
 ;
 
-@RotType == "Salient Pole"
+@RotorType == "Salient Pole"
 @vbr == "off"
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Salient Rotor:
     Rs = Rs;
@@ -737,19 +738,21 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
     Lq = Lq;
     Psi_pm = psi_pm;
     pms = pms;
-    star_delta = stardelta;
+    star_delta = lowercase(input_str=stardelta);
     Jm = Jm;
     friction_coeff = fc;
     load_src = loadsource;
-    ext_mdl_load_type = loadtype;
-    load_ai_pin_addr = load_ai;
+    ext_mdl_load_type = lowercase(input_str=loadtype);
+    load_ai_pin_addr = int2string(int_value=load_ai);
     load_ai_offset = load_offset;
     load_ai_gain = load_gain;
     enc_ppr = ppr;
     res_pole_pairs = resolver_pp;
-    res_carr_source = resolver_source;
+    res_ai_pin_addr = int2string(int_value=resolver_ai);
+    res_ai_offset = resolver_offset;
+    res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
-    theta_ab = theta_ab;
+    theta_ab = simulink_pmsm_theta_ab(angle=theta_ab);
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -758,7 +761,7 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
 	;
 ;
 
-@RotType == "Salient Pole"
+@RotorType == "Salient Pole"
 @vbr == "on"
 typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magnet Synchronous Machine with Salient Rotor - Voltage Behind Reactance:
     Rs = Rs;
@@ -766,19 +769,22 @@ typhoonHILlib/Permanent Magnet Synchronous Machine (PMSM) => core/Permanent Magn
     Lq = Lq;
     Psi_pm = psi_pm;
     pms = pms;
-    star_delta = stardelta;
+    star_delta = lowercase(input_str=stardelta);
     Jm = Jm;
     friction_coeff = fc;
     load_src = loadsource;
-    ext_mdl_load_type = loadtype;
-    load_ai_pin_addr = load_ai;
+    ext_mdl_load_type = lowercase(input_str=loadtype);
+    load_ai_pin_addr = int2string(int_value=load_ai);
     load_ai_offset = load_offset;
     load_ai_gain = load_gain;
     enc_ppr = ppr;
     res_pole_pairs = resolver_pp;
-    res_carr_source = resolver_source;
+    res_carr_source = lowercase(input_str=resolver_source);
+    res_ai_pin_addr = int2string(int_value=resolver_ai);
+    res_ai_offset = resolver_offset;
+    res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
-    theta_ab = theta_ab;
+    theta_ab = simulink_pmsm_theta_ab(angle=theta_ab);
 
 	Terminals:
         a_in[pe] = lconn:1;
@@ -868,7 +874,7 @@ typhoonHILlib/Switching Leg => core/Antiparallel Thyristor Leg:
 ;
 
 @LegType == "Flying Capacitor"
-@FCLevels == "Three-Level"
+@FCLevels == "Three-level"
 typhoonHILlib/Switching Leg => core/Three Level Flying Capacitor Inverter Leg:
     S_1 = int2string(int_value=di_s1);
     S_2 = int2string(int_value=di_s2);
@@ -889,7 +895,7 @@ typhoonHILlib/Switching Leg => core/Three Level Flying Capacitor Inverter Leg:
 ;
 
 @LegType == "Flying Capacitor"
-@FCLevels == "Four-Level"
+@FCLevels == "Four-level"
 typhoonHILlib/Switching Leg => core/Four Level Flying Capacitor Inverter Leg:
     S_1 = int2string(int_value=di_s1);
     S_2 = int2string(int_value=di_s2);
@@ -916,7 +922,7 @@ typhoonHILlib/Switching Leg => core/Four Level Flying Capacitor Inverter Leg:
 ;
 
 @LegType == "Flying Capacitor"
-@FCLevels == "Five-Level"
+@FCLevels == "Five-level"
 typhoonHILlib/Switching Leg => core/Five Level Flying Capacitor Inverter Leg:
     S_1 = int2string(int_value=di_s1);
     S_2 = int2string(int_value=di_s2);
@@ -949,7 +955,7 @@ typhoonHILlib/Switching Leg => core/Five Level Flying Capacitor Inverter Leg:
 ;
 
 @LegType == "Flying Capacitor"
-@FCLevels == "Seven-Level"
+@FCLevels == "Seven-level"
 typhoonHILlib/Switching Leg => core/Seven Level Flying Capacitor Inverter Leg:
     S_1 = int2string(int_value=di_s1);
     S_2 = int2string(int_value=di_s2);
@@ -1047,41 +1053,6 @@ typhoonHILlib/Switching Leg => core/Nine Level Flying Capacitor Inverter Leg:
         C12[pe] = lconn:13;
         C13[pe] = lconn:14;
         C14[pe] = lconn:15;
-	;
-;
-
-@CouplingPhases == "Single-Phase"
-@IsTLM == "off"
-typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
-    snb_type_i = simulink_core_coupling_format(input=snb_type_i);
-    snb_type_u = simulink_core_coupling_format(input=snb_type_v);
-    R1 = R1;
-    R2 = R2;
-    C1 = C1;
-    L1 = L1;
-    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
-    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
-
-	Terminals:
-        a_in[pe] = lconn:1;
-        a_out[pe] = rconn:1;
-	      b_in[pe] = lconn:2;
-        b_out[pe] = rconn:2;
-	;
-;
-
-@CouplingPhases == "Single-Phase"
-@IsTLM == "on"
-typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
-    type = CouplingType;
-    inductance = coup_ind;
-    capacitance = coup_cap;
-
-	Terminals:
-        a_in[pe] = lconn:1;
-        a_out[pe] = rconn:1;
-	      b_in[pe] = lconn:2;
-        b_out[pe] = rconn:2;
 	;
 ;
 
@@ -1186,4 +1157,155 @@ typhoonHILlib/Contactor => core/Triple Pole Double Throw Contactor:
         sc2[pe] = lconn:6;
         sc0[pe] = rconn:3;
 	;
+;
+
+
+@CouplingPhases == "Single-Phase"
+@IsTLM == "off"
+typhoonHILlib/Core Coupling => core/Single Phase Core Coupling:
+    snb_type_i = simulink_core_coupling_format(input=snb_type_i, side="is");
+    snb_type_u = simulink_core_coupling_format(input=snb_type_v, side="vs");
+    R1 = R1;
+    R2 = R2;
+    C1 = C1;
+    L1 = L1;
+    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
+    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@CouplingPhases == "Single-Phase"
+@IsTLM == "on"
+typhoonHILlib/Core Coupling => core/Single Phase TLM Core Coupling:
+    type = CouplingType;
+    inductance = coup_ind;
+    capacitance = coup_cap;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+	;
+;
+
+@CouplingPhases == "Three-Phase"
+@IsTLM == "off"
+typhoonHILlib/Core Coupling => core/Three Phase Core Coupling:
+    snb_type_i = simulink_core_coupling_format(input=snb_type_i, side="is");
+    snb_type_u = simulink_core_coupling_format(input=snb_type_v, side="vs");
+    R1 = R1;
+    R2 = R2;
+    C1 = C1;
+    L1 = L1;
+    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
+    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+	;
+;
+
+@CouplingPhases == "Three-Phase"
+@IsTLM == "on"
+typhoonHILlib/Core Coupling => core/Three Phase TLM Core Coupling:
+    type = CouplingType;
+    inductance = coup_ind;
+    capacitance = coup_cap;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+	;
+;
+
+@CouplingPhases == "Four-Phase"
+@IsTLM == "off"
+typhoonHILlib/Core Coupling => core/Four Phase Core Coupling:
+    snb_type_i = simulink_core_coupling_format(input=snb_type_i, side="is");
+    snb_type_u = simulink_core_coupling_format(input=snb_type_v, side="vs");
+    R1 = R1;
+    R2 = R2;
+    C1 = C1;
+    L1 = L1;
+    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
+    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+        d_in[pe] = lconn:4;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@CouplingPhases == "Four-Phase"
+@IsTLM == "on"
+typhoonHILlib/Core Coupling => core/Four Phase TLM Core Coupling:
+    type = CouplingType;
+    inductance = coup_ind;
+    capacitance = coup_cap;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+        d_in[pe] = lconn:4;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@CouplingPhases == "Five-Phase"
+@IsTLM == "off"
+typhoonHILlib/Core Coupling => core/Five Phase Core Coupling:
+    snb_type_i = simulink_core_coupling_format(input=snb_type_i, side="is");
+    snb_type_u = simulink_core_coupling_format(input=snb_type_v, side="vs");
+    R1 = R1;
+    R2 = R2;
+    C1 = C1;
+    L1 = L1;
+    fixed_snb_i = on_off_to_bool_str(logic_str=fixed_snb_i);
+    fixed_snb_u = on_off_to_bool_str(logic_str=fixed_snb_v);
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        a_out[pe] = rconn:1;
+	      b_in[pe] = lconn:2;
+        b_out[pe] = rconn:2;
+        c_in[pe] = lconn:3;
+        c_out[pe] = rconn:3;
+        d_in[pe] = lconn:4;
+        d_out[pe] = rconn:4;
+        e_in[pe] = lconn:5;
+        e_out[pe] = rconn:5;
+	;
+;
+
+typhoonHILlib/Core Marker => core/Core Marker:
+  marker_id = marker_id;
+  Terminals:
+        node[pe] = lconn:1;
+  ;
 ;

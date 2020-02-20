@@ -385,9 +385,8 @@ class SimulinkParser(BaseParser):
 
                 # Unpacking the return value of this recursive call
                 # and appending it into the list of all terminals in this node
-                terminals_in_node.append(
-                    *self._set_terminal_node_id(child,
-                                                increment_id=False))
+                terminals_in_node.extend(
+                    self._set_terminal_node_id(child, increment_id=False))
 
         for data in (start, end):
             if data is None:

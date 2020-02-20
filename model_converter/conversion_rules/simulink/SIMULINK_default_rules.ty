@@ -48,6 +48,129 @@ powerlib/Electrical Sources/DC Voltage Source => core/Voltage Source:
 	;
 ;
 
+@BranchType == "RLC"
+powerlib/Elements/Series RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+	C=core/Capacitor:
+		capacitance= Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+	Connections:
+		R:n_node-L:p_node,
+		L:n_node-C:p_node.
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		C.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "RL"
+powerlib/Elements/Series RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+
+	Connections:
+		R:n_node-L:p_node.
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		L.n_node[pe] = rconn:1;
+	;
+}
+
+
+@BranchType == "RC"
+powerlib/Elements/Series RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	C=core/Capacitor:
+		capacitance= Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+	Connections:
+		R:n_node-C:p_node.
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		C.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "LC"
+powerlib/Elements/Series RLC Branch => {
+
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+	C=core/Capacitor:
+		capacitance= Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+	Connections:
+		L:n_node-C:p_node.
+	;
+
+	Ports:
+		L.p_node[pe] = lconn:1;
+		C.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "R"
+powerlib/Elements/Series RLC Branch => core/Resistor:
+    resistance = Resistance;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
+@BranchType == "L"
+powerlib/Elements/Series RLC Branch => core/Inductor:
+    inductance = Inductance;
+    initial_current = InitialCurrent;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
+@BranchType == "C"
+powerlib/Elements/Series RLC Branch => core/Capacitor:
+    capacitance = Capacitance;
+    iinitial_voltage = InitialVoltage;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
 @InternalConnection == Yn
 powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Source:
     init_rms_value = Voltage;

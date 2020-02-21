@@ -59,7 +59,7 @@ powerlib/Elements/Series RLC Branch => {
 		initial_current = InitialCurrent;
 	;
 	C=core/Capacitor:
-		capacitance= Capacitance;
+		capacitance = Capacitance;
 		initial_voltage = InitialVoltage;
 	;
 
@@ -103,7 +103,7 @@ powerlib/Elements/Series RLC Branch => {
 		resistance = Resistance;
 	;
 	C=core/Capacitor:
-		capacitance= Capacitance;
+		capacitance = Capacitance;
 		initial_voltage = InitialVoltage;
 	;
 
@@ -125,7 +125,7 @@ powerlib/Elements/Series RLC Branch => {
 		initial_current = InitialCurrent;
 	;
 	C=core/Capacitor:
-		capacitance= Capacitance;
+		capacitance = Capacitance;
 		initial_voltage = InitialVoltage;
 	;
 
@@ -163,7 +163,7 @@ powerlib/Elements/Series RLC Branch => core/Inductor:
 @BranchType == "C"
 powerlib/Elements/Series RLC Branch => core/Capacitor:
     capacitance = Capacitance;
-    iinitial_voltage = InitialVoltage;
+    initial_voltage = InitialVoltage;
 
 	Terminals:
 		p_node[pe] = lconn:1;
@@ -171,7 +171,636 @@ powerlib/Elements/Series RLC Branch => core/Capacitor:
 	;
 ;
 
-@InternalConnection == Yn
+@BranchType == "RLC"
+powerlib/Elements/Parallel RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+	C=core/Capacitor:
+		capacitance = Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+	Connections:
+		R:n_node-L:n_node,
+    R:p_node-L:p_node,
+    R:n_node-C:n_node,
+		R:p_node-C:p_node.
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		R.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "RL"
+powerlib/Elements/Parallel RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+
+  Connections:
+    R:p_node-L:p_node,
+    R:n_node-L:n_node,
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		R.n_node[pe] = rconn:1;
+	;
+}
+
+
+@BranchType == "RC"
+powerlib/Elements/Parallel RLC Branch => {
+
+	R=core/Resistor:
+		resistance = Resistance;
+	;
+	C=core/Capacitor:
+		capacitance = Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+  Connections:
+    R:p_node-C:p_node,
+    R:n_node-C:n_node,
+	;
+
+	Ports:
+		R.p_node[pe] = lconn:1;
+		R.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "LC"
+powerlib/Elements/Parallel RLC Branch => {
+
+	L=core/Inductor:
+		inductance = Inductance;
+		initial_current = InitialCurrent;
+	;
+	C=core/Capacitor:
+		capacitance = Capacitance;
+		initial_voltage = InitialVoltage;
+	;
+
+  Connections:
+    C:p_node-L:p_node,
+    C:n_node-L:n_node,
+	;
+
+	Ports:
+		C.p_node[pe] = lconn:1;
+		C.n_node[pe] = rconn:1;
+	;
+}
+
+@BranchType == "R"
+powerlib/Elements/Parallel RLC Branch => core/Resistor:
+    resistance = Resistance;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
+@BranchType == "L"
+powerlib/Elements/Parallel RLC Branch => core/Inductor:
+    inductance = Inductance;
+    initial_current = InitialCurrent;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
+@BranchType == "C"
+powerlib/Elements/Parallel RLC Branch => core/Capacitor:
+    capacitance = Capacitance;
+    initial_voltage = InitialVoltage;
+
+	Terminals:
+		p_node[pe] = lconn:1;
+		n_node[pe] = rconn:1;
+	;
+;
+
+@BranchType == "RLC"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	R1=core/Resistor:
+		resistance = Resistance;
+	;
+  R2=core/Resistor:
+		resistance = Resistance;
+	;
+  R3=core/Resistor:
+		resistance = Resistance;
+	;
+	L1=core/Inductor:
+		inductance = Inductance;
+	;
+  L2=core/Inductor:
+		inductance = Inductance;
+	;
+  L3=core/Inductor:
+		inductance = Inductance;
+	;
+	C1=core/Capacitor:
+		capacitance = Capacitance;
+	;
+  C2=core/Capacitor:
+		capacitance = Capacitance;
+	;
+  C3=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+
+	Connections:
+		R1:n_node-L1:p_node,
+		L1:n_node-C1:p_node,
+    R2:n_node-L2:p_node,
+		L2:n_node-C2:p_node,
+    R3:n_node-L3:p_node,
+		L3:n_node-C3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+		C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "RL"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	R1=core/Resistor:
+		resistance = Resistance;
+	;
+  R2=core/Resistor:
+		resistance = Resistance;
+	;
+  R3=core/Resistor:
+		resistance = Resistance;
+	;
+	L1=core/Inductor:
+		inductance = Inductance;
+	;
+  L2=core/Inductor:
+		inductance = Inductance;
+	;
+  L3=core/Inductor:
+		inductance = Inductance;
+	;
+
+	Connections:
+		R1:n_node-L1:p_node,
+    R2:n_node-L2:p_node,
+    R3:n_node-L3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+		L1.n_node[pe] = rconn:1;
+    L2.n_node[pe] = rconn:2;
+    L3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "RC"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	R1=core/Resistor:
+		resistance = Resistance;
+	;
+  R2=core/Resistor:
+		resistance = Resistance;
+	;
+  R3=core/Resistor:
+		resistance = Resistance;
+	;
+  C1=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+  C2=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+  C3=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+
+	Connections:
+		R1:n_node-C1:p_node,
+    R2:n_node-C2:p_node,
+    R3:n_node-C3:p_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+		C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "LC"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	L1=core/Inductor:
+		inductance = Inductance;
+	;
+  L2=core/Inductor:
+		inductance = Inductance;
+	;
+  L3=core/Inductor:
+		inductance = Inductance;
+	;
+	C1=core/Capacitor:
+		capacitance = Capacitance;
+	;
+  C2=core/Capacitor:
+		capacitance = Capacitance;
+	;
+  C3=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+
+	Connections:
+		L1:n_node-C1:p_node,
+		L2:n_node-C2:p_node,
+		L3:n_node-C3:p_node.
+	;
+
+	Ports:
+		L1.p_node[pe] = lconn:1;
+    L2.p_node[pe] = lconn:2;
+    L3.p_node[pe] = lconn:3;
+		C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "R"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	R1=core/Resistor:
+		resistance = Resistance;
+	;
+  R2=core/Resistor:
+		resistance = Resistance;
+	;
+  R3=core/Resistor:
+		resistance = Resistance;
+	;
+
+  Connections:
+  ;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+		R1.n_node[pe] = rconn:1;
+    R2.n_node[pe] = rconn:2;
+    R3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "L"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+	L1=core/Inductor:
+		inductance = Inductance;
+	;
+  L2=core/Inductor:
+		inductance = Inductance;
+	;
+  L3=core/Inductor:
+		inductance = Inductance;
+	;
+
+  Connections:
+  ;
+
+	Ports:
+		L1.p_node[pe] = lconn:1;
+    L2.p_node[pe] = lconn:2;
+    L3.p_node[pe] = lconn:3;
+		L1.n_node[pe] = rconn:1;
+    L2.n_node[pe] = rconn:2;
+    L3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "C"
+powerlib/Elements/Three-Phase Series RLC Branch => {
+
+  C1=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+  C2=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+  C3=core/Capacitor:
+    capacitance = Capacitance;
+  ;
+
+  Connections:
+  ;
+
+	Ports:
+		C1.p_node[pe] = lconn:1;
+    C2.p_node[pe] = lconn:2;
+    C3.p_node[pe] = lconn:3;
+		C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+    ;
+}
+
+@BranchType == "RLC"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    R1=core/Resistor:
+      resistance = Resistance;
+    ;
+    R2=core/Resistor:
+      resistance = Resistance;
+    ;
+    R3=core/Resistor:
+      resistance = Resistance;
+    ;
+    L1=core/Inductor:
+      inductance = Inductance;
+    ;
+    L2=core/Inductor:
+      inductance = Inductance;
+    ;
+    L3=core/Inductor:
+      inductance = Inductance;
+    ;
+    C1=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C2=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C3=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+
+	Connections:
+		R1:p_node-L1:p_node,
+    C1:p_node-L1:p_node,
+    R1:n_node-L1:n_node,
+    C1:n_node-L1:n_node,
+    R2:p_node-L2:p_node,
+    C2:p_node-L2:p_node,
+    R2:n_node-L2:n_node,
+    C2:n_node-L2:n_node,
+    R3:p_node-L3:p_node,
+    C3:p_node-L3:p_node,
+    R3:n_node-L3:n_node,
+    C3:n_node-L3:n_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+    R1.n_node[pe] = rconn:1;
+    R2.n_node[pe] = rconn:2;
+    R3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "RL"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    R1=core/Resistor:
+      resistance = Resistance;
+    ;
+    R2=core/Resistor:
+      resistance = Resistance;
+    ;
+    R3=core/Resistor:
+      resistance = Resistance;
+    ;
+    L1=core/Inductor:
+      inductance = Inductance;
+    ;
+    L2=core/Inductor:
+      inductance = Inductance;
+    ;
+    L3=core/Inductor:
+      inductance = Inductance;
+    ;
+
+	Connections:
+		R1:p_node-L1:p_node,
+    R1:n_node-L1:n_node,
+    R2:p_node-L2:p_node,
+    R2:n_node-L2:n_node,
+    R3:p_node-L3:p_node,
+    R3:n_node-L3:n_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+    R1.n_node[pe] = rconn:1;
+    R2.n_node[pe] = rconn:2;
+    R3.n_node[pe] = rconn:3;
+	;
+}
+
+
+@BranchType == "RC"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    R1=core/Resistor:
+      resistance = Resistance;
+    ;
+    R2=core/Resistor:
+      resistance = Resistance;
+    ;
+    R3=core/Resistor:
+      resistance = Resistance;
+    ;
+    C1=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C2=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C3=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+
+	Connections:
+		R1:p_node-C1:p_node,
+    R1:n_node-C1:n_node,
+    R2:p_node-C2:p_node,
+    R2:n_node-C2:n_node,
+    R3:p_node-C3:p_node,
+    R3:n_node-C3:n_node.
+	;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+    R1.n_node[pe] = rconn:1;
+    R2.n_node[pe] = rconn:2;
+    R3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "LC"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    L1=core/Inductor:
+      inductance = Inductance;
+    ;
+    L2=core/Inductor:
+      inductance = Inductance;
+    ;
+    L3=core/Inductor:
+      inductance = Inductance;
+    ;
+    C1=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C2=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C3=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+
+	Connections:
+    C1:p_node-L1:p_node,
+    C1:n_node-L1:n_node,
+    C2:p_node-L2:p_node,
+    C2:n_node-L2:n_node,
+    C3:p_node-L3:p_node,
+    C3:n_node-L3:n_node.
+	;
+
+	Ports:
+		C1.p_node[pe] = lconn:1;
+    C2.p_node[pe] = lconn:2;
+    C3.p_node[pe] = lconn:3;
+    C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "R"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    R1=core/Resistor:
+      resistance = Resistance;
+    ;
+    R2=core/Resistor:
+      resistance = Resistance;
+    ;
+    R3=core/Resistor:
+      resistance = Resistance;
+    ;
+
+    Connections:
+    ;
+
+	Ports:
+		R1.p_node[pe] = lconn:1;
+    R2.p_node[pe] = lconn:2;
+    R3.p_node[pe] = lconn:3;
+    R1.n_node[pe] = rconn:1;
+    R2.n_node[pe] = rconn:2;
+    R3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "L"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    L1=core/Inductor:
+      inductance = Inductance;
+    ;
+    L2=core/Inductor:
+      inductance = Inductance;
+    ;
+    L3=core/Inductor:
+      inductance = Inductance;
+    ;
+
+    Connections:
+    ;
+
+	Ports:
+		L1.p_node[pe] = lconn:1;
+    L2.p_node[pe] = lconn:2;
+    L3.p_node[pe] = lconn:3;
+    L1.n_node[pe] = rconn:1;
+    L2.n_node[pe] = rconn:2;
+    L3.n_node[pe] = rconn:3;
+	;
+}
+
+@BranchType == "C"
+powerlib/Elements/Three-Phase Parallel RLC Branch => {
+
+    C1=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C2=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+    C3=core/Capacitor:
+      capacitance = Capacitance;
+    ;
+
+    Connections:
+    ;
+
+	Ports:
+		C1.p_node[pe] = lconn:1;
+    C2.p_node[pe] = lconn:2;
+    C3.p_node[pe] = lconn:3;
+    C1.n_node[pe] = rconn:1;
+    C2.n_node[pe] = rconn:2;
+    C3.n_node[pe] = rconn:3;
+	;
+}
+
+
+@InternalConnection == "Yn"
 powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Source:
     init_rms_value = Voltage;
     init_frequency = Frequency;
@@ -184,6 +813,30 @@ powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Sourc
 		n_node[pe] = lconn:1;
 	;
 ;
+
+@InternalConnection == "Yg"
+powerlib/Electrical Sources/Three-Phase Source => {
+
+  vs = core/Three Phase Voltage Source:
+    init_rms_value = Voltage;
+    init_frequency = Frequency;
+    init_phase = PhaseAngle;
+  ;
+
+  gnd = core/Ground:
+  ;
+
+  Connections:
+    vs:n_node-gnd:node.
+  ;
+
+  Ports:
+    vs.a_node[pe] = rconn:1;
+    vs.b_node[pe] = rconn:2;
+    vs.c_node[pe] = rconn:3;
+  ;
+}
+
 
 powerlib/Elements/Ground => core/Ground:
 

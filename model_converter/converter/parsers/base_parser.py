@@ -113,7 +113,7 @@ class BaseParser:
                         rules.append(self._create_n_to_m_rule(rule))
                     else:
                         rules.append(self._create_n_to_one_rule(rule))
-            return rules
+        return rules
 
     def _create_predicate_obj(self, predicate_node):
         property_name = None
@@ -204,6 +204,7 @@ class BaseParser:
         # and the pattern first must be found before
         # converting by this rule.
         #
+        predicates = rule_node[0]
         rule_node = rule_node[1]
         is_pattern_match = rule_node[0] == "*"
 
@@ -214,6 +215,9 @@ class BaseParser:
         rule_obj = Rule(source_type=source_type,
                         typhoon_type=typhoon_type,
                         pattern_match=is_pattern_match)
+
+        for predicate in predicates:
+            rule_obj.predicates.append(self._create_predicate_obj(predicate[1]))
 
         #
         # List containing all components which will

@@ -221,7 +221,7 @@ class BaseParser:
         #
         component_list = rule_node[4] if is_pattern_match else rule_node[3]
         for component in component_list:
-            comp_rule_obj = Rule(typhoon_type="core/"+component[2])
+            comp_rule_obj = Rule(typhoon_type=component[2])
             #
             # Setting property mapping
             #

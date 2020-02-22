@@ -24,6 +24,19 @@ Buck {
 
 }
 
+AFWRm {
+
+    Components:
+        M1=MOSFET;
+        M2=MOSFET;
+    ;
+
+    Connections:
+        M1:1-M2:1.
+    ;
+
+}
+
 IGBT_Leg {
 
     Components:
@@ -37,6 +50,7 @@ IGBT_Leg {
     ;
 
 }
+
 
 *Boost => core/Boost:
 
@@ -68,6 +82,17 @@ IGBT_Leg {
         pos_out[pe] = I1.0;
         a_in[pe] = I1.1;
         neg_out[pe] = I2.1;
+    ;
+;
+
+*AFWRm => core/Active Full Wave Rectifier:
+
+    ctrl_src= "Digital inputs";
+
+    Terminals:
+        a_in[pe] = M1.0;
+        b_in[pe] = M2.0;
+        out[pe] = M1.1;
     ;
 ;
 

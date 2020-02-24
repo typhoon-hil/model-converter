@@ -589,8 +589,15 @@ class BaseParser:
             UID = 0
             init_pos = [15, 50]
             for port in component.ports:
-                port_name = "Port" + str(UID) if port.name is None \
-                    else port.name
+                # If the parent_component of a port is a string,
+                # the conversion was 1:Sub. This means the port_name
+                # should contain the parent_component name to avoid
+                # port name duplication
+                if isinstance(port.parent_component, str):
+                    port_name = f"{port.parent_component} {port.name}"
+                else:
+                    port_name = "Port" + str(UID) if port.name is None \
+                        else port.name
                 if port.kind == "sp":
                     port_handle = self.mdl.create_port(parent=component_handle,
                                                        kind=port.kind,

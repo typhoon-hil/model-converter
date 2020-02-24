@@ -191,7 +191,8 @@ class SimulinkParser(BaseParser):
         comp_type = node.attrib.get("BlockType", "SubSystem")
         new_component = Component() if comp_type != "SubSystem" else Subsystem()
 
-        new_component.name = node.attrib.get("Name")
+        new_component.name = node.attrib.get("Name").replace("\n", " ")
+
         #
         # Temporarily adding the component's unique ID
         # to the properties dict, which will be used to

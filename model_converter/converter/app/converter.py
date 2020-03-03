@@ -13,7 +13,7 @@ class Converter:
     # If no rule file has been defined by the user,
     # the default conversion rules will be applied
     #
-    default_rule_file_path = {"psim": os.path.join(util.get_root_path(),
+    default_rule_file_path = {"PSIM": os.path.join(util.get_root_path(),
                                                    "conversion_rules",
                                                    "psim",
                                                    "PSIM_default_rules.ty")}
@@ -34,15 +34,16 @@ class Converter:
         input_file_path = os.path.abspath(input_file_path)
         if rule_file_path is None:
             rule_file_path = \
-                Converter.default_rule_file_path.get(source_file_format)
-        if source_file_format.lower() == "psim":
+                Converter.default_rule_file_path.get(source_file_format.lower())
+        if source_file_format == "PSIM":
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)
 
-        elif source_file_format.lower() == "ml":
-            print("ml")
+        elif source_file_format == "SIMULINK":
+            raise InvalidArgumentException("Simulink support not "
+                                           "yet implemented.")
         else:
-            raise InvalidArgumentException()
+            raise InvalidArgumentException("Model source not supported.")
 
         self.parser.read_input()
         self.parser.read_rules()

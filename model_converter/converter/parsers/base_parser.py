@@ -1011,7 +1011,7 @@ class BaseParser:
         dh.position = [i * 2 for i in component.position]
 
         if parent_subsystem is not None:
-            dh.parent = parent_subsystem.name
+            dh.parent = parent_subsystem
 
         # Setting properties
         for prop in rule.properties:

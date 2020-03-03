@@ -23,7 +23,7 @@ class MainApplication(tk.Frame):
         self.config_dialog = None
 
         self.parent = parent
-        self.parent.title("Typhoon HIL Model Converter v1.3")
+        self.parent.title(f"Typhoon HIL Model Converter {Converter.VERSION}")
         self.parent.iconbitmap(default=self.get_icon_path())
 
         self.file_path_label1 = tk.Label(self,
@@ -90,7 +90,7 @@ class MainApplication(tk.Frame):
 
     def on_convert_btn_clicked(self):
         self.progress_bar.config(value=20)
-        self.converter = Converter(source_file_format="psim",
+        self.converter = Converter(source_file_format="PSIM",
                                    input_file_path=self.input_file_path)
         device = self.device.replace(" ","")
         try:

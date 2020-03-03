@@ -5,6 +5,9 @@ from model_converter.converter.parsers.PSIM_parser import PSIMParser
 
 
 class Converter:
+
+    VERSION = "1.3.1"
+
     """
     Main class of the application. Holds the parser instance reference
      and has the convert_schema method.
@@ -34,7 +37,7 @@ class Converter:
         input_file_path = os.path.abspath(input_file_path)
         if rule_file_path is None:
             rule_file_path = \
-                Converter.default_rule_file_path.get(source_file_format.lower())
+                Converter.default_rule_file_path.get(source_file_format)
         if source_file_format == "PSIM":
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)

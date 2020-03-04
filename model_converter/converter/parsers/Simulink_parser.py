@@ -549,9 +549,11 @@ class SimulinkParser(BaseParser):
 
     def read_input(self):
         import xml.etree.ElementTree as ET
-        with codecs.open(self.input_file_path,
-                         'r', errors='ignore') as fileData:
-            # Parsing XML with the ElementTree library
-            input_data = ET.fromstring(fileData.read())
-            for child in input_data:
-                self._create_input_obj_model(child, skip_connections=False)
+        import zipfile
+        unzipped_model = \
+            zipfile.ZipFile(self.input_file_path, mode="r").read(
+                "simulink/blockdiagram.xml")
+        # Parsing XML with the ElementTree library
+        input_data = ET.fromstring(unzipped_model)
+        for child in input_data:
+            self._create_input_obj_model(child, skip_connections=False)

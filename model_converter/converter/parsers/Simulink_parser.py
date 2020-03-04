@@ -273,12 +273,12 @@ class SimulinkParser(BaseParser):
                                 f"{term_side}:{port.parent.properties[key]}"
                             port.parent.properties[key] += 1
                         elif port_type == "Inport":
-                            key = "__out__"
-                            term_index = f"out:{port.parent.properties[key]}"
-                            port.parent.properties[key] += 1
-                        elif port_type == "Outport":
                             key = "__in__"
                             term_index = f"in:{port.parent.properties[key]}"
+                            port.parent.properties[key] += 1
+                        elif port_type == "Outport":
+                            key = "__out__"
+                            term_index = f"out:{port.parent.properties[key]}"
                             port.parent.properties[key] += 1
                         # Ports always have a single "terminal"
                         term = list(port.terminals.values())[0]

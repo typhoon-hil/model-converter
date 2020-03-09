@@ -37,7 +37,7 @@ class Converter:
         input_file_path = os.path.abspath(input_file_path)
         if rule_file_path is None:
             rule_file_path = \
-                Converter.default_rule_file_path.get(source_file_format)
+                Converter.default_rule_file_path.get(source_file_format.upper())
         if source_file_format.upper() == "PSIM":
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)

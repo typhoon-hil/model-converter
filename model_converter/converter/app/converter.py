@@ -38,11 +38,11 @@ class Converter:
         if rule_file_path is None:
             rule_file_path = \
                 Converter.default_rule_file_path.get(source_file_format)
-        if source_file_format == "PSIM":
+        if source_file_format.upper() == "PSIM":
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)
 
-        elif source_file_format == "SIMULINK":
+        elif source_file_format.upper() == "SIMULINK":
             raise InvalidArgumentException("Simulink support not "
                                            "yet implemented.")
         else:

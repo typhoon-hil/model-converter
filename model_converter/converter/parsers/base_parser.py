@@ -1355,10 +1355,12 @@ class BaseParser:
                 terminal_obj.position = [i * 2 for i in
                                          orig_terminal.position]
                 dh.terminals.append(terminal_obj)
-            if dh.typhoon_type not in self.conversion_dict:
-                self.conversion_dict[dh.typhoon_type] = [dh]
-            else:
-                self.conversion_dict[dh.typhoon_type].append(dh)
+
+        if dh.typhoon_type not in self.conversion_dict:
+            self.conversion_dict[dh.typhoon_type] = []
+
+        self.conversion_dict[dh.typhoon_type].append(dh)
+
         return dh
 
     def _convert_pattern(self, matched_terminals, rule):

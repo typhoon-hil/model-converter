@@ -88,6 +88,8 @@ IGBT_Leg {
 *AFWRm => core/Active Full Wave Rectifier:
 
     ctrl_src= "Digital inputs";
+    S1= "3";
+    S2= "9";
 
     Terminals:
         a_in[pe] = M1.0;

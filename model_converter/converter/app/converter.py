@@ -6,6 +6,9 @@ from model_converter.converter.parsers.Simulink_parser import SimulinkParser
 
 
 class Converter:
+
+    VERSION = "1.4.1"
+
     """
     Main class of the application. Holds the parser instance reference
      and has the convert_schema method.
@@ -18,10 +21,11 @@ class Converter:
                                                    "conversion_rules",
                                                    "psim",
                                                    "PSIM_default_rules.ty"),
-                              "simulink": os.path.join(util.get_root_path(),
-                                                       "conversion_rules",
-                                                       "simulink",
-                                                       "SIMULINK_default_rules.ty")}
+                              "simulink":
+                                  os.path.join(util.get_root_path(),
+                                               "conversion_rules",
+                                               "simulink",
+                                               "SIMULINK_default_rules.ty")}
 
     def __init__(self,
                  source_file_format: str,
@@ -39,7 +43,7 @@ class Converter:
         input_file_path = os.path.abspath(input_file_path)
         if rule_file_path is None:
             rule_file_path = \
-                Converter.default_rule_file_path.get(source_file_format)
+                Converter.default_rule_file_path.get(source_file_format.lower())
         if source_file_format.lower() == "psim":
             self.parser = PSIMParser(input_file_path,
                                      rule_file_path)
@@ -48,7 +52,7 @@ class Converter:
             self.parser = SimulinkParser(input_file_path,
                                          rule_file_path)
         else:
-            raise InvalidArgumentException()
+            raise InvalidArgumentException(f"Model source is not supported ({source_file_format}.")
 
         self.parser.read_input()
         self.parser.read_rules()

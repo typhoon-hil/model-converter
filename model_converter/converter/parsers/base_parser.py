@@ -530,6 +530,7 @@ class BaseParser:
             #
             for handle, child_comp_list in component.components.items():
                 for child_comp in child_comp_list:
+                    child_comp.parent = component_handle
                     if isinstance(child_comp, SubsystemDataHolder):
                         self.save_component(child_comp, component_handle)
                     else:
@@ -1069,7 +1070,7 @@ class BaseParser:
         dh.position = [i * 2 for i in component.position]
 
         if parent_subsystem is not None:
-            dh.parent = parent_subsystem.name
+            dh.parent = parent_subsystem
 
         # Setting properties
         for prop in rule.properties:
@@ -1414,10 +1415,12 @@ class BaseParser:
                 terminal_obj.position = [i * 2 for i in
                                          orig_terminal.position]
                 dh.terminals.append(terminal_obj)
-            if dh.typhoon_type not in self.conversion_dict:
-                self.conversion_dict[dh.typhoon_type] = [dh]
-            else:
-                self.conversion_dict[dh.typhoon_type].append(dh)
+
+        if dh.typhoon_type not in self.conversion_dict:
+            self.conversion_dict[dh.typhoon_type] = []
+
+        self.conversion_dict[dh.typhoon_type].append(dh)
+
         return dh
 
     def _convert_pattern(self, matched_terminals, rule):

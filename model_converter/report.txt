@@ -1,0 +1,46 @@
+Conversion report
+-----------------
+
+Source file used:
+D:\work\model-converter\model_converter\subs.xml
+
+Schematic saved as:
+D:\work\model-converter\model_converter\subs.tse
+
+
+Number of components found in the source file: 11
+
+-------------------------------------------------------------------------
+                         Converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------
+            AC Current Source   |               powerlib/Electrical Sources/AC Current Source
+-------------------------------------------------------------------------
+            DC Voltage Source   |               powerlib/Electrical Sources/DC Voltage Source
+-------------------------------------------------------------------------
+            Three-Phase Source  |               powerlib/Electrical Sources/Three-Phase Source
+-------------------------------------------------------------------------
+            Ground              |               powerlib/Elements/Ground
+-------------------------------------------------------------------------
+            Ground1             |               powerlib/Elements/Ground
+-------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------
+                         Non-converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------
+            A                   |               PMIOPort
+-------------------------------------------------------------------------
+            B                   |               PMIOPort
+-------------------------------------------------------------------------
+            C                   |               PMIOPort
+-------------------------------------------------------------------------
+            Series RLC Branch   |               powerlib/Elements/Series RLC Branch
+-------------------------------------------------------------------------
+            Series RLC Branch1  |               powerlib/Elements/Series RLC Branch
+-------------------------------------------------------------------------
+            Rectifier           |               typhoonHILlib/Rectifier
+-------------------------------------------------------------------------

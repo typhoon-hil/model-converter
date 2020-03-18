@@ -1,5 +1,8 @@
+import sys, os
 import argparse
 import tkinter
+sys.path.append(os.getcwd()) # Added to run in CMD
+from model_converter.converter.app.converter import Converter, InvalidArgumentException
 
 from model_converter.converter.app.converter import Converter
 from model_converter.converter.app.gui.main_window import MainApplication
@@ -23,11 +26,18 @@ if __name__ == "__main__":
                             required=False,
                             choices=SUPPORTED_SOURCES,
                             default=SUPPORTED_SOURCES[0],
-                            type=str.upper)
+                            type=str.lower)
 
     arg_parser.add_argument("--model",
                             help="Path to the model file "
                                  "which needs to be converted.",
+                            required=False,
+                            default=None)
+
+    arg_parser.add_argument("--rules",
+                            help="Path to the conversion rules file "
+                                 "which will be used when converting "
+                                 "components.",
                             required=False,
                             default=None)
 
@@ -59,7 +69,7 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
     # All args' (Namespace class) attributes are dynamically added
     # and named by the add_argument method of the arg_parser.
-    # The .model attribute holds the path to the model (netlist) file
+    # The .model attribute holds the path to the input model (netlist) file
     if args.model is None:
         root = tkinter.Tk()
         root.resizable(width=False, height=False)
@@ -67,7 +77,8 @@ if __name__ == "__main__":
         root.mainloop()
     else:
         converter = Converter(source_file_format=args.source,
-                              input_file_path=args.model)
+                              input_file_path=args.model,
+                              rule_file_path=args.rules)
         converter.convert_schema(device_id=args.device,
                                  config_id=args.config,
                                  compile_model=args.compile)

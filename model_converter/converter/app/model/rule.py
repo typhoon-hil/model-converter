@@ -63,6 +63,7 @@ class Rule:
         self.connections = []
         self.ports = {}
         self.terminals = {}
+        self.predicates = []
 
     def __str__(self):
         return f"{self.source_type} -> {self.typhoon_type}"
@@ -150,3 +151,65 @@ class Property:
 
     def __repr__(self):
         return self.__str__()
+
+
+class Predicate:
+    """
+    This class is used to describe additional conditions
+    of component conversion, and is instantiated when
+    a conversion rule is annotated in the rule file.
+
+    A comparison of the component's property (property_name)
+    is done with the condition value, via the operator
+    (greater, lesser, equal, and their combinations).
+    """
+    def __init__(self,
+                 property_name: str,
+                 operator: str,
+                 condition_value: (str, float, int)):
+        self.property_name = property_name.strip()
+        condition_value = condition_value.strip()
+        if operator == ">":
+            self.operator = "gt"
+        elif operator == "<":
+            self.operator = "lt"
+        elif operator == "==":
+            self.operator = "eq"
+        elif operator == ">=":
+            self.operator = "gteq"
+        elif operator == "<=":
+            self.operator = "lteq"
+        else:
+            raise Exception("Predicate operators must be "
+                            "either >, <, ==, >= or <= .")
+        try:
+            self.condition_value = float(condition_value)
+        except ValueError:
+            if self.operator == "eq":
+                self.condition_value = condition_value.strip("\"")
+            else:
+                raise Exception("Predicate operator must be '==' "
+                                "for correct string comparison.")
+
+
+    def evaluate(self, component):
+        if component is None:
+            raise Exception("Cannot evaluate predicate on None type object.")
+        component_property_value = component.properties.get(self.property_name,
+                                                            None)
+        if component_property_value is None:
+            return False
+        try:
+            if self.operator == "gt":
+                return component_property_value > self.condition_value
+            elif self.operator == "lt":
+                return component_property_value < self.condition_value
+            elif self.operator == "eq":
+                return component_property_value == self.condition_value
+            elif self.operator == "gteq":
+                return component_property_value >= self.condition_value
+            elif self.operator == "ltgt":
+                return component_property_value <= self.condition_value
+        except TypeError as e:
+            return False
+

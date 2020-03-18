@@ -4,6 +4,9 @@ import numpy as np
 def definition(x):
     return x
 
+def print_input(input):
+    print(input)
+    return input
 
 def si_prefix_remover(x):
 
@@ -95,3 +98,65 @@ def amplitude_to_rms(amplitude):
 
 def line_to_phase_rms(line_rms):
     return float(line_rms)/np.sqrt(3)
+
+def lowercase(input_str):
+    return input_str.lower()
+
+def on_off_to_bool_str(logic_str, capitalize=False):
+    if logic_str not in ("on", "off"):
+        raise ValueError(f"{logic_str} is not a valid value!")
+    if capitalize:
+        return "True" if logic_str == "on" else "False"
+    return "true" if logic_str == "on" else "false"
+
+def on_off_to_boolean(logic_str):
+    if logic_str == 'on':
+        return True
+    if logic_str == 'off':
+        return False
+
+def simulink_switch_logic(logic_str):
+    return str(logic_str).replace('-',' ').lower()
+
+def simulink_contactor_init_state_st(initial_state):
+    if initial_state == 'On / S1':
+        return 'on'
+    elif initial_state == 'Off / S2':
+        return 'off'
+    else:
+        raise Exception('Invalid initial state value found in Simulink XML.')
+
+def simulink_contactor_init_state_dt(initial_state):
+    if initial_state == 'On / S1':
+        return 'S1'
+    elif initial_state == 'Off / S2':
+        return 'S2'
+    else:
+        raise Exception('Invalid initial state value found in Simulink XML.')
+
+def simulink_core_coupling_format(input, side):
+    if input == "None":
+        return 'none'
+    elif input == "R":
+        if side == '"is"':
+            return 'R1'
+        elif side == '"vs"':
+            return 'R2'
+    elif input == "R-C":
+        return 'R1-C1'
+    elif input == "R//L":
+        return 'R2||L1'
+
+def simulink_wye_delta_names(connection):
+    if connection == "Wye":
+        return "Y"
+    elif connection == "Delta":
+        return "D"
+    else:
+        raise Exception('Invalid connection type found in Simulink XML.')
+
+def simulink_pmsm_theta_ab(angle):
+    if angle == '-pi/2':
+        return angle
+    elif str(int(angle)) == '0':
+        return str(int(angle))

@@ -5,7 +5,7 @@ from jinja2 import Template
 from parglare import Grammar, Parser
 
 from model_converter.converter.app.model.rule import Rule, Property, \
-    Connection, Pattern
+    Connection, Pattern, Predicate
 from model_converter.converter.app.model.subsystem import Subsystem
 from model_converter.converter.app.model.terminal import Terminal, Port
 from model_converter.converter.app.model.data_holder import DataHolder, \
@@ -103,17 +103,33 @@ class BaseParser:
                 pattern_obj = self._create_pattern_rule(pattern)
                 self.patterns[pattern_obj.name] = pattern_obj
             for rule in rule_list[1]:
-                if rule[0] == "*":
-                    if rule[3] == "{":
+                if rule[1][0] == "*":
+                    if rule[1][3] == "{":
                         rules.append(self._create_n_to_m_rule(rule))
                     else:
                         rules.append(self._create_n_to_one_rule(rule))
                 else:
-                    if rule[2] == "{":
+                    if rule[1][2] == "{":
                         rules.append(self._create_n_to_m_rule(rule))
                     else:
                         rules.append(self._create_n_to_one_rule(rule))
-            return rules
+        return rules
+
+    def _create_predicate_obj(self, predicate_node):
+        property_name = None
+        condition = "=="
+        property_value = None
+        if len(predicate_node.split(">=")) == 2:
+            condition = ">="
+        elif len(predicate_node.split("=<")) == 2:
+            condition = "<="
+        elif len(predicate_node.split(">")) == 2:
+            condition = ">"
+        elif len(predicate_node.split("<")) == 2:
+            condition = "<"
+        property_name, property_value = predicate_node.split(condition)
+
+        return Predicate(property_name, condition, property_value)
 
     def _create_property_obj(self, prop_node):
         """
@@ -188,6 +204,8 @@ class BaseParser:
         # and the pattern first must be found before
         # converting by this rule.
         #
+        predicates = rule_node[0]
+        rule_node = rule_node[1]
         is_pattern_match = rule_node[0] == "*"
 
         source_type = rule_node[1] if is_pattern_match else rule_node[0]
@@ -198,13 +216,16 @@ class BaseParser:
                         typhoon_type=typhoon_type,
                         pattern_match=is_pattern_match)
 
+        for predicate in predicates:
+            rule_obj.predicates.append(self._create_predicate_obj(predicate[1]))
+
         #
         # List containing all components which will
         # be created in this new subsystem
         #
         component_list = rule_node[4] if is_pattern_match else rule_node[3]
         for component in component_list:
-            comp_rule_obj = Rule(typhoon_type="core/"+component[2])
+            comp_rule_obj = Rule(typhoon_type=component[2])
             #
             # Setting property mapping
             #
@@ -320,6 +341,8 @@ class BaseParser:
         Returns:
             rule_obj (Rule)
         """
+        predicates = rule_node[0]
+        rule_node = rule_node[1]
         is_pattern_match = rule_node[0] == "*"
 
         source_type = rule_node[1] if is_pattern_match else rule_node[0]
@@ -331,6 +354,9 @@ class BaseParser:
         rule_list = rule_node[5] if is_pattern_match else rule_node[4]
         for prop in rule_list:
             rule_obj.properties.append(self._create_property_obj(prop))
+
+        for predicate in predicates:
+            rule_obj.predicates.append(self._create_predicate_obj(predicate[1]))
 
         terminal_list = rule_node[8] if is_pattern_match else rule_node[7]
         for terminal in terminal_list:
@@ -381,8 +407,9 @@ class BaseParser:
             subsystem = SubsystemDataHolder()
             subsystem.name = component_parent.name.split(".")[-1]
             subsystem.components["Subsystem"] = []
-            for port in component_parent.terminals:
-                subsystem.ports.append(port.clone())
+            subsystem.ports = [port.clone() for port
+                               in component_parent.terminals]
+
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
         if current_sub is not None:
@@ -439,6 +466,7 @@ class BaseParser:
 
     def _save_single_component(self, component, parent=None):
         from typhoon.api.schematic_editor.exception import SchApiException
+        component.parent = parent
         component_handle = \
             self.mdl.create_component(
                         component.typhoon_type,
@@ -477,12 +505,9 @@ class BaseParser:
                     subsystem_dict = new_subsystem
                 connectables = subsystem_dict.get(term.node_id, None)
                 if connectables is None:
-                    subsystem_dict[term.node_id] = [[False,
-                                                     terminal_handle,
-                                                     component]]
-                else:
-                    subsystem_dict[term.node_id].append(
-                        [False, terminal_handle, component])
+                    subsystem_dict[term.node_id] = []
+                subsystem_dict[term.node_id].append(
+                    [False, terminal_handle, component])
             except SchApiException:
                 logging.warning(f"[Terminal connection error] Cannot retrieve "
                                 f"terminal \"{term.name}\" of the "
@@ -565,11 +590,26 @@ class BaseParser:
             UID = 0
             init_pos = [15, 50]
             for port in component.ports:
-                port_name = "Port" + str(UID)
-                port_handle = self.mdl.create_port(parent=component_handle,
-                                                   kind=port.kind,
-                                                   name=port_name,
-                                                   position=init_pos)
+                # If the parent_component of a port is a string,
+                # the conversion was 1:Sub. This means the port_name
+                # should contain the parent_component name to avoid
+                # port name duplication
+                if isinstance(port.parent_component, str):
+                    port_name = f"{port.parent_component} {port.name}"
+                else:
+                    port_name = "Port" + str(UID) if port.name is None \
+                        else port.name
+                if port.kind == "sp":
+                    port_handle = self.mdl.create_port(parent=component_handle,
+                                                       kind=port.kind,
+                                                       direction=port.direction,
+                                                       name=port_name,
+                                                       position=init_pos)
+                else:
+                    port_handle = self.mdl.create_port(parent=component_handle,
+                                                       kind=port.kind,
+                                                       name=port_name,
+                                                       position=init_pos)
                 #
                 # Checking if the parent_component of this port is
                 # a string value. If it is, the Subsystem was not
@@ -595,14 +635,14 @@ class BaseParser:
                 else:
                     connectables = level.get(port.node_id, None)
                     if connectables is None:
-                        level[port.node_id] = [
-                            [False, port_handle, component]]
-                    else:
-                        level[port.node_id].append(
-                            [False, port_handle, component])
+                        level[port.node_id] = []
+
+                    level[port.node_id].append(
+                        [False, port_handle, component])
+
                 parent_level = self.node_dict.get(
                     parent, None)
-                if not parent_level:
+                if parent_level is None:
                     self.node_dict[parent] = {
                         port.node_id: [
                             [False, self.mdl.term(component_handle, port_name),
@@ -611,13 +651,11 @@ class BaseParser:
                     parent_connectables = parent_level.get(port.node_id,
                                                            None)
                     if parent_connectables is None:
-                        parent_level[port.node_id] = [
-                            [False, self.mdl.term(component_handle, port_name),
-                             component]]
-                    else:
-                        parent_level[port.node_id].append(
-                            [False, self.mdl.term(component_handle, port_name),
-                             component])
+                        parent_level[port.node_id] = []
+
+                    parent_level[port.node_id].append(
+                        [False, self.mdl.term(component_handle, port_name),
+                         component])
 
         else:
             self._save_single_component(component, parent)
@@ -702,7 +740,12 @@ class BaseParser:
         # API calls for terminal connection
         #
         for connectable_dict in self.node_dict.values():
-            for connectable_list in connectable_dict.values():
+            for key, connectable_list in connectable_dict.items():
+                # Terminals might not be connected,
+                # in this case their Node ID is None.
+                # node_id:[terminal list]
+                if key is None:
+                    continue
                 self._connect(connectable_list)
         path = self.input_file_path.split(os.path.sep)
         path[0] += os.path.sep
@@ -735,6 +778,9 @@ class BaseParser:
         # Checking if a junction should be used to connect
         # terminals from this node list
         if len(connectable_list) > 2 and junction is None:
+            kind = "sp" if [term for term in connectable_list
+                            if self.mdl.get_connectable_kind(term[1]) == "sp"] \
+                else "pe"
             position = [0, 0]
             for connectable in connectable_list:
                 position[0] += connectable[2].position[0]
@@ -742,9 +788,11 @@ class BaseParser:
             position[0] = int(position[0]/len(connectable_list))
             position[1] = int(position[1]/len(connectable_list))
             connectable_parent = connectable_list[0][2].parent
+
             junction = \
                 self.mdl.create_junction(parent=connectable_parent,
-                                         position=position)
+                                         position=position,
+                                         kind=kind)
         #
         # Connecting all terminals from the same
         # node with the newly created junction
@@ -857,7 +905,18 @@ class BaseParser:
         for component in self.source_comp_dict_by_type.get(rule.source_type,[]):
             if component.converted is True:
                 continue
-
+            #
+            # Predicate check. If all conditions are not met,
+            # the current component will be skipped
+            # (and not marked as converted)
+            #
+            conditions_fulfilled = True
+            for predicate in rule.predicates:
+                if predicate.evaluate(component) is False:
+                    conditions_fulfilled = False
+                    break
+            if conditions_fulfilled is False:
+                continue
             dh = None
             parent_subsystem = None
             #
@@ -1075,6 +1134,7 @@ class BaseParser:
             terminal_obj.kind = values[0]
             terminal_obj.name = values[2]
             terminal_obj.position = [i * 2 for i in orig_terminal.position]
+            terminal_obj.parent_component = dh
             dh.terminals.append(terminal_obj)
 
         component.converted = True

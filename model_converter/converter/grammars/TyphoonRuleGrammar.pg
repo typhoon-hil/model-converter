@@ -1,8 +1,12 @@
 File:
-    Pattern* Conversion+
+    Pattern* AnnotatedConversion+
 ;
 Pattern:
     PatternName "{" "Components" ":" Component+ ";" "Connections" ":" Connection+ ";" "}"
+;
+
+AnnotatedConversion:
+    Annotation* Conversion
 ;
 
 Component:
@@ -66,8 +70,14 @@ TargetType:
     |TargetTypeThree
     |TargetTypeFour
 ;
+Annotation:
+    "@" AnnotationExp
+;
 
 terminals
+AnnotationExp:
+    /(?<=@).+(?=\s)/
+;
 Dot:
     "."
 ;
@@ -149,7 +159,7 @@ PatternMatch:
 ;
 
 ComponentName:
-    /^[\w\s\d]*?(?=\s=>)/
+    /^[()\w\s\d\/-]*?(?=\s=>)/
 ;
 
 
@@ -173,9 +183,12 @@ ObjectVarName:
 ;
 
 ObjectVarProp:
-    /(?<=\.)[\w\s\d\-_]*?(?=;)|(?<=\.)[\w\s\d\-_]*?(?=\s;)
-    |(?<=\.)[\w\s\d\-_]*?(?=,)|(?<=\.)[\w\s\d\-_]*?(?=\s,)
-    |(?<=\.)[\w\s\d\-_]*?(?=\))|(?<=\.)[\w\s\d\-_]*?(?=\s\))
-    |(?<==\s)[\d]*?(?=;)|(?<==)[\d]*?(?=;)|(?<==)[\d]*?(?=\s;)|(?<==\s)[\d]*?(?=\s;)/
+    /(?<=\.)[\w\s\d\-_:]*?(?=;)|(?<=\.)[\w\s\d\-_:]*?(?=\s;)
+    |(?<=\.)[\w\s\d\-_:]*?(?=,)|(?<=\.)[\w\s\d\-_:]*?(?=\s,)
+    |(?<=\.)[\w\s\d\-_:]*?(?=\))|(?<=\.)[\w\s\d\-_:]*?(?=\s\))
+    |(?<==\s)[\d:]*?(?=;)|(?<==)[\d:]*?(?=;)|(?<==)[\d:]*?(?=\s;)|(?<==\s)[\d:]*?(?=\s;)
+    |(?<==\s)[\w\s\d\-_:]*?(?=;)|(?<==)[\w\s\d\-_:]*?(?=\s;)
+    |(?<==\s)[\w\s\d\-_:]*?(?=,)|(?<==)[\w\s\d\-_:]*?(?=\s,)
+    |(?<==\s)[\w\s\d\-_:]*?(?=\))|(?<==)[\w\s\d\-_:]*?(?=\s\))/
 ;
 

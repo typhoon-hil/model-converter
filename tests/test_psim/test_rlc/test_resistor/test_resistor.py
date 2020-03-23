@@ -16,7 +16,7 @@ psim_tests_dir = os.path.dirname(__file__)
 tests_dir = os.path.dirname(psim_tests_dir)
 sch_importer_dir = os.path.dirname(tests_dir)
 
-psimsch_path = psim_tests_dir + '\\test_RL3.psimsch'
+psimsch_path = psim_tests_dir + '\\test_resistor.psimsch'
 
 
 @pytest.fixture(scope='session')

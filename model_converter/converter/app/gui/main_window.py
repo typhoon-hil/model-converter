@@ -57,14 +57,27 @@ class MainApplication(tk.Frame):
                                     text="Set \nHIL \nconfiguration",
                                     width=15,
                                     command=self.on_config_btn_clicked)
-        self.config_btn.grid(row=3, column=1)
+
+        self.model_source_label1 = tk.Label(self,
+                                            background="#f0f0f5",
+                                            text="Model source:")
+        self.model_source_cb = tk.ttk.Combobox(self,
+                                               state="readonly",
+                                               width=10)
+        self.model_source_cb["values"] = ["PSIM",
+                                          "Simulink"]
+
+        self.model_source_cb.current(0)
+        self.model_source_label1.grid(row=3, column=1)
+        self.model_source_cb.grid(row=4, column=1)
+        self.config_btn.grid(row=5, column=1)
 
         self.input_file_btn = tk.Button(self,
-                                        text="Select \nXML netlist \nfile",
+                                        text="Select \nmodel \nfile",
                                         width=15,
                                         command=self.on_input_file_btn_clicked)
 
-        self.input_file_btn.grid(row=4, column=1, padx=10)
+        self.input_file_btn.grid(row=6, column=1, padx=10)
 
 
         self.convert_btn = tk.Button(self,
@@ -73,13 +86,21 @@ class MainApplication(tk.Frame):
                                      state="disabled",
                                      command=self.on_convert_btn_clicked)
 
-        self.convert_btn.grid(row=5, column=1)
+        self.convert_btn.grid(row=7, column=1)
 
     def on_input_file_btn_clicked(self):
+
+        #TODO: this IF statement should be updated
+        #      whenever new input parsers are added
+        if self.model_source_cb.get() == "PSIM":
+            filetypes = ("PSIM netlist (.xml)", "*.xml")
+        else:
+            filetypes = ("Simulink model (.slx)", "*.slx")
+
         path = askopenfilename(initialdir="/",
-                                   title="Select file",
-                                   filetypes=(("XML netlist", "*.xml"),
-                                              ))
+                               title="Select file",
+                               filetypes=(filetypes,))
+
         self.set_input_file_path(path)
 
     def on_config_btn_clicked(self):
@@ -90,8 +111,20 @@ class MainApplication(tk.Frame):
 
     def on_convert_btn_clicked(self):
         self.progress_bar.config(value=20)
-        self.converter = Converter(source_file_format="PSIM",
-                                   input_file_path=self.input_file_path)
+        source_type = self.model_source_cb.get()
+        try:
+            self.converter = \
+                Converter(source_file_format=source_type,
+                          input_file_path=self.input_file_path)
+        except Exception as ex:
+            self.progress_bar.config(value=0)
+            self.report_text.config(state="normal")
+            self.report_text.delete('1.0', tk.END)
+            self.report_text.insert(tk.END, f"Invalid file selected for "
+                                            f"{source_type} conversion.\n"
+                                            f"Exception thrown: {ex}")
+            self.report_text.config(state="disabled")
+            return
         device = self.device.replace(" ","")
         try:
             tse_path, compiled, report_path = \

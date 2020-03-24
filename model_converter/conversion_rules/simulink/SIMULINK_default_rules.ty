@@ -78,6 +78,7 @@ powerlib/Electrical Sources/DC Voltage Source => core/Voltage Source:
 
 powerlib/Elements/Series RLC Branch => core/Series RLC Branch:
     num_phases = "Single-Phase";
+    branch_type = BranchType;
     resistance = Resistance;
     inductance = Inductance;
     initial_current = InitialCurrent;
@@ -92,6 +93,7 @@ powerlib/Elements/Series RLC Branch => core/Series RLC Branch:
 
 powerlib/Elements/Three-Phase Series RLC Branch => core/Series RLC Branch:
     num_phases = "Three-Phase";
+    branch_type = BranchType;
     resistance = Resistance;
     inductance = Inductance;
     capacitance = Capacitance;
@@ -108,6 +110,7 @@ powerlib/Elements/Three-Phase Series RLC Branch => core/Series RLC Branch:
 
 powerlib/Elements/Parallel RLC Branch => core/Parallel RLC Branch:
     num_phases = "Single-Phase";
+    branch_type = BranchType;
     resistance = Resistance;
     inductance = Inductance;
     initial_current = InitialCurrent;
@@ -122,6 +125,7 @@ powerlib/Elements/Parallel RLC Branch => core/Parallel RLC Branch:
 
 powerlib/Elements/Three-Phase Parallel RLC Branch => core/Parallel RLC Branch:
     num_phases = "Three-Phase";
+    branch_type = BranchType;
     resistance = Resistance;
     inductance = Inductance;
     capacitance = Capacitance;

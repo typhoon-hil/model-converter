@@ -269,7 +269,7 @@ C_ELECTRO => core/Capacitor:
 RHEOSTAT => {
 
 	R=Variable Resistor:
-	    inductance = 1e-5;
+	    inductance = "1e-5";
 	;
 
 	SC_in=SCADA Input:
@@ -330,7 +330,6 @@ L3 => core/Series RLC Branch:
     num_phases = "Three-Phase";
     branch_type = "L";
 	inductance = Inductance;
-	capacitance = Capacitance;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -364,7 +363,6 @@ RL3 => core/Series RLC Branch:
     branch_type = "RL";
     resistance=Resistance;
 	inductance = Inductance;
-	capacitance = Capacitance;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -1230,9 +1228,6 @@ ISIN => core/Current Source:
 	;
 ;
 
-
-
-
 SM_3L_FLYCAP_LEG => {
 
 	converter=Three Level Flying Capacitor Inverter Leg:
@@ -1244,7 +1239,7 @@ SM_3L_FLYCAP_LEG => {
 
 	C1=Capacitor:
 		capacitance= Cp1;
-		initial_voltage= VCp1;
+		initial_voltage= Vcp1;
 	;
 
 	Connections:
@@ -1263,44 +1258,21 @@ SM_3L_FLYCAP_LEG => {
 SM_7L_FLYCAP_LEG => {
 
 	converter=Seven Level Flying Capacitor Inverter Leg:
-		S_1= int2string(int_value = S_1);
-		S_2= int2string(int_value = S_2);
-		S_3= int2string(int_value = S_3);
-		S_4= int2string(int_value = S_4);
-		S_5= int2string(int_value = S_5);
-		S_6= int2string(int_value = S_6);
-		S_7= int2string(int_value = S_7);
-		S_8= int2string(int_value = S_8);
-		S_9= int2string(int_value = S_9);
-		S_10= int2string(int_value = S_10);
-		S_11= int2string(int_value = S_11);
-		S_12= int2string(int_value = S_12);
-
 	;
 
 	C1=Capacitor:
-		capacitance= Cp1;
-		initial_voltage= VCp1;
 	;
 
 	C2=Capacitor:
-		capacitance= Cp2;
-		initial_voltage= VCp2;
 	;
 
 	C3=Capacitor:
-		capacitance= Cp3;
-		initial_voltage= VCp3;
 	;
 
 	C4=Capacitor:
-		capacitance= Cp4;
-		initial_voltage= VCp4;
 	;
 
 	C5=Capacitor:
-		capacitance= Cp5;
-		initial_voltage= VCp5;
 	;
 
 	Connections:

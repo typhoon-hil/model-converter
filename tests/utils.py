@@ -2,7 +2,7 @@ import os
 import subprocess
 import time
 
-PSIM_PATH = "C:\\Powersim\\PSIM12.0.3_Softkey_X64"
+PSIM_PATH = "C:\\Powersim\\PSIM_2020a_Softkey"
 EXPORT_XML = False
 
 def psim_export_netxml(file_path):

@@ -331,7 +331,6 @@ L3 => core/Series RLC Branch:
     branch_type = "L";
 	inductance = Inductance;
 	capacitance = Capacitance;
-	initial_current = Initial Current;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -348,7 +347,6 @@ C3 => core/Series RLC Branch:
     num_phases = "Three-Phase";
     branch_type = "C";
 	capacitance = Capacitance;
-	initial_voltage = Initial Cap Voltage;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -367,7 +365,6 @@ RL3 => core/Series RLC Branch:
     resistance=Resistance;
 	inductance = Inductance;
 	capacitance = Capacitance;
-	initial_current = Initial Current;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -386,7 +383,6 @@ RC3 => core/Series RLC Branch:
     branch_type = "RC";
     resistance=Resistance;
 	capacitance = Capacitance;
-	initial_voltage = Initial Cap Voltage;
 
 	Terminals:
 		P1_pos[pe] = 0;
@@ -405,8 +401,6 @@ RLC3 => core/Series RLC Branch:
 	resistance = Resistance;
 	inductance = Inductance;
 	capacitance = Capacitance;
-	initial_current = Initial Current;
-	initial_voltage = Initial Cap Voltage;
 
 	Terminals:
 		P1_pos[pe] = 0;

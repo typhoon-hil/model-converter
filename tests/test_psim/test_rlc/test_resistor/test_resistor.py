@@ -43,6 +43,17 @@ def convert_compile_load(convert_xml2tse):
     # Compile the model
     model.compile()
 
+    # Load to VHIL
+    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
+
+    # Start simulation
+    hil.start_simulation()
+
+    yield
+
+    # Stop simulation
+    hil.stop_simulation()
+
 @pytest.mark.generate_netxml
 def test_generate_netxml(create_psim_netxml):
     netxml_path = create_psim_netxml[1]
@@ -55,6 +66,19 @@ def test_conversion_xml2tse(convert_xml2tse):
     tse_path = convert_xml2tse
     assert os.path.isfile(tse_path)
 
+
+def test_resistor(convert_compile_load):
+
+    # Start capture
+    sim_time = hil.get_sim_time()
+    start_capture(duration=0.01, signals=["Vout"], executeAt=sim_time + 0.5)
+
+    # Data acquisition
+    cap_data = get_capture_results(wait_capture=True)
+    measurement = cap_data
+
+    # Tests
+    sig.assert_is_constant(measurement["Vout"], at_value=around(80.0, tol_p=0.001))
 
 
 

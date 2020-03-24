@@ -266,35 +266,10 @@ C_ELECTRO => core/Capacitor:
 	;
 ;
 
-RLC => {
-
-	R=Resistor:
-		resistance= Resistance;
-	;
-	L=Inductor:
-		inductance= Inductance;
-		initial_current=Initial Current;
-	;
-	C=Capacitor:
-		capacitance= Capacitance;
-		initial_voltage= Initial Cap Voltage;
-	;
-
-	Connections:
-		R:n_node-L:p_node,
-		L:n_node-C:p_node.
-	;
-
-	Ports:
-		R.p_node[pe]=0;
-		C.n_node[pe]=1;
-	;
-}
-
 RHEOSTAT => {
 
 	R=Variable Resistor:
-	    inductance = 1e-5;
+	    inductance = "1e-5";
 	;
 
 	SC_in=SCADA Input:
@@ -318,198 +293,122 @@ L_SAT => core/Nonlinear Inductor:
 	;
 ;
 
-R3 => {
+RLC => core/Series RLC Branch:
 
-	R1=Resistor:
-		resistance= Resistance;
-	;
-	R2=Resistor:
-		resistance= Resistance;
-	;
-	R3=Resistor:
-		resistance= Resistance;
-	;
+    num_phases = "Single-Phase";
+    branch_type = "RLC";
+	resistance = Resistance;
+	inductance = Inductance;
+	capacitance = Capacitance;
+	initial_current = Initial Current;
+	initial_voltage = Initial Cap Voltage;
 
-	Connections:
+	Terminals:
+		P1_pos[pe] = 0;
+		P1_neg[pe] = 1;
 	;
+;
 
-	Ports:
-		R1.p_node[pe]=0;
-		R2.p_node[pe]=1;
-		R3.p_node[pe]=2;
-		R1.n_node[pe]=3;
-		R2.n_node[pe]=4;
-		R3.n_node[pe]=5;
-	;
-}
+R3 => core/Series RLC Branch:
 
-L3 => {
-	L1=Inductor:
-		inductance=Inductance;
-	;
-	L2=Inductor:
-		inductance=Inductance;
-	;
-	L3=Inductor:
-		inductance=Inductance;
-	;
+    num_phases = "Three-Phase";
+    branch_type = "R";
+	resistance = Resistance;
 
-	Connections:
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
 	;
+;
 
-	Ports:
-		L1.p_node[pe]=0;
-		L2.p_node[pe]=1;
-		L3.p_node[pe]=2;
-		L1.n_node[pe]=3;
-		L2.n_node[pe]=4;
-		L3.n_node[pe]=5;
-	;
-}
+L3 => core/Series RLC Branch:
 
-C3 => {
-	C1=Capacitor:
-		capacitance=Capacitance;
-	;
-	C2=Capacitor:
-		capacitance=Capacitance;
-	;
-	C3=Capacitor:
-		capacitance=Capacitance;
-	;
+    num_phases = "Three-Phase";
+    branch_type = "L";
+	inductance = Inductance;
 
-	Connections:
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
 	;
+;
 
-	Ports:
-		C1.p_node[pe]=0;
-		C2.p_node[pe]=1;
-		C3.p_node[pe]=2;
-		C1.n_node[pe]=3;
-		C2.n_node[pe]=4;
-		C3.n_node[pe]=5;
-	;
-}
+C3 => core/Series RLC Branch:
 
-RL3 => {
-	R1=Resistor:
-		resistance=Resistance;
-	;
-	R2=Resistor:
-		resistance=Resistance;
-	;
-	R3=Resistor:
-		resistance=Resistance;
-	;
-	L1=Inductor:
-		inductance=Inductance;
-	;
-	L2=Inductor:
-		inductance=Inductance;
-	;
-	L3=Inductor:
-		inductance=Inductance;
-	;
+    num_phases = "Three-Phase";
+    branch_type = "C";
+	capacitance = Capacitance;
 
-	Connections:
-		R1:n_node-L1:p_node,
-		R2:n_node-L2:p_node,
-		R3:n_node-L3:p_node.
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
 	;
+;
 
-	Ports:
-		R1.p_node[pe]=0;
-		R2.p_node[pe]=1;
-		R3.p_node[pe]=2;
-		L1.n_node[pe]=3;
-		L2.n_node[pe]=4;
-		L3.n_node[pe]=5;
-	;
-}
+RL3 => core/Series RLC Branch:
 
-RC3 => {
-	R1=Resistor:
-		resistance=Resistance;
-	;
-	R2=Resistor:
-		resistance=Resistance;
-	;
-	R3=Resistor:
-		resistance=Resistance;
-	;
-	C1=Capacitor:
-		capacitance=Capacitance;
-	;
-	C2=Capacitor:
-		capacitance=Capacitance;
-	;
-	C3=Capacitor:
-		capacitance=Capacitance;
-	;
+    num_phases = "Three-Phase";
+    branch_type = "RL";
+    resistance=Resistance;
+	inductance = Inductance;
 
-	Connections:
-		R1:n_node-C1:p_node,
-		R2:n_node-C2:p_node,
-		R3:n_node-C3:p_node.
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
 	;
+;
 
-	Ports:
-		R1.p_node[pe]=0;
-		R2.p_node[pe]=1;
-		R3.p_node[pe]=2;
-		C1.n_node[pe]=3;
-		C2.n_node[pe]=4;
-		C3.n_node[pe]=5;
-	;
-}
 
-RLC3 => {
-	R1=Resistor:
-		resistance=Resistance;
-	;
-	R2=Resistor:
-		resistance=Resistance;
-	;
-	R3=Resistor:
-		resistance=Resistance;
-	;
-	L1=Inductor:
-		inductance=Inductance;
-	;
-	L2=Inductor:
-		inductance=Inductance;
-	;
-	L3=Inductor:
-		inductance=Inductance;
-	;
-	C1=Capacitor:
-		capacitance=Capacitance;
-	;
-	C2=Capacitor:
-		capacitance=Capacitance;
-	;
-	C3=Capacitor:
-		capacitance=Capacitance;
-	;
+RC3 => core/Series RLC Branch:
 
-	Connections:
-		R1:n_node-L1:p_node,
-		L1:n_node-C1:p_node,
-		R2:n_node-L2:p_node,
-		L2:n_node-C2:p_node,
-		R3:n_node-L3:p_node,
-		L3:n_node-C3:p_node.
-	;
+    num_phases = "Three-Phase";
+    branch_type = "RC";
+    resistance=Resistance;
+	capacitance = Capacitance;
 
-	Ports:
-		R1.p_node[pe]=0;
-		R2.p_node[pe]=1;
-		R3.p_node[pe]=2;
-		C1.n_node[pe]=3;
-		C2.n_node[pe]=4;
-		C3.n_node[pe]=5;
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
 	;
-}
+;
+
+RLC3 => core/Series RLC Branch:
+
+    num_phases = "Three-Phase";
+    branch_type = "RLC";
+	resistance = Resistance;
+	inductance = Inductance;
+	capacitance = Capacitance;
+
+	Terminals:
+		P1_pos[pe] = 0;
+		P2_pos[pe] = 1;
+		P3_pos[pe] = 2;
+		P1_neg[pe] = 3;
+		P2_neg[pe] = 4;
+		P3_neg[pe] = 5;
+	;
+;
 
 MUT2 => core/Two Coupled Inductors:
 
@@ -1329,9 +1228,6 @@ ISIN => core/Current Source:
 	;
 ;
 
-
-
-
 SM_3L_FLYCAP_LEG => {
 
 	converter=Three Level Flying Capacitor Inverter Leg:
@@ -1343,7 +1239,7 @@ SM_3L_FLYCAP_LEG => {
 
 	C1=Capacitor:
 		capacitance= Cp1;
-		initial_voltage= VCp1;
+		initial_voltage= Vcp1;
 	;
 
 	Connections:
@@ -1362,44 +1258,21 @@ SM_3L_FLYCAP_LEG => {
 SM_7L_FLYCAP_LEG => {
 
 	converter=Seven Level Flying Capacitor Inverter Leg:
-		S_1= int2string(int_value = S_1);
-		S_2= int2string(int_value = S_2);
-		S_3= int2string(int_value = S_3);
-		S_4= int2string(int_value = S_4);
-		S_5= int2string(int_value = S_5);
-		S_6= int2string(int_value = S_6);
-		S_7= int2string(int_value = S_7);
-		S_8= int2string(int_value = S_8);
-		S_9= int2string(int_value = S_9);
-		S_10= int2string(int_value = S_10);
-		S_11= int2string(int_value = S_11);
-		S_12= int2string(int_value = S_12);
-
 	;
 
 	C1=Capacitor:
-		capacitance= Cp1;
-		initial_voltage= VCp1;
 	;
 
 	C2=Capacitor:
-		capacitance= Cp2;
-		initial_voltage= VCp2;
 	;
 
 	C3=Capacitor:
-		capacitance= Cp3;
-		initial_voltage= VCp3;
 	;
 
 	C4=Capacitor:
-		capacitance= Cp4;
-		initial_voltage= VCp4;
 	;
 
 	C5=Capacitor:
-		capacitance= Cp5;
-		initial_voltage= VCp5;
 	;
 
 	Connections:

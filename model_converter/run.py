@@ -10,7 +10,7 @@ from model_converter.converter.app.gui.main_window import MainApplication
 HIL_DEVICE_LIST = ["HIL402", "HIL404", "HIL600",
                    "HIL602", "HIL602+", "HIL603",
                    "HIL604"]
-SUPPORTED_SOURCES = ["PSIM", "SIMULINK"]
+SUPPORTED_SOURCES = ["psim", "simulink"]
 DEFAULT_CONFIG = 1
 DEFAULT_HIL = "HIL604"
 DEFAULT_COMPILE = True

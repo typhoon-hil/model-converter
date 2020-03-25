@@ -1363,7 +1363,7 @@ class BaseParser:
                 comp_ref = prop.value[0]
                 # Property name of the matched component
                 comp_prop_name = prop.value[1]
-                component = matched_terminals(comp_ref, None)
+                component = matched_terminals.get(comp_ref, None)
                 if component is None:
                     logging.warning(f"[N:1 - {rule.source_type} -> "
                                     f"{rule.typhoon_type}] Error in property "

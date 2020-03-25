@@ -169,15 +169,16 @@ class PSIMParser(BaseParser):
         Returns:
             Terminal
         """
+        offset = 8192
         x = None
         y = None
         node_id = None
         index = None
         for attribute in node[2]:
             if attribute[0] == "X":
-                x = int(attribute[2].strip("\""))
+                x = int(attribute[2].strip("\"")) * 2 + offset
             elif attribute[0] == "Y":
-                y = int(attribute[2].strip("\""))
+                y = int(attribute[2].strip("\"")) * 2 + offset
             elif attribute[0] == "NodeId":
                 node_id = int(attribute[2].strip("\""))
             elif attribute[0] == "Index":
@@ -198,15 +199,16 @@ class PSIMParser(BaseParser):
         Returns:
             [ [X(int), Y(int)], [rotation(int), flip(int)] ]
         """
+        offset = 8192
         x = None
         y = None
         rotation = None
         flip = None
         for attribute in node[2]:
             if attribute[0] == "X":
-                x = int(attribute[2].strip("\""))
+                x = int(attribute[2].strip("\"")) * 2 + offset
             elif attribute[0] == "Y":
-                y = int(attribute[2].strip("\""))
+                y = int(attribute[2].strip("\"")) * 2 + offset
             elif attribute[0] == "Direction":
                 rotation = int(attribute[2].strip("\""))
             elif attribute[0] == "Flip":

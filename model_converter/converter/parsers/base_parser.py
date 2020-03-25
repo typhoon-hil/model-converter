@@ -24,10 +24,8 @@ class BaseParser:
         self.rule_file_path = None
         self.input_file_path = None
         self.user_lib = None
-
+        self.detailed_log_path = None
         root_path = get_root_path()
-        logging.basicConfig(filename=os.path.join(root_path,"conversion.log"),
-                            filemode="w", level=logging.WARNING)
         self.rule_grammar = \
             Grammar.from_file(os.path.join(root_path,
                                            'converter',
@@ -749,7 +747,7 @@ class BaseParser:
                 self._connect(connectable_list)
         path = self.input_file_path.split(os.path.sep)
         path[0] += os.path.sep
-        path[-1] = path[-1].replace(".xml", "")
+        path[-1] = path[-1].replace(".xml", "").replace(".slx", "")
         self.save_path = self.get_original_file_name(path)
         self.mdl.save_as(self.save_path)
         if compile_model:
@@ -853,7 +851,7 @@ class BaseParser:
             sub (SubsystemDataHolder)
         """
         sub = SubsystemDataHolder()
-        sub.position = [i * 2 for i in component.position]
+        sub.position = component.position
         sub.name = component.name
 
         for handle, child_comp_rule in rule.components.items():
@@ -1067,7 +1065,7 @@ class BaseParser:
         dh.source_type = rule.source_type
         dh.name = component.name
         dh.orientation = component.orientation
-        dh.position = [i * 2 for i in component.position]
+        dh.position = component.position
 
         if parent_subsystem is not None:
             dh.parent = parent_subsystem
@@ -1133,7 +1131,7 @@ class BaseParser:
             terminal_obj.index = orig_terminal.index
             terminal_obj.kind = values[0]
             terminal_obj.name = values[2]
-            terminal_obj.position = [i * 2 for i in orig_terminal.position]
+            terminal_obj.position = orig_terminal.position
             terminal_obj.parent_component = dh
             dh.terminals.append(terminal_obj)
 
@@ -1351,8 +1349,8 @@ class BaseParser:
         position = [0, 0]
         for term in matched_terminals.values():
             name += term.parent_component.name + "|"
-            position[0] += term.parent_component.position[0] * 2
-            position[1] += term.parent_component.position[1] * 2
+            position[0] += term.parent_component.position[0]
+            position[1] += term.parent_component.position[1]
         position[0] = int(position[0] / len(matched_terminals))
         position[1] = int(position[1] / len(matched_terminals))
 
@@ -1365,7 +1363,7 @@ class BaseParser:
                 comp_ref = prop.value[0]
                 # Property name of the matched component
                 comp_prop_name = prop.value[1]
-                component = matched_terminals(comp_ref, None)
+                component = matched_terminals.get(comp_ref, None)
                 if component is None:
                     logging.warning(f"[N:1 - {rule.source_type} -> "
                                     f"{rule.typhoon_type}] Error in property "
@@ -1412,8 +1410,7 @@ class BaseParser:
                 terminal_obj.index = orig_terminal.index
                 terminal_obj.kind = term_props[0]
                 terminal_obj.name = term_props[2]
-                terminal_obj.position = [i * 2 for i in
-                                         orig_terminal.position]
+                terminal_obj.position = orig_terminal.position
                 dh.terminals.append(terminal_obj)
 
         if dh.typhoon_type not in self.conversion_dict:
@@ -1460,6 +1457,20 @@ class BaseParser:
         return converted_components
 
     def convert_schema(self, device_id, config_id, compile_model=False):
+        import platform
+
+        input_file_dir = self.input_file_path.split(os.path.sep)[:-1]
+        # If the OS is Windows, the split input_file_path will
+        # contain the drive letter without the path separator,
+        # which is a problem when the path is joined again
+        if platform.system() == "Windows":
+            input_file_dir.insert(1, os.path.sep)
+
+        self.detailed_log_path = os.path.join(*input_file_dir, "conversion.log")
+
+        logging.basicConfig(filename=self.detailed_log_path,
+                            filemode="w", level=logging.WARNING)
+
         self.report_path = None
         self.save_path = None
         self.converted = self.convert()

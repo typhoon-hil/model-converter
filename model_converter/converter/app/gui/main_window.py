@@ -132,8 +132,6 @@ class MainApplication(tk.Frame):
                                               config_id=self.configuration_id,
                                               compile_model=True)
 
-            root_path = get_root_path()
-            conversion_log = root_path + "\\conversion.log"
         except SchApiException as ex:
             self.progress_bar.config(value=0)
             self.report_text.config(state="normal")
@@ -160,7 +158,7 @@ class MainApplication(tk.Frame):
             self.report_text.insert(tk.END, valid_report)
             self.report_text.insert(tk.END, report.read())
             self.report_text.config(state="disabled")
-        with open(conversion_log, "r") as log:
+        with open(self.converter.parser.detailed_log_path, "r") as log:
             log_text = log.read()
             # If any errors are present
             if log_text:

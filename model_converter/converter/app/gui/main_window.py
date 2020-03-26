@@ -3,8 +3,11 @@ import tkinter as tk
 from tkinter import ttk, Toplevel
 from tkinter.filedialog import askopenfilename
 from model_converter.converter.app.util import get_root_path
-
-from typhoon.api.schematic_editor import SchApiException
+try:
+    from typhoon.api.schematic_editor import SchApiException
+# Temporary fix for namespace clashing in THCC
+except ImportError:
+    from typhoon.api.impl.schematic_editor import SchApiException
 
 from model_converter.converter.app.converter import Converter
 

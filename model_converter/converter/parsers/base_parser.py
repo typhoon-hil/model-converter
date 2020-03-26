@@ -18,7 +18,11 @@ from model_converter.converter.app.util import get_root_path
 class BaseParser:
 
     def __init__(self):
-        from typhoon.api.schematic_editor import model as mdl
+        try:
+            from typhoon.api.schematic_editor import model as mdl
+        # Temporary fix for namespace clashing in THCC
+        except ImportError:
+            from typhoon.api.impl.schematic_editor import model as mdl
         self.mdl = mdl
 
         self.rule_file_path = None
@@ -463,7 +467,12 @@ class BaseParser:
 
 
     def _save_single_component(self, component, parent=None):
-        from typhoon.api.schematic_editor.exception import SchApiException
+        try:
+            from typhoon.api.schematic_editor.exception import SchApiException
+        # Temporary fix for namespace clashing in THCC
+        except ImportError:
+            from typhoon.api.impl.schematic_editor.exception import \
+                SchApiException
         component.parent = parent
         component_handle = \
             self.mdl.create_component(
@@ -514,7 +523,12 @@ class BaseParser:
         return component_handle
 
     def save_component(self, component, parent=None):
-        from typhoon.api.schematic_editor.exception import SchApiException
+        try:
+            from typhoon.api.schematic_editor.exception import SchApiException
+        # Temporary fix for namespace clashing in THCC
+        except ImportError:
+            from typhoon.api.impl.schematic_editor.exception import \
+                SchApiException
         if isinstance(component, SubsystemDataHolder):
             component_handle = \
                 self.mdl.create_component(component.typhoon_type,
@@ -771,7 +785,12 @@ class BaseParser:
         Returns:
             None
         """
-        from typhoon.api.schematic_editor.exception import SchApiException
+        try:
+            from typhoon.api.schematic_editor.exception import SchApiException
+        # Temporary fix for namespace clashing in THCC
+        except ImportError:
+            from typhoon.api.impl.schematic_editor.exception import \
+                SchApiException
         junction = None
         # Checking if a junction should be used to connect
         # terminals from this node list

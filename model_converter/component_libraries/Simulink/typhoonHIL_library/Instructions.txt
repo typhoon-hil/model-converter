@@ -1,0 +1,5 @@
+ - Run install_typhoonHILlib.m
+ - Select a folder to which the library will be copied
+ - Create a circuit model with the new Typhoon blocks
+ - Save the model (.slx mandatory)
+ - Add a "Convert to TSE" block to perform the conversion

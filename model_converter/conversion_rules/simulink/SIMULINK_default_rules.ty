@@ -1580,3 +1580,554 @@ typhoonHILlib/Machine => core/DC Machine with Separate or Parallel Excitation:
         a2_in[pe] = rconn:2;
 	;
 ;
+
+@LineType == "Bergeron"
+@unit_sys == "Imperial"
+@NumPhases == 1
+typhoonHILlib/Transmission Line => core/Single Phase Bergeron Model:
+  unit_sys = lowercase(input_str=unit_sys);
+  d = length_berg;
+  rc = rc_berg;
+  cc = cc_berg;
+  ce = ce_berg;
+  lc = lc_berg;
+
+	Terminals:
+        A1[pe] = lconn:1;
+	      B1[pe] = lconn:2;
+        A2[pe] = rconn:1;
+        B2[pe] = rconn:2;
+	;
+;
+
+@LineType == "Bergeron"
+@unit_sys == "Metric"
+@NumPhases == 1
+typhoonHILlib/Transmission Line => core/Single Phase Bergeron Model:
+  unit_sys = lowercase(input_str=unit_sys);
+  d_m = length_berg;
+  rc_m = rc_berg;
+  cc_m = cc_berg;
+  ce_m = ce_berg;
+  lc_m = lc_berg;
+
+	Terminals:
+        A1[pe] = lconn:1;
+	      B1[pe] = lconn:2;
+        A2[pe] = rconn:1;
+        B2[pe] = rconn:2;
+	;
+;
+
+@LineType == "Bergeron"
+@unit_sys == "Imperial"
+@NumPhases == 3
+typhoonHILlib/Transmission Line => core/Three Phase Bergeron Model:
+  unit_sys = lowercase(input_str=unit_sys);
+  d = length_berg;
+  rc = rc_berg;
+  rg = rg_berg;
+  cc = cc_berg;
+  ce = ce_berg;
+  lc = lc_berg;
+  mc = mc_berg;
+
+	Terminals:
+        A1[pe] = lconn:1;
+	      B1[pe] = lconn:2;
+        C1[pe] = lconn:3;
+        A2[pe] = rconn:1;
+        B2[pe] = rconn:2;
+        C2[pe] = rconn:3;
+	;
+;
+
+@LineType == "Bergeron"
+@unit_sys == "Metric"
+@NumPhases == 3
+typhoonHILlib/Transmission Line => core/Three Phase Bergeron Model:
+  unit_sys = lowercase(input_str=unit_sys);
+  d_m = length_berg;
+  rc_m = rc_berg;
+  rg_m = rg_berg;
+  cc_m = cc_berg;
+  ce_m = ce_berg;
+  lc_m = lc_berg;
+  mc_m = mc_berg;
+
+	Terminals:
+        A1[pe] = lconn:1;
+	      B1[pe] = lconn:2;
+        C1[pe] = lconn:3;
+        A2[pe] = rconn:1;
+        B2[pe] = rconn:2;
+        C2[pe] = rconn:3;
+	;
+;
+
+@LineType == "RL Section"
+@unit_sys == "Imperial"
+typhoonHILlib/Transmission Line => core/RL Section:
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  length_mile = length_rl;
+  resistance_per_l_mile = r_rl;
+  inductance_per_l_mile = l_rl;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+        P7[pe] = rconn:4;
+	      P8[pe] = lconn:4;
+        P9[pe] = rconn:5;
+	      P10[pe] = lconn:5;
+	;
+;
+
+@LineType == "RL Section"
+@unit_sys == "Metric"
+typhoonHILlib/Transmission Line => core/RL Section:
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  length = length_rl;
+  resistance_per_l = r_rl;
+  inductance_per_l = l_rl;
+
+	Terminals:
+        P1[pe] = rconn:1;
+        P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+        P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+        P6[pe] = lconn:3;
+        P7[pe] = rconn:4;
+        P8[pe] = lconn:4;
+        P9[pe] = rconn:5;
+        P10[pe] = lconn:5;
+	;
+;
+
+
+@LineType == "PI Section"
+@underground == "on"
+@unit_sys == "Imperial"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "PI";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_imperial = r_picoup_seq;
+  L_sequence_imperial = l_picoup_seq;
+  C_sequence_imperial = c_picoup_seq;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "PI Section"
+@underground == "on"
+@unit_sys == "Metric"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "PI";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_metric = r_picoup_seq;
+  L_sequence_metric = l_picoup_seq;
+  C_sequence_metric = c_picoup_seq;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+
+@LineType == "PI Section"
+@underground == "on"
+@unit_sys == "Imperial"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "PI";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup;
+  Frequency = f_picoup;
+  R_imperial = r_picoup_mat;
+  L_imperial = l_picoup_mat;
+  C_imperial = c_picoup_mat;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "PI Section"
+@underground == "on"
+@unit_sys == "Metric"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "PI";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup;
+  Frequency = f_picoup;
+  R_metric = r_picoup_mat;
+  L_metric = l_picoup_mat;
+  C_metric = c_picoup_mat;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "on"
+@unit_sys == "Imperial"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "RL coupled";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_imperial = r_picoup_seq;
+  L_sequence_imperial = l_picoup_seq;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "on"
+@unit_sys == "Metric"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "RL coupled";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_metric = r_picoup_seq;
+  L_sequence_metric = l_picoup_seq;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+
+@LineType == "Coupled RL"
+@underground == "on"
+@unit_sys == "Imperial"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "RL coupled";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup;
+  Frequency = f_picoup;
+  R_imperial = r_picoup_mat;
+  L_imperial = l_picoup_mat;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "on"
+@unit_sys == "Metric"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Underground Cable:
+  model = "RL coupled";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup;
+  Frequency = f_picoup;
+  R_metric = r_picoup_mat;
+  L_metric = l_picoup_mat;
+
+	Terminals:
+        P1[pe] = rconn:1;
+	      P2[pe] = lconn:1;
+        P3[pe] = rconn:2;
+	      P4[pe] = lconn:2;
+        P5[pe] = rconn:3;
+	      P6[pe] = lconn:3;
+	;
+;
+
+@LineType == "PI Section"
+@underground == "off"
+@unit_sys == "Imperial"
+@NumPhases == "3"
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "PI";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_imperial = r_picoup_seq;
+  L_sequence_imperial = l_picoup_seq;
+  C_sequence_imperial = c_picoup_seq;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@LineType == "PI Section"
+@underground == "off"
+@unit_sys == "Metric"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "PI";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_metric = r_picoup_seq;
+  L_sequence_metric = l_picoup_seq;
+  C_sequence_metric = c_picoup_seq;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+        b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+        a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+        c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+
+@LineType == "PI Section"
+@underground == "off"
+@unit_sys == "Imperial"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "PI";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup;
+  Frequency = f_picoup;
+  R_imperial = r_picoup_mat;
+  L_imperial = l_picoup_mat;
+  C_imperial = c_picoup_mat;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@LineType == "PI Section"
+@underground == "off"
+@unit_sys == "Metric"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "PI";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup;
+  Frequency = f_picoup;
+  R_metric = r_picoup_mat;
+  L_metric = l_picoup_mat;
+  C_metric = c_picoup_mat;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "off"
+@unit_sys == "Imperial"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "RL coupled";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_imperial = r_picoup_seq;
+  L_sequence_imperial = l_picoup_seq;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "off"
+@unit_sys == "Metric"
+@NumPhases == 3
+@sequence == "on"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "RL coupled";
+  model_def = "Sequence";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup_seq;
+  Frequency = f_picoup;
+  R_sequence_metric = r_picoup_seq;
+  L_sequence_metric = l_picoup_seq;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+
+@LineType == "Coupled RL"
+@underground == "off"
+@unit_sys == "Imperial"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "RL coupled";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length_miles = length_picoup;
+  Frequency = f_picoup;
+  R_imperial = r_picoup_mat;
+  L_imperial = l_picoup_mat;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;
+
+@LineType == "Coupled RL"
+@underground == "off"
+@unit_sys == "Metric"
+@sequence == "off"
+typhoonHILlib/Transmission Line => core/Transmission Line:
+  model = "RL coupled";
+  model_def = "RLC";
+  num_of_phases = str2int(str_value=NumPhases);
+  unit_sys = lowercase(input_str=unit_sys);
+  Length = length_picoup;
+  Frequency = f_picoup;
+  R_metric = r_picoup_mat;
+  L_metric = l_picoup_mat;
+
+	Terminals:
+        a_in[pe] = lconn:1;
+	      b_in[pe] = lconn:2;
+        c_in[pe] = lconn:3;
+        d_in[pe] = lconn:4;
+	      a_out[pe] = rconn:1;
+        b_out[pe] = rconn:2;
+	      c_out[pe] = rconn:3;
+        d_out[pe] = rconn:4;
+	;
+;

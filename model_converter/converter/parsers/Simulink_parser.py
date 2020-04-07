@@ -236,7 +236,7 @@ class SimulinkParser(BaseParser):
                                                  int(position[2])) + offset
                     # y_min + y_max
                     new_component.position[1] = (int(position[1]) +
-                                                 int(position[4])) + offset
+                                                 int(position[3])) + offset
                 elif prop_name == "BlockRotation":
                     pass
                 elif prop_name == "Ports":

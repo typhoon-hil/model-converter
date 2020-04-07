@@ -1294,3 +1294,40 @@ SM_7L_FLYCAP_LEG => {
 		converter.A[pe]=2;
 	;
 }
+
+CPL_ITM_1 => core/Single Phase Core Coupling:
+
+	Terminals:
+		a_in[pe] = 0;
+		a_out[pe] = 1;
+		b_in[pe] = 2;
+		b_out[pe] = 3;
+	;
+;
+
+CPL_ITM_3 => core/Three Phase Core Coupling:
+
+	Terminals:
+		a_in[pe] = 0;
+		a_out[pe] = 1;
+		b_in[pe] = 2;
+		b_out[pe] = 3;
+		c_in[pe] = 4;
+		c_out[pe] = 5;
+	;
+;
+
+CPL_ITM_4 => core/Four Phase Core Coupling:
+
+	Terminals:
+		a_in[pe] = 0;
+		a_out[pe] = 1;
+		b_in[pe] = 2;
+		b_out[pe] = 3;
+		c_in[pe] = 4;
+		c_out[pe] = 5;
+		d_in[pe] = 6;
+		d_out[pe] = 7;
+	;
+;
+

@@ -140,8 +140,9 @@ powerlib/Elements/Three-Phase Parallel RLC Branch => core/Parallel RLC Branch:
 	;
 ;
 
+@SpecifyImpedance == "off"
 powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Source:
-    init_rms_value = Voltage;
+    init_rms_value = line_to_phase_rms(line_rms=Voltage);
     init_frequency = Frequency;
     init_phase = PhaseAngle;
 
@@ -150,6 +151,19 @@ powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Sourc
     b_node[pe] = rconn:2;
     c_node[pe] = rconn:3;
 		n_node[pe] = lconn:1;
+	;
+;
+
+@SpecifyImpedance == "on"
+powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Source:
+    resistance_grid_simulator = Resistance;
+    inductance_grid_simulator = Inductance;
+
+	Terminals:
+		PhaseA[pe] = rconn:1;
+    PhaseB[pe] = rconn:2;
+    PhaseC[pe] = rconn:3;
+		Neutral[pe] = lconn:1;
 	;
 ;
 

@@ -133,7 +133,7 @@ if strcmp(status_typ_, 'stopped')
 
         case 'Bergeron'
             line_berg_panel_typ_.Visible = 'on';
-            num_phases_param_typ_.TypeOptions = {'1' '3'};
+            num_phases_param_typ_.TypeOptions = {'3'};
             num_phases_typ_ = get_param(gcb, 'NumPhases');
             if strcmp(num_phases_typ_, '3')
                 rg_berg_typ_.Visible = 'on';
@@ -155,7 +155,7 @@ if strcmp(status_typ_, 'stopped')
     clear l_picoup_seq_typ_         num_phases_typ_           underground_param_typ_    
     clear l_picoup_seq_unit_typ_    r_picoup_mat_typ_         underground_typ_          
     clear last_unit_sys_param_typ_  r_picoup_mat_unit_typ_    unit_sys_typ_             
-    clear line_berg_panel_typ_      r_picoup_seq_typ_ 
+    clear line_berg_panel_typ_      r_picoup_seq_typ_         sequence_typ_
     
 end
 

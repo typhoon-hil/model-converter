@@ -23,9 +23,8 @@ slx_filepath_typ_ = which(bdroot);
 % Get the path to the Typhoon library
 lib_path_split_typ_ = strsplit(which('typhoonHILlib'),'\');
 lib_path_typ_ = strjoin(lib_path_split_typ_(1:end-1),'\');
-[ignore_typ_ out_typ_] = system(['"' lib_path_typ_ '\tse_convert.bat" ' '"' out_typ_ '" "' slx_filepath_typ_ '" "' device_typ_ '" "' compile_str_typ_ '"']);
-
 disp('Initializing the conversion...')
+[ignore_typ_ out_typ_] = system(['"' lib_path_typ_ '\tse_convert.bat" ' '"' out_typ_ '" "' slx_filepath_typ_ '" "' device_typ_ '" "' compile_str_typ_ '"']);
 
 % Check the output from tse_convert.bat to determine success or failure.
 
@@ -36,3 +35,6 @@ else
     convert_text_typ_.Prompt = ["<font color='red'>Failed. Please check the Command Window.</font>"];
     disp(['Could not complete the conversion:' newline out_typ_]);
 end
+
+clear compile_str_typ_     convert_text_typ_    ignore_typ_          lib_path_typ_        slx_filepath_typ_    
+clear compile_typ_         device_typ_          lib_path_split_typ_  out_typ_             version_typ_         

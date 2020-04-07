@@ -23,28 +23,45 @@ if strcmp(status, 'stopped')&tog_init&~strcmp(bdroot,'typhoonHILlib')
 
     switch selected_type
         
-        case 'PI Section'  
+        case 'PI Section'
             
-            underground_typ_ = get_param(gcb, 'underground');
-            if strcmp(underground_typ_, 'on')
-                pat = ['typhoonPatterns/Cable ' num_phases 'PH'];
+            description_text = ['There are two ways to define the model parameters:<br><br>'...
+                                '- RLC: per length resistance, inductance and capacitance'...
+                                ' of cables in the phase domain<br>'...
+                                '- Sequence: per length resistance, inductance and capacitance'...
+                                'values of cables in the sequence domain. Model parameters can'...
+                                ' be defined this way only for three phase transmission lines'];
+                            
+            sequence = get_param(gcb, 'sequence');
+            if strcmp(sequence, 'on')
+                pat = ['typhoonPatterns/PI 3PH Seq'];
             else
                 pat = ['typhoonPatterns/PI ' num_phases 'PH'];
             end
             
         case 'RL Section'
+            description_text = ['RL section is a simplified model of an overhead or underground transmission line. '...
+                                'Phase coupling is not taken into consideration.'];
             pat = ['typhoonPatterns/RL Section ' num_phases 'PH'];
         
         case 'Coupled RL'
             
-            underground_typ_ = get_param(gcb, 'underground');
-            if strcmp(underground_typ_, 'on')
-                pat = ['typhoonPatterns/Cable ' num_phases 'PH'];
+            description_text = ['There are two ways to define the model parameters:<br><br>'...
+                                '- RLC: per length resistance, inductance and capacitance'...
+                                ' of cables in the phase domain<br>'...
+                                '- Sequence: per length resistance, inductance and capacitance'...
+                                'values of cables in the sequence domain. Model parameters can'...
+                                ' be defined this way only for three phase transmission lines'];
+                            
+            sequence = get_param(gcb, 'sequence');
+            if strcmp(sequence, 'on')
+                pat = ['typhoonPatterns/RL Coupled 3PH Seq'];
             else
                 pat = ['typhoonPatterns/RL Coupled ' num_phases 'PH'];
             end
-        
+            
         case 'Bergeron'
+            description_text = ['Distributed Parameters Line model'];
             pat = ['typhoonPatterns/Bergeron ' num_phases 'PH'];
 
     end
@@ -79,9 +96,7 @@ if strcmp(status, 'stopped')&tog_init&~strcmp(bdroot,'typhoonHILlib')
     comp_title = mask.getDialogControl('DescTitle');
     comp_title.Prompt = comp_string;
     
-    description_text = ['In HIL simulation the switches in the contactor are electrically ideal, '...
-                        'meaning when closed the resistance is zero, when open the resistance is infinite.<br>'...
-                        'Transition time can be defined for both transitions separately.'];
+    
     mask.set('Description', description_text);
     DescTitle.Visible = 'off';
     

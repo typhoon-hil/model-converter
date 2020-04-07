@@ -15,6 +15,12 @@ DEFAULT_CONFIG = 1
 DEFAULT_HIL = "HIL604"
 DEFAULT_COMPILE = True
 
+def input_is_true(value):
+    if type(value) is not str or value.lower() not in ["true", "false"]:
+        raise InvalidArgumentException(f"{value} is not a valid value. "
+                                       f"Expected True or False.")
+    return value.lower() == "true"
+
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser()
 
@@ -61,8 +67,7 @@ if __name__ == "__main__":
                             help=f"Should the converted model "
                                  f"be compiled? Allowed values are True "
                                  f"or False (default: {DEFAULT_COMPILE})",
-                            choices=[True, False],
-                            type=bool,
+                            type=input_is_true,
                             required=False,
                             default=DEFAULT_COMPILE)
 

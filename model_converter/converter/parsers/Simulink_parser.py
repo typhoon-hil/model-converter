@@ -231,8 +231,12 @@ class SimulinkParser(BaseParser):
                     position = \
                         child.text.strip("[]").replace(" ", "").split(",")
                     offset = 8192
-                    new_component.position[0] = int(position[0])*2 + offset
-                    new_component.position[1] = int(position[1])*2 + offset
+                    # x_min + x_max
+                    new_component.position[0] = (int(position[0]) +
+                                                 int(position[2])) + offset
+                    # y_min + y_max
+                    new_component.position[1] = (int(position[1]) +
+                                                 int(position[3])) + offset
                 elif prop_name == "BlockRotation":
                     pass
                 elif prop_name == "Ports":

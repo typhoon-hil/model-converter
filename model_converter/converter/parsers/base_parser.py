@@ -600,8 +600,18 @@ class BaseParser:
                                     f"{start_terminal} with {end_terminal}.")
             # Counter for unique port names.
             UID = 0
-            init_pos = [15, 50]
+
             for port in component.ports:
+
+                if port.side == "left":
+                    position = (component.comp_grid_dimensions[0][0],
+                                component.comp_grid_dimensions[1][0])
+                elif port.side == "right":
+                    position = (component.comp_grid_dimensions[0][1],
+                                component.comp_grid_dimensions[1][0])
+                # Next port should be placed beneath the current one
+                component.comp_grid_dimensions[1][0] += 50
+
                 # If the parent_component of a port is a string,
                 # the conversion was 1:Sub. This means the port_name
                 # should contain the parent_component name to avoid
@@ -616,12 +626,12 @@ class BaseParser:
                                                        kind=port.kind,
                                                        direction=port.direction,
                                                        name=port_name,
-                                                       position=init_pos)
+                                                       position=position)
                 else:
                     port_handle = self.mdl.create_port(parent=component_handle,
                                                        kind=port.kind,
                                                        name=port_name,
-                                                       position=init_pos)
+                                                       position=position)
                 #
                 # Checking if the parent_component of this port is
                 # a string value. If it is, the Subsystem was not
@@ -635,8 +645,6 @@ class BaseParser:
                                       port.name)
                     self.mdl.create_connection(port_handle, source_term)
 
-                init_pos = [i for i in init_pos]
-                init_pos[1] += 50
 
                 UID += 1  # Incrementation of the unique ID number.
                 level = self.node_dict.get(component_handle, None)
@@ -880,6 +888,8 @@ class BaseParser:
             dh.name = handle
             sub.components[handle] = [dh]
 
+        sub.calculate_grid_dimensions()
+
         sub.connections = rule.connections
 
         try:
@@ -892,6 +902,8 @@ class BaseParser:
                 port.kind = values[0]
                 port.parent_component = values[1]
                 port.name = values[2]
+                if "rconn" in port.name:
+                    port.side = "right"
                 sub.ports.append(port)
         except KeyError:
             logging.warning(f"[1:M - {rule.source_type} ({component.name}) -> "
@@ -980,9 +992,11 @@ class BaseParser:
             #
             else:
                 if dh.typhoon_type not in parent_subsystem.components:
-                    parent_subsystem.components[dh.typhoon_type] = [dh]
-                else:
-                    parent_subsystem.components[dh.typhoon_type].append(dh)
+                    parent_subsystem.components[dh.typhoon_type] = []
+
+                parent_subsystem.components[dh.typhoon_type].append(dh)
+                # Calculating the component grid each time a component is added
+                parent_subsystem.calculate_grid_dimensions()
         if ret_val:
             return ret_val
 
@@ -1322,6 +1336,7 @@ class BaseParser:
             # upon creation via API
             components[handle] = [dh]
         sub.components = components
+        sub.calculate_grid_dimensions()
         sub.connections = rule.connections
         try:
             for i, items in enumerate(rule.ports.items()):
@@ -1334,7 +1349,8 @@ class BaseParser:
                 port.kind = values[0]
                 port.parent_component = values[1]
                 port.name = values[2]
-
+                if "rconn" in port.name:
+                    port.side = "right"
                 sub.ports.append(port)
         except KeyError:
             logging.warning(

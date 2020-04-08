@@ -73,8 +73,11 @@ class SubsystemDataHolder:
         # Stretching the grid out so the ports
         # don't get placed on top of the components
         #
-        self.comp_grid_dimensions[0][0] -= 100
-        self.comp_grid_dimensions[0][1] += 100
-        self.comp_grid_dimensions[1][0] -= 100
-        self.comp_grid_dimensions[1][1] += 100
+        self.comp_grid_dimensions[0][0] -= 150
+        self.comp_grid_dimensions[0][1] += 150
+        self.comp_grid_dimensions[1][0] -= 150
+        self.comp_grid_dimensions[1][1] += 150
 
+    def set_port_sides(self):
+        for port in self.ports:
+            port.side = "right" if "rconn" in port.index else "left"

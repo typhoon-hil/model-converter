@@ -71,6 +71,7 @@ class SimulinkParser(BaseParser):
             sp_in_term.index = f"in:{i+1}"
             sp_in_term.name = None
             sp_in_term.kind = "sp"
+            sp_in_term.side = "left"
             terminal_obj_dict[sp_in_term.index] = sp_in_term
         if len(terminals) == 1:
             return terminal_obj_dict
@@ -80,6 +81,7 @@ class SimulinkParser(BaseParser):
             sp_out_term.index = f"out:{i+1}"
             sp_out_term.name = None
             sp_out_term.kind = "sp"
+            sp_out_term.side = "right"
             terminal_obj_dict[sp_out_term.index] = sp_out_term
         if len(terminals) == 2:
             return terminal_obj_dict
@@ -89,6 +91,7 @@ class SimulinkParser(BaseParser):
                 pe_in_term = Terminal()
                 pe_in_term.index = f"lconn:{i+1}"
                 pe_in_term.name = None
+                pe_in_term.side = "left"
                 terminal_obj_dict[pe_in_term.index] = pe_in_term
         # Component has PE terminals (rconn)
         if len(terminals) == 7:
@@ -96,6 +99,7 @@ class SimulinkParser(BaseParser):
                 pe_out_term = Terminal()
                 pe_out_term.index = f"rconn:{i+1}"
                 pe_out_term.name = None
+                pe_out_term.side = "right"
                 terminal_obj_dict[pe_out_term.index] = pe_out_term
 
         return terminal_obj_dict

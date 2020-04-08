@@ -412,6 +412,7 @@ class BaseParser:
             subsystem.ports = [port.clone() for port
                                in component_parent.terminals]
 
+            subsystem.set_port_sides()
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
         if current_sub is not None:
@@ -600,17 +601,25 @@ class BaseParser:
                                     f"{start_terminal} with {end_terminal}.")
             # Counter for unique port names.
             UID = 0
-
+            left_pos = [component.comp_grid_dimensions[0][0],
+                        component.comp_grid_dimensions[1][0]]
+            right_pos = [component.comp_grid_dimensions[0][1],
+                         component.comp_grid_dimensions[1][0]]
             for port in component.ports:
 
                 if port.side == "left":
-                    position = (component.comp_grid_dimensions[0][0],
-                                component.comp_grid_dimensions[1][0])
+                    position = (left_pos[0],
+                                left_pos[1])
+                    # Next port should be placed beneath the last one
+                    # on that side
+                    left_pos[1] += 50
                 elif port.side == "right":
-                    position = (component.comp_grid_dimensions[0][1],
-                                component.comp_grid_dimensions[1][0])
-                # Next port should be placed beneath the current one
-                component.comp_grid_dimensions[1][0] += 50
+                    position = (right_pos[0],
+                                right_pos[1])
+                    # Next port should be placed beneath the last one
+                    # on that side
+                    right_pos[1] += 50
+
 
                 # If the parent_component of a port is a string,
                 # the conversion was 1:Sub. This means the port_name
@@ -626,12 +635,16 @@ class BaseParser:
                                                        kind=port.kind,
                                                        direction=port.direction,
                                                        name=port_name,
-                                                       position=position)
+                                                       position=position,
+                                                       terminal_position=
+                                                       (port.side, "auto"))
                 else:
                     port_handle = self.mdl.create_port(parent=component_handle,
                                                        kind=port.kind,
                                                        name=port_name,
-                                                       position=position)
+                                                       position=position,
+                                                       terminal_position=
+                                                       (port.side, "auto"))
                 #
                 # Checking if the parent_component of this port is
                 # a string value. If it is, the Subsystem was not
@@ -694,7 +707,10 @@ class BaseParser:
             port_handle = self.mdl.create_port(parent=sub,
                                                kind=port.kind,
                                                name=port_name,
-                                               position=port.position)
+                                               position=port.position,
+                                               terminal_position=
+                                               (port.side, "auto")
+                                               )
 
             UID += 1  # Incrementation of the unique ID number.
             level = self.node_dict.get(sub, None)
@@ -902,8 +918,6 @@ class BaseParser:
                 port.kind = values[0]
                 port.parent_component = values[1]
                 port.name = values[2]
-                if "rconn" in port.name:
-                    port.side = "right"
                 sub.ports.append(port)
         except KeyError:
             logging.warning(f"[1:M - {rule.source_type} ({component.name}) -> "
@@ -911,7 +925,7 @@ class BaseParser:
                             f"missing terminal with the ID \"{key}\" in the "
                             f"source component.")
             return None
-
+        sub.set_port_sides()
         sub.parent = parent_subsystem
         return sub
 
@@ -995,8 +1009,6 @@ class BaseParser:
                     parent_subsystem.components[dh.typhoon_type] = []
 
                 parent_subsystem.components[dh.typhoon_type].append(dh)
-                # Calculating the component grid each time a component is added
-                parent_subsystem.calculate_grid_dimensions()
         if ret_val:
             return ret_val
 
@@ -1166,6 +1178,7 @@ class BaseParser:
             terminal_obj.name = values[2]
             terminal_obj.position = orig_terminal.position
             terminal_obj.parent_component = dh
+            terminal_obj.side = orig_terminal.side
             dh.terminals.append(terminal_obj)
 
         component.converted = True
@@ -1349,8 +1362,6 @@ class BaseParser:
                 port.kind = values[0]
                 port.parent_component = values[1]
                 port.name = values[2]
-                if "rconn" in port.name:
-                    port.side = "right"
                 sub.ports.append(port)
         except KeyError:
             logging.warning(
@@ -1360,8 +1371,7 @@ class BaseParser:
                 f"source component.")
             return None
 
-
-        # sub.parent = parent_subsystem
+        sub.set_port_sides()
 
         self.conversion_dict["Subsystem"].append(sub)
         return sub
@@ -1446,6 +1456,7 @@ class BaseParser:
                 terminal_obj.kind = term_props[0]
                 terminal_obj.name = term_props[2]
                 terminal_obj.position = orig_terminal.position
+                terminal_obj.side = orig_terminal.side
                 dh.terminals.append(terminal_obj)
 
         if dh.typhoon_type not in self.conversion_dict:
@@ -1489,6 +1500,10 @@ class BaseParser:
                 component = self._convert_one_to_n(rule)
                 if component is not None:
                     converted_components.append(component)
+
+        for subsystem in self.conversion_dict["Subsystem"]:
+            subsystem.calculate_grid_dimensions()
+
         return converted_components
 
     def convert_schema(self, device_id, config_id, compile_model=False):

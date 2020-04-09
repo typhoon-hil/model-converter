@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='model_converter',
-    version='1.4.2',
+    version='1.4.3',
     packages=find_packages(),
     install_requires=["parglare==0.10.0", "typhoon-hil-api"],
     url='https://www.typhoon-hil.com/',

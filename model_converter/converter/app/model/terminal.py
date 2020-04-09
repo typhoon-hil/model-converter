@@ -5,7 +5,8 @@ class Terminal:
 
     def __init__(self, position:list=None, node_id:int=None,
                  index:(int,str)=None, parent_component:Component=None,
-                 name:str=None, kind:str="pe", direction:str="in"):
+                 name:str=None, kind:str="pe", direction:str="in",
+                 side:str="left"):
         self.position = position
         self.node_id = node_id
         self.direction = direction
@@ -13,6 +14,7 @@ class Terminal:
         self.parent_component = parent_component
         self.kind = kind
         self.name = name
+        self.side = side
 
     def clone(self):
         terminal = Terminal()
@@ -23,6 +25,7 @@ class Terminal:
         terminal.position = [coord for coord in self.position]
         terminal.direction = self.direction
         terminal.index = self.index
+        terminal.side = self.side
         return terminal
 
     def copy_from(self, other: "Terminal"):
@@ -33,6 +36,7 @@ class Terminal:
         self.direction = other.direction
         self.position = [coord for coord in other.position]
         self.parent_component = other.parent_component
+        self.side = other.side
 
 
 class Port(Terminal):

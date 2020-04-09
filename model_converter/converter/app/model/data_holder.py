@@ -80,4 +80,5 @@ class SubsystemDataHolder:
 
     def set_port_sides(self):
         for port in self.ports:
-            port.side = "right" if "rconn" in port.index else "left"
+            port.side = "right" if "rconn" in port.index or \
+                                   "out" in port.index else "left"

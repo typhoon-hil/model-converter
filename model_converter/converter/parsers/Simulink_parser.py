@@ -289,8 +289,21 @@ class SimulinkParser(BaseParser):
                             key = "__out__"
                             term_index = f"out:{port.parent.properties[key]}"
                             port.parent.properties[key] += 1
-                        # Ports always have a single "terminal"
-                        term = list(port.terminals.values())[0]
+                        #
+                        # Connected ports always have
+                        # a single "outside" terminal,
+                        # and these terminals are created
+                        # when the Line elements of a
+                        # Subsystem are parsed
+                        #
+                        try:
+                            term = list(port.terminals.values())[0]
+                        #
+                        # A terminal will not exist
+                        # if the Port is not connected
+                        #
+                        except IndexError:
+                            continue
                         # Keeping the original port name
                         term.name = port.name
                         term.index = term_index
@@ -439,7 +452,7 @@ class SimulinkParser(BaseParser):
                 if kind == "sp":
                     # term_kind holds the direction,
                     # extracted from the terminal name
-                    terminal.direction = term_kind
+                    terminal.direction = "in" if term_kind == "out" else "out"
                 # Subsystem terminals are contained in lists, since
                 # their "index" is not a unique value - example:
                 # multiple lconn:1 terminals for each PMIOPort

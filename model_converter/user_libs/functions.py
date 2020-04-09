@@ -163,3 +163,6 @@ def simulink_pmsm_theta_ab(angle):
         return angle
     elif str(int(angle)) == '0':
         return str(int(angle))
+
+def simulink_remove_pipes(list_of_signs):
+    return list_of_signs.replace("|","")

@@ -2145,3 +2145,74 @@ typhoonHILlib/Transmission Line => core/Transmission Line:
         d_out[pe] = rconn:4;
 	;
 ;
+
+Abs => core/Abs:
+
+	Terminals:
+        in[sp] = in:1;
+	      out[pe] = out:1;
+	;
+;
+
+Signum => core/Sign:
+
+	Terminals:
+        in[sp] = in:1;
+	      out[pe] = out:1;
+	;
+;
+
+Sum => core/Sum:
+  signs = simulink_remove_pipes(list_of_signs=Inputs);
+
+	Terminals:
+        in[sp] = in:1;
+        in2[sp] = in:2;
+        in3[sp] = in:3;
+        in4[sp] = in:4;
+        in5[sp] = in:5;
+        in6[sp] = in:6;
+        in7[sp] = in:7;
+        in8[sp] = in:8;
+        in9[sp] = in:9;
+        in10[sp] = in:10;
+	      out[sp] = out:1;
+	;
+;
+
+Product => core/Product:
+  signs = simulink_remove_pipes(list_of_signs=Inputs);
+
+	Terminals:
+        in[sp] = in:1;
+        in2[sp] = in:2;
+        in3[sp] = in:3;
+        in4[sp] = in:4;
+        in5[sp] = in:5;
+        in6[sp] = in:6;
+        in7[sp] = in:7;
+        in8[sp] = in:8;
+        in9[sp] = in:9;
+        in10[sp] = in:10;
+	      out[sp] = out:1;
+	;
+;
+
+Gain => core/Gain:
+  gain = Gain;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:1;
+	;
+;
+
+Saturate => core/Limit:
+  upper_limit = UpperLimit;
+  lower_limit = LowerLimit;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:1;
+	;
+;

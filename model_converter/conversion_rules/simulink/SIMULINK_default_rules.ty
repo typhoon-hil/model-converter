@@ -2216,3 +2216,114 @@ Saturate => core/Limit:
 	      out[sp] = out:1;
 	;
 ;
+
+Constant => core/Constant:
+  value = Value;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+UnitDelay => core/Unit Delay:
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+  ;
+;
+
+
+@PulseType == "Time based"
+@TimeSource == "Use simulation time"
+DiscretePulseGenerator => core/Square Wave Source:
+
+  hs_output = Amplitude;
+  frequency = period_frequency(freq_or_per=Period);
+  duty_cycle = divide(num=PulseWidth, den=100);
+  phase = simulink_pulse_delay(period=Period, delay=PhaseDelay);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+
+@SineType == "Time based"
+@TimeSource == "Use simulation time"
+Sin => core/Sinusoidal Source:
+
+  amplitude = Amplitude;
+  dc_offset = Bias;
+  frequency = divide_by_num(num=Frequency, den=3.1415927);
+  phase = rad_to_deg(rad_value=Phase);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+Step => core/Step:
+  step_time = Time;
+  initial_value = Before;
+  final_value = After;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@ProbeType == "SCADA Output"
+typhoonHILlib/HIL Probe => core/SCADA Output:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+@ProbeType == "Digital Probe"
+typhoonHILlib/HIL Probe => core/Digital Probe:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+@ProbeType == "Analog Probe"
+typhoonHILlib/HIL Probe => core/Probe:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+
+@InputType == "SCADA Input"
+typhoonHILlib/HIL Input => core/SCADA Input:
+  min = min;
+  max = max;
+  def_value = def_value;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@InputType == "Digital Input"
+typhoonHILlib/HIL Input => core/Digital Input:
+  addr = int2string(int_value=addr_digital);
+  invert = on_off_to_bool_str(logic_str=invert);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@InputType == "Analog Input"
+typhoonHILlib/HIL Input => core/Analog Input:
+  addr = int2string(int_value=addr_analog);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;

@@ -7,7 +7,7 @@ from model_converter.converter.parsers.Simulink_parser import SimulinkParser
 
 class Converter:
 
-    VERSION = "1.4.3"
+    VERSION = "1.4.4"
 
     """
     Main class of the application. Holds the parser instance reference

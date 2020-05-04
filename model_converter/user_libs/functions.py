@@ -163,3 +163,25 @@ def simulink_pmsm_theta_ab(angle):
         return angle
     elif str(int(angle)) == '0':
         return str(int(angle))
+
+def snb_type_i_int_to_str(snb_type_int):
+    if snb_type_int == 1:
+        return 'R1'
+    elif snb_type_int == 2:
+        return 'R1-C1'
+    else:
+        return 'none'
+
+def snb_type_u_int_to_str(snb_type_int):
+    if snb_type_int == 1:
+        return 'R2'
+    elif snb_type_int == 2:
+        return 'R2||L1'
+    else:
+        return 'none'
+
+def fixed_snb_int_to_str(fixed_snb_int):
+    if fixed_snb_int == 0:
+        return 'false'
+    else:
+        return 'true'

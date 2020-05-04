@@ -1295,39 +1295,94 @@ SM_7L_FLYCAP_LEG => {
 	;
 }
 
-CPL_ITM_1 => core/Single Phase Core Coupling:
+CORE_COUPLING_2PH => core/Single Phase Core Coupling:
+
+    snb_type_i=snb_type_i_int_to_str(snb_type_int=snubber_type_i);
+    R1=R1_i;
+    C1=C1_i;
+    fixed_snb_i=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_i);
+
+    snb_type_u=snb_type_u_int_to_str(snb_type_int=snubber_type_v);
+    R2=R2_v;
+    L1=L1_v;
+    fixed_snb_u=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_v);
 
 	Terminals:
 		a_in[pe] = 0;
-		a_out[pe] = 1;
-		b_in[pe] = 2;
+		a_out[pe] = 2;
+		b_in[pe] = 1;
 		b_out[pe] = 3;
 	;
 ;
 
-CPL_ITM_3 => core/Three Phase Core Coupling:
+CORE_COUPLING_3PH => core/Three Phase Core Coupling:
+
+    snb_type_i=snb_type_i_int_to_str(snb_type_int=snubber_type_i);
+    R1=R1_i;
+    C1=C1_i;
+    fixed_snb_i=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_i);
+
+    snb_type_u=snb_type_u_int_to_str(snb_type_int=snubber_type_v);
+    R2=R2_v;
+    L1=L1_v;
+    fixed_snb_u=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_v);
 
 	Terminals:
 		a_in[pe] = 0;
-		a_out[pe] = 1;
-		b_in[pe] = 2;
-		b_out[pe] = 3;
-		c_in[pe] = 4;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		a_out[pe] = 3;
+		b_out[pe] = 4;
 		c_out[pe] = 5;
 	;
 ;
 
-CPL_ITM_4 => core/Four Phase Core Coupling:
+CORE_COUPLING_4PH => core/Four Phase Core Coupling:
+
+    snb_type_i=snb_type_i_int_to_str(snb_type_int=snubber_type_i);
+    R1=R1_i;
+    C1=C1_i;
+    fixed_snb_i=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_i);
+
+    snb_type_u=snb_type_u_int_to_str(snb_type_int=snubber_type_v);
+    R2=R2_v;
+    L1=L1_v;
+    fixed_snb_u=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_v);
 
 	Terminals:
 		a_in[pe] = 0;
-		a_out[pe] = 1;
-		b_in[pe] = 2;
-		b_out[pe] = 3;
-		c_in[pe] = 4;
-		c_out[pe] = 5;
-		d_in[pe] = 6;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		d_in[pe] = 3;
+		a_out[pe] = 4;
+		b_out[pe] = 5;
+		c_out[pe] = 6;
 		d_out[pe] = 7;
 	;
 ;
 
+CORE_COUPLING_5PH => core/Five Phase Core Coupling:
+
+    snb_type_i=snb_type_i_int_to_str(snb_type_int=snubber_type_i);
+    R1=R1_i;
+    C1=C1_i;
+    fixed_snb_i=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_i);
+
+    snb_type_u=snb_type_u_int_to_str(snb_type_int=snubber_type_v);
+    R2=R2_v;
+    L1=L1_v;
+    fixed_snb_u=fixed_snb_int_to_str(fixed_snb_int=fixed_snubber_v);
+
+	Terminals:
+		a_in[pe] = 0;
+		b_in[pe] = 1;
+		c_in[pe] = 2;
+		d_in[pe] = 3;
+		e_in[pe] = 4;
+		a_out[pe] = 5;
+		b_out[pe] = 6;
+		c_out[pe] = 7;
+		d_out[pe] = 8;
+		e_out[pe] = 9;
+	;
+;

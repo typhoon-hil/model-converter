@@ -257,6 +257,19 @@ class SimulinkParser(BaseParser):
                 elif prop_name == "Side":
                     term_side = self._create_input_obj_model(child)
                     new_component.properties.update(term_side)
+                #
+                # Parsing all other P tags.
+                # !! NOTE: these properties will be overwritten by
+                # InstanceData properties if they have the same name !!
+                #
+                else:
+                    # A tag's .text attribute is None if
+                    # the tag is a self-closing XML tag
+                    # e.g. <P Name="UserData" Ref="bdmxdata:UserData_555"/>
+                    if child.text is not None:
+                        non_instance_data_props = \
+                            self._create_input_obj_model(child)
+                        new_component.properties.update(non_instance_data_props)
             #
             # The block is a subsystem element
             #
@@ -360,6 +373,10 @@ class SimulinkParser(BaseParser):
             orientation = "left"
         new_component.orientation = orientation
 
+        # Ignoring commented components
+        if new_component.properties.get("Commented") in ("on", "through"):
+            return None
+
         self._add_component_to_dicts(new_component)
         return new_component
 
@@ -426,7 +443,7 @@ class SimulinkParser(BaseParser):
                 kind = None
                 if term_kind in ("lconn", "rconn"):
                     kind = "pe"
-                elif term_kind in ("in", "out"):
+                elif term_kind in ("in", "out", "state"):
                     kind = "sp"
                 if kind is None:
                     raise Exception(f"Cannot create terminal of "

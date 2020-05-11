@@ -415,7 +415,8 @@ class BaseParser:
             subsystem.set_port_sides()
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
-        if current_sub is not None:
+        if current_sub is not None and \
+                current_sub not in subsystem.components["Subsystem"]:
             subsystem.components["Subsystem"].append(current_sub)
         if component_parent.parent is None:
             if subsystem not in self.conversion_dict["Subsystem"]:
@@ -1009,6 +1010,7 @@ class BaseParser:
                     parent_subsystem.components[dh.typhoon_type] = []
 
                 parent_subsystem.components[dh.typhoon_type].append(dh)
+                parent_subsystem.calculate_grid_dimensions()
         if ret_val:
             return ret_val
 

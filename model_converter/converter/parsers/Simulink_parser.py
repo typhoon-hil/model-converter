@@ -375,6 +375,7 @@ class SimulinkParser(BaseParser):
 
         # Ignoring commented components
         if new_component.properties.get("Commented") in ("on", "through"):
+            self.__remove_commented_subsystem(new_component)
             return None
 
         self._add_component_to_dicts(new_component)
@@ -434,8 +435,10 @@ class SimulinkParser(BaseParser):
             # The component reference is used to set the missing
             # terminal's parent, and also to add terminals to its
             # terminal collection
-            component = self.component_id_dict.get(data[0])
-
+            component = self.component_id_dict.get(data[0], None)
+            # If the component is None, that means it has been commented out
+            if component is None:
+                return []
             terminal = self.__get_component_terminal(data)
 
             if terminal is None:
@@ -585,6 +588,15 @@ class SimulinkParser(BaseParser):
 
         elif node.tag == "Line" and not skip_connections:
             return self._set_terminal_node_id(node)
+
+    def __remove_commented_subsystem(self, subsystem:Subsystem):
+        if type(subsystem) is not Subsystem:
+            return
+        for child_type, child_list in subsystem.component_dict.items():
+            for child in child_list:
+                if child in self.source_comp_dict_by_type.get(child_type, []):
+                    self.source_comp_dict_by_type.get(child_type).remove(child)
+
 
     def read_input(self):
         import xml.etree.ElementTree as ET

@@ -1010,7 +1010,6 @@ class BaseParser:
                     parent_subsystem.components[dh.typhoon_type] = []
 
                 parent_subsystem.components[dh.typhoon_type].append(dh)
-                parent_subsystem.calculate_grid_dimensions()
         if ret_val:
             return ret_val
 

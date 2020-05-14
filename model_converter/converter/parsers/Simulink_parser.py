@@ -242,7 +242,17 @@ class SimulinkParser(BaseParser):
                     new_component.position[1] = (int(position[1]) +
                                                  int(position[3])) + offset
                 elif prop_name == "BlockRotation":
-                    pass
+                    value = int(child.text)
+                    orientation = "up"
+                    if value == 0:
+                        orientation = "up"
+                    elif value == 90:
+                        orientation = "right"
+                    elif value == 180:
+                        orientation = "down"
+                    elif value == 270:
+                        orientation = "left"
+                    new_component.orientation = orientation
                 elif prop_name == "Ports":
                     # Subsystem ports are defined
                     # by the child block's "PMIOPort"/"Inport"/"Outport"

@@ -241,18 +241,7 @@ class SimulinkParser(BaseParser):
                     # y_min + y_max
                     new_component.position[1] = (int(position[1]) +
                                                  int(position[3])) + offset
-                elif prop_name == "BlockRotation":
-                    value = int(child.text)
-                    orientation = "up"
-                    if value == 0:
-                        orientation = "up"
-                    elif value == 90:
-                        orientation = "right"
-                    elif value == 180:
-                        orientation = "down"
-                    elif value == 270:
-                        orientation = "left"
-                    new_component.orientation = orientation
+
                 elif prop_name == "Ports":
                     # Subsystem ports are defined
                     # by the child block's "PMIOPort"/"Inport"/"Outport"
@@ -363,25 +352,26 @@ class SimulinkParser(BaseParser):
                 new_component.terminals[default_term_obj.index] = \
                     default_term_obj
 
-        # Some components are oriented differently
-        # in the source netlist (horizontal (ours) vs vertical(theirs))
         #
-        if new_component.type in SimulinkParser.wrong_orientation_list:
-            if new_component.orientation == 270:
-                new_component.orientation = 0
-            else:
-                new_component.orientation += 90
+        # Rotation and mirror are two properties
+        # which affect the component orientation.
+        # The orientation is defined by a combination
+        # of both of these properties.
+        #
+        # UP - component is NOT ROTATED and is NOT MIRRORED
+        # DOWN - component is NOT ROTATED and IS MIRRORED
+        # LEFT - component IS ROTATED and is NOT MIRRORED
+        # RIGHT - component IS ROTATED and IS MIRRORED
+        #
+        comp_rotation = True \
+            if new_component.properties.get("BlockRotation", None) else False
+        comp_mirror = True \
+            if new_component.properties.get("BlockMirror", None) else False
 
-        orientation = "up"
-        if new_component.orientation == 0:
-            orientation = "up"
-        elif new_component.orientation == 90:
-            orientation = "right"
-        elif new_component.orientation == 180:
-            orientation = "down"
-        elif new_component.orientation == 270:
-            orientation = "left"
-        new_component.orientation = orientation
+        if comp_rotation:
+            new_component.orientation = "left" if not comp_mirror else "right"
+        else:
+            new_component.orientation = "up" if not comp_mirror else "down"
 
         # Ignoring commented components
         if new_component.properties.get("Commented") in ("on", "through"):

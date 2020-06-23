@@ -175,5 +175,8 @@ def simulink_pmsm_theta_ab(angle):
 def simulink_remove_pipes(list_of_signs):
     return list_of_signs.replace("|","")
 
+def simulink_inputs_from_ports_prop(inputs):
+    return inputs[0]
+
 def simulink_pulse_delay(period, delay):
     return delay/period

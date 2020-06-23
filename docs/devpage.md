@@ -1,0 +1,1 @@
+Typhoon HIL encourages you to modify this repository to suit your own needs. A **devpage** seeks to help you getting started with some of the involved programming. If you are interested exclusively in using the model converter, you may skip those pages.

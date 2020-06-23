@@ -1,0 +1,16 @@
+site_name: model-converter
+
+extra_css: [style.css]
+
+nav:
+    - Home: index.md
+    - User:
+      - Simulink library: user/typhoonHILlib.md
+      - Converting to TSE: user/simulink_to_tse.md
+      - List of supported components: user/supported_components.md
+    - Developer:
+      - Adding new components: dev/creating_new_components_and_rules
+      - Writing conversion rules: dev/creating_new_components_and_rules
+
+theme:
+  name: readthedocs

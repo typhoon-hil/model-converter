@@ -54,14 +54,3 @@ def test_generate_netxml(create_psim_netxml):
 def test_conversion_xml2tse(convert_xml2tse):
     tse_path = convert_xml2tse
     assert os.path.isfile(tse_path)
-
-
-
-
-
-
-
-
-
-
-

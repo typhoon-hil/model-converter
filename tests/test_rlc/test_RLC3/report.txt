@@ -1,0 +1,30 @@
+Conversion report
+-----------------
+
+Source file used:
+C:\Dropbox\Typhoon HIL\Repository\model-converter\tests\test_rlc\test_RLC3\test_RLC3.slx
+
+Schematic saved as:
+C:\Dropbox\Typhoon HIL\Repository\model-converter\tests\test_rlc\test_RLC3\test_RLC3.tse
+
+
+Number of components found in the source file: 3
+
+-------------------------------------------------------------------------
+                         Converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------
+            Vsin3P              |               powerlib/Electrical Sources/Three-Phase Source
+-------------------------------------------------------------------------
+            RLC3P               |               powerlib/Elements/Three-Phase Series RLC Branch
+-------------------------------------------------------------------------
+            iRLCA               |               powerlib/Measurements/Current Measurement
+-------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------
+                         Non-converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------

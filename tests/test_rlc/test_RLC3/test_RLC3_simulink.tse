@@ -1,0 +1,121 @@
+version = 4.2
+
+//
+// Saved by sw version: 2020.2
+// Save timestamp: 22-Jul-2020 @ 01:35:46 PM
+//
+
+model "New schematic 22-Jul-2020@13-35-34" {
+    configuration {
+        hil_device = "HIL604"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+    }
+
+    component Subsystem Root {
+        component "core/Current Measurement" iRLCA {
+        }
+        [
+            position = 9288, 8632
+        ]
+
+        component "core/Series RLC Branch" RLC3P {
+            capacitance = "0.0001"
+            inductance = "0.01"
+            num_phases = "Three-Phase"
+            resistance = "10.0"
+        }
+        [
+            position = 9024, 8736
+        ]
+
+        component "core/Three Phase Voltage Source" Vsin3P {
+            init_rms_value = "219.97045256124744"
+        }
+        [
+            position = 8600, 8736
+        ]
+
+        junction Junction1 pe
+        [
+            position = 9112, 8696
+        ]
+
+        connect iRLCA.p_node RLC3P.P1_neg as Connection1
+        connect Junction1 iRLCA.n_node as Connection2
+        connect Junction1 RLC3P.P2_neg as Connection3
+        connect Junction1 RLC3P.P3_neg as Connection4
+        connect RLC3P.P1_pos Vsin3P.a_node as Connection5
+        connect RLC3P.P2_pos Vsin3P.b_node as Connection6
+        connect RLC3P.P3_pos Vsin3P.c_node as Connection7
+    }
+
+    default {
+        "core/Current Measurement" {
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Series RLC Branch" {
+            num_phases = "Single-Phase"
+            branch_type = "RLC"
+            resistance = "10"
+            inductance = "10e-3"
+            initial_current = "0"
+            capacitance = "10e-6"
+            initial_voltage = "0"
+        }
+
+        "core/Three Phase Voltage Source" {
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+    }
+}

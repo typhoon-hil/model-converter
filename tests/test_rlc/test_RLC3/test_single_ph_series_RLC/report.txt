@@ -1,0 +1,32 @@
+Conversion report
+-----------------
+
+Source file used:
+C:\Dropbox\Typhoon HIL\Repository\model-converter\tests\test_rlc\test_RLC3\test_single_ph_series_RLC\test_single_ph_series_RLC.xml
+
+Schematic saved as:
+C:\Dropbox\Typhoon HIL\Repository\model-converter\tests\test_rlc\test_RLC3\test_single_ph_series_RLC\test_single_ph_series_RLC.tse
+
+
+Number of components found in the source file: 4
+
+-------------------------------------------------------------------------
+                         Converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------
+            I1                  |               IP
+-------------------------------------------------------------------------
+            RLC1                |               RLC
+-------------------------------------------------------------------------
+            V1                  |               VSIN
+-------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------
+                         Non-converted components
+-------------------------------------------------------------------------
+            Name                |               Type
+-------------------------------------------------------------------------
+            Ground_1            |               Ground
+-------------------------------------------------------------------------

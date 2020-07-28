@@ -22,6 +22,7 @@ def convert_to_tse(create_intermediate_file, request):
 
 # Load and compile the generated .tse file
 @pytest.fixture(scope='session')
-def load_and_compile(convert_to_tse):
+def load_and_compile(convert_to_tse, request):
+    use_vhil = request.param
     tse_path = convert_to_tse
-    utils.load_and_compile(tse_path)
+    utils.load_and_compile(tse_path, use_vhil)

@@ -15,28 +15,25 @@ EXPORT_XML = False
 ######## Intermediate conversion functions
 
 def psim_export_netxml(file_path):
-    if EXPORT_XML:
-        try:
-            # -------------------- Generate psim xml file ---------------------------
-            old_path = os.getcwd()
-            # Set the directory to PSIM install directory
-            os.chdir(PSIM_PATH)
-            # Prepare the command
-            cmd_string = 'PsimCmd.exe -i "' + file_path + '" -NetXmlU'
-            psim_process = subprocess.Popen(cmd_string)
-            psim_process.communicate()
-            # Set the old path
-            os.chdir(old_path)
+    try:
+        # -------------------- Generate psim xml file ---------------------------
+        old_path = os.getcwd()
+        # Set the directory to PSIM install directory
+        os.chdir(PSIM_PATH)
+        # Prepare the command
+        cmd_string = 'PsimCmd.exe -i "' + file_path + '" -NetXmlU'
+        psim_process = subprocess.Popen(cmd_string)
+        psim_process.communicate()
+        # Set the old path
+        os.chdir(old_path)
 
-            psim_process.returncode
+        psim_process.returncode
 
-            # Retrun code = 0 represents successful export of netlist
+        # Retrun code = 0 represents successful export of netlist
 
-            return [psim_process.returncode, file_path[:-7] + 'xml']
-        except :
-            return [1, None]
-    else:
-        return [0, file_path[:-7] + 'xml']
+        return [psim_process.returncode, file_path[:-7] + 'xml']
+    except :
+        return [1, None]
 
 def no_intermediate_file(file_path):
     return [0, file_path]
@@ -51,12 +48,14 @@ def convert_to_tse(source_file_format, input_file_path):
     return tse_path
 
 # TSE compilation and loading
-def load_and_compile(tse_path):
+def load_and_compile(tse_path, use_vhil=True):
     cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
     # Open the converted tse file
     model.load(tse_path)
     # Compile the model
     model.compile()
+    # Load to VHIL
+    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=use_vhil)
 
 def rename_tse_file(tse_path, source_file_format):
     path, extension = tse_path.split('.')

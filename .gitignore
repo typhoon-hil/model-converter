@@ -3,3 +3,7 @@ __pycache__
 open_report.cmd
 allure-html
 report
+tests/**/*.xml
+tests/**/*.tse
+tests/**/report.txt
+*Target files

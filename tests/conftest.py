@@ -10,6 +10,7 @@ def create_intermediate_file(request):
     source_file_format, path_and_file = request.param
     test_file_name, current_test_dir = path_and_file
     original_file_path = current_test_dir + '\\' + test_file_name + utils.extensions_dict[source_file_format]
+    # Runs the approppriate function on utils to get an intermediate file if it's the case
     return utils.intermediate_file_function_dict[source_file_format](original_file_path)
 
 # Conversion of the intermediate file to .tse

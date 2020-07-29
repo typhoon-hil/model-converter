@@ -16,11 +16,13 @@ use_vhil = True
 test_file_name = Path(__file__).stem
 # Folder where this file is located
 current_test_dir = os.path.dirname(__file__)
+# e.g.: path_and_file = ("test_single_phase_contactor", "path/to/this/directory")
 path_and_file = (test_file_name, current_test_dir)
 
 # Parameters used in test_intermediate_conversion
+# e.g.: parameter_values = [("simulink","path_and_file"), ("psim","path_and_file"), etc.]
 parameter_values = [(type, path_and_file) for type in utils.conversion_types]
-# Parameters used in test_conversion_to_tse
+# Parameters used in test_conversion_to_tse (calls the test_intermediate_conversion; this fixture is also parametrized)
 doubled_parameter_values = [(parameter_values[idx], parameter_values[idx]) for idx in range(len(utils.conversion_types))]
 
 # Intermediate file generation test

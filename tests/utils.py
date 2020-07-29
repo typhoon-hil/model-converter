@@ -26,19 +26,18 @@ def psim_export_netxml(file_path):
         psim_process.communicate()
         # Set the old path
         os.chdir(old_path)
-
         psim_process.returncode
-
-        # Retrun code = 0 represents successful export of netlist
+        # Return code = 0 represents a successful export to xml
 
         return [psim_process.returncode, file_path[:-7] + 'xml']
     except :
         return [1, None]
 
+# In case there is no intermediate conversion step, just return the file itself
 def no_intermediate_file(file_path):
     return [0, file_path]
 
-###########
+###################################################
 
 # Generic conversion function
 # Conversion types (source_file_format): {"psim","simulink"}
@@ -57,6 +56,7 @@ def load_and_compile(tse_path, use_vhil=True):
     # Load to VHIL
     hil.load_model(file=cpd_path, offlineMode=False, vhil_device=use_vhil)
 
+# Adds, for example, _simulink or _psim to the end of the generated tse
 def rename_tse_file(tse_path, source_file_format):
     path, extension = tse_path.split('.')
     new_file_path = path + '_' + source_file_format + '.' + extension
@@ -68,7 +68,7 @@ def rename_tse_file(tse_path, source_file_format):
 
 # Currently available conversion types
 extensions_dict = {"simulink":".slx", "psim":".psimsch"}
-conversion_types = extensions_dict.keys()
+conversion_types = extensions_dict.keys() #["simulink", "psim", ...]
 
-# Defines the functions related to an intermediate conversion step, if needed.
+# Contains the functions related to the intermediate conversion step
 intermediate_file_function_dict = {'psim':psim_export_netxml, 'simulink':no_intermediate_file}

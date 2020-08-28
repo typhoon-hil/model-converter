@@ -1,71 +1,67 @@
 # Imports
+import pytest
+import os
+from pathlib import Path
+import tests.utils as utils
 import typhoon.api.hil as hil
 from typhoon.api.schematic_editor import model
 from typhoon.test.capture import start_capture, get_capture_results
-import pytest
-import numpy as np
 import typhoon.test.signals as sig
 from typhoon.test.ranges import around
-import os
-from model_converter.converter.app.converter import Converter
 
-vhil = True
+# Use VHIL
+use_vhil = True
 
-# Define the paths
-psim_tests_dir = os.path.dirname(__file__)
-tests_dir = os.path.dirname(psim_tests_dir)
-sch_importer_dir = os.path.dirname(tests_dir)
+# Name of this test file
+test_file_name = Path(__file__).stem
+# Folder where this file is located
+current_test_dir = os.path.dirname(__file__)
+# e.g.: path_and_file = ("test_single_phase_contactor", "path/to/this/directory")
+path_and_file = (test_file_name, current_test_dir)
 
-netlist_path = psim_tests_dir + '\\three_phase_diode_rectifier.xml'
+# Parameters used in test_intermediate_conversion
+# e.g.: parameter_values = [("simulink","path_and_file"), ("psim","path_and_file"), etc.]
+parameter_values = [(type, path_and_file) for type in utils.conversion_types]
+# Parameters used in test_conversion_to_tse (calls the test_intermediate_conversion; this fixture is also parametrized)
+doubled_parameter_values = [(parameter_values[idx], parameter_values[idx]) for idx in range(len(utils.conversion_types))]
 
+# Intermediate file generation test
+@pytest.mark.intermediate_conversion
+@pytest.mark.parametrize("create_intermediate_file", parameter_values, indirect=True)
+def test_intermediate_conversion(create_intermediate_file):
+    return_code, intermediate_file_path = create_intermediate_file
+    assert return_code == 0
+    assert os.path.isfile(intermediate_file_path)
 
-@pytest.fixture(scope='session')
-def convert_compile_load():
-    # Comment this if don't wont to compile model again
+# Conversion test
+@pytest.mark.conversion_to_tse
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+def test_conversion_to_tse(convert_to_tse):
+    tse_path = convert_to_tse
+    assert os.path.isfile(tse_path)
 
-    # ###################################################
-    # # Convert the model
-    converter = Converter("psim", netlist_path)
-    tse_path = converter.convert_schema(compile_model=False)[0]
-    cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
-    # Open the converted tse file
-    model.load(tse_path)
-    # Compile the model
-    model.compile()
-    ###################################################
+# Specific test for this file
+@pytest.mark.parametrize("Vsin3P, f, iDC_expected",
+                         [(220, 50, 53.871)])
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+@pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
+def test_three_phase_diode_rectifier(load_and_compile, Vsin3P, f, iDC_expected):
 
-    # Load to VHIL
-    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
-
-# Constant parameters
-Vdb = V3ph_db = Vsrc = 220
-R = 10.0
-f = 50
-# Expected currents
-Idb_ac_exp = Vdb/R
-Idb_dc_exp = Vdb/R*2*np.sqrt(2)/np.pi
-I3ph_db_ac_exp = V3ph_db / R * np.sqrt(2) * 1.654
-I3ph_db_dc_exp = V3ph_db / R * np.sqrt(2) * 1.655
-@pytest.mark.parametrize("expected_values, measurement_names, source_name",
-                         [([I3ph_db_ac_exp, I3ph_db_dc_exp], ['I3ph_db_ac', 'I3ph_db_dc'], 'V3ph_db')])
-def test_rectifiers(convert_compile_load, expected_values, measurement_names, source_name):
-
-    # Set source value.
-    hil.set_source_sine_waveform(name=source_name, rms=Vsrc, frequency=f)
+    # Set source value
+    hil.set_source_sine_waveform(name='Vsin3P', rms=Vsin3P, frequency=f)
 
     # Start capture
-    start_capture(duration=0.1, signals=measurement_names, executeAt=1.0)
+    start_capture(duration=0.2, signals=['iDC'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
 
     # Data acquisition
-    cap_data = get_capture_results(wait_capture=True)
-    measurements = cap_data
+    capture = get_capture_results(wait_capture=True)
+    iDC = capture['iDC']
 
     # Tests
-    for i, expected_value in enumerate(expected_values):
-        sig.assert_is_constant(measurements[measurement_names[i]], at_value=around(expected_value, tol_p=0.01))
+    sig.assert_is_constant(iDC, during=(0.00033 - 0.000001, 0.00033 + 0.000001), at_value=around(iDC_expected, tol_p=0.01))
 
     # Stop simulation
     hil.stop_simulation()

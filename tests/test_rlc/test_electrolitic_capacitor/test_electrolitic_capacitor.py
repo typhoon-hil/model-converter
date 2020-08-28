@@ -1,106 +1,72 @@
 # Imports
+import pytest
+import os
+from pathlib import Path
+import tests.utils as utils
 import typhoon.api.hil as hil
-from tests.utils import psim_export_netxml
 from typhoon.api.schematic_editor import model
 from typhoon.test.capture import start_capture, get_capture_results
 import typhoon.test.signals as sig
 from typhoon.test.ranges import around
-import pytest
-import os
-from model_converter.converter.app.converter import Converter
 
-vhil = True
+# Use VHIL
+use_vhil = True
 
-# Define the paths
-psim_tests_dir = os.path.dirname(__file__)
-tests_dir = os.path.dirname(psim_tests_dir)
-sch_importer_dir = os.path.dirname(tests_dir)
+# Name of this test file
+test_file_name = Path(__file__).stem
+# Folder where this file is located
+current_test_dir = os.path.dirname(__file__)
+# e.g.: path_and_file = ("test_single_phase_contactor", "path/to/this/directory")
+path_and_file = (test_file_name, current_test_dir)
 
-psimsch_path = psim_tests_dir + '\\test_electrolitic_capacitor.psimsch'
+# Parameters used in test_intermediate_conversion
+# e.g.: parameter_values = [("simulink","path_and_file"), ("psim","path_and_file"), etc.]
+parameter_values = [(type, path_and_file) for type in utils.conversion_types]
+# Parameters used in test_conversion_to_tse (calls the test_intermediate_conversion; this fixture is also parametrized)
+doubled_parameter_values = [(parameter_values[idx], parameter_values[idx]) for idx in range(len(utils.conversion_types))]
 
+# Intermediate file generation test
+@pytest.mark.intermediate_conversion
+@pytest.mark.parametrize("create_intermediate_file", parameter_values, indirect=True)
+def test_intermediate_conversion(create_intermediate_file):
+    return_code, intermediate_file_path = create_intermediate_file
+    assert return_code == 0
+    assert os.path.isfile(intermediate_file_path)
 
-@pytest.fixture(scope='session')
-def create_psim_netxml():
-    # Generates a xml netlist from psim schematic file
-    return psim_export_netxml(psimsch_path)
+# Conversion test
+@pytest.mark.conversion_to_tse
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+def test_conversion_to_tse(convert_to_tse):
+    tse_path = convert_to_tse
+    assert os.path.isfile(tse_path)
 
+# Specific test for this file
+@pytest.mark.parametrize("VAC1, f, VC1_expected",
+                         [(220, 50, 281.4)])
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+@pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
+def test_electrolitic_capacitor(load_and_compile, VAC1, f, VC1_expected):
 
-@pytest.fixture(scope='session')
-def convert_xml2tse(create_psim_netxml):
-    # Converts the psim xml netlist to tse
-    netxml_path = create_psim_netxml[1]
-    converter = Converter("psim", netxml_path)
-    tse_path = converter.convert_schema(compile_model=False)[0]
-    return tse_path
+    # Set source value
+    hil.set_source_sine_waveform(name='VAC1', rms=VAC1, frequency=f)
 
-
-@pytest.fixture(scope='session')
-def convert_compile_load(convert_xml2tse):
-    tse_path = convert_xml2tse
-    cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
-    # Open the converted tse file
-    model.load(tse_path)
-    # Compile the model
-    model.compile()
-
-    # Load to VHIL
-    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
+    # Start capture
+    start_capture(duration=0.5, signals=['VC1', 'VC2'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
 
-    yield
+    # Data acquisition
+    capture = get_capture_results(wait_capture=True)
+    VC1 = capture['VC1']
+    VC2 = capture['VC2']
+
+    # Tests   6.400e-03
+    sig.assert_is_constant(VC1, during=(0.0064 - 0.000001, 0.0064 + 0.000001), at_value=around(VC1_expected, tol_p=0.02))
+    sig.assert_is_constant(VC1, during=(0.016 - 0.000001, 0.016 + 0.000001), at_value=around(-VC1_expected, tol_p=0.02))
+
+    sig.assert_is_constant(VC2, during=(0.045 - 0.000001, 0.045 + 0.000001), at_value=around(50, tol_p=0.01))
+    sig.assert_is_constant(VC2, during=(0.5 - 0.000001, 0.5 + 0.000001), at_value=around(50, tol_p=0.01))
 
     # Stop simulation
     hil.stop_simulation()
-
-@pytest.mark.generate_netxml
-def test_generate_netxml(create_psim_netxml):
-    netxml_path = create_psim_netxml[1]
-    assert create_psim_netxml[0] == 0
-    assert os.path.isfile(netxml_path)
-
-
-@pytest.mark.conversion_xml2tse
-def test_conversion_xml2tse(convert_xml2tse):
-    tse_path = convert_xml2tse
-    assert os.path.isfile(tse_path)
-
-
-def test_capacitance(convert_compile_load):
-
-    # Start capture
-    sim_time = hil.get_sim_time()
-    start_capture(duration=0.01, signals=["Vc1"], executeAt=sim_time + 0.5)
-
-    # Data acquisition
-    cap_data = get_capture_results(wait_capture=True)
-    measurement = cap_data
-
-    # Tests
-    sig.assert_is_constant(measurement["Vc1"], at_value=around(199.0, tol_p=0.001))
-
-
-def test_cap_init_voltage(convert_compile_load):
-
-    # Start capture
-    sim_time = hil.get_sim_time()
-    start_capture(duration=0.01, signals=["VP9"], executeAt=sim_time + 0.5)
-
-    # Data acquisition
-    cap_data = get_capture_results(wait_capture=True)
-    measurement = cap_data
-
-    # Tests
-    sig.assert_is_constant(measurement["VP9"], at_value=around(48.8, tol_p=0.01))
-
-
-
-
-
-
-
-
-
-
-

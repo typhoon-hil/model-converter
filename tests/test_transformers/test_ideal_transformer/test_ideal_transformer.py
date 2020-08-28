@@ -1,113 +1,74 @@
 # Imports
-import typhoon.api.hil as hil
-from typhoon.api.schematic_editor import model
-import typhoon.test.capture as capture
 import pytest
 import os
-from model_converter.converter.app.converter import Converter
-from tests.utils import psim_export_netxml
+from pathlib import Path
+import tests.utils as utils
+import typhoon.api.hil as hil
+from typhoon.api.schematic_editor import model
+from typhoon.test.capture import start_capture, get_capture_results
+import typhoon.test.signals as sig
+from typhoon.test.ranges import around
 
-vhil = True
+# Use VHIL
+use_vhil = True
 
-# Define the paths
-psim_tests_dir = os.path.dirname(__file__)
-tests_dir = os.path.dirname(psim_tests_dir)
-sch_importer_dir = os.path.dirname(tests_dir)
+# Name of this test file
+test_file_name = Path(__file__).stem
+# Folder where this file is located
+current_test_dir = os.path.dirname(__file__)
+# e.g.: path_and_file = ("test_three_phase_contactor", "path/to/this/directory")
+path_and_file = (test_file_name, current_test_dir)
 
-psimsch_path = psim_tests_dir + '\\ideal_transformer.psimsch'
+# Parameters used in test_intermediate_conversion
+# e.g.: parameter_values = [("simulink","path_and_file"), ("psim","path_and_file"), etc.]
+parameter_values = [(type, path_and_file) for type in utils.conversion_types]
+# Parameters used in test_conversion_to_tse (calls the test_intermediate_conversion; this fixture is also parametrized)
+doubled_parameter_values = [(parameter_values[idx], parameter_values[idx]) for idx in range(len(utils.conversion_types))]
 
+# Intermediate file generation test
+@pytest.mark.intermediate_conversion
+@pytest.mark.parametrize("create_intermediate_file", parameter_values, indirect=True)
+def test_intermediate_conversion(create_intermediate_file):
+    return_code, intermediate_file_path = create_intermediate_file
+    assert return_code == 0
+    assert os.path.isfile(intermediate_file_path)
 
-@pytest.fixture(scope='session')
-def create_psim_netxml():
-    # Generates a xml netlist from psim schematic file
-    return psim_export_netxml(psimsch_path)
+# Conversion test
+@pytest.mark.conversion_to_tse
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+def test_conversion_to_tse(convert_to_tse):
+    tse_path = convert_to_tse
+    assert os.path.isfile(tse_path)
 
+# Specific test for this file
+@pytest.mark.parametrize("Vit, Viti1, f, Vit_ac_expected, Viti_ac_expected",
+                         [(110, 110, 50, 311.12, 311.12)])
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+@pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
+def test_1_ph_2w_transformer(load_and_compile, Vit, Viti1, f, Vit_ac_expected, Viti_ac_expected):
 
-@pytest.fixture(scope='session')
-def convert_xml2tse(create_psim_netxml):
-    # Converts the psim xml netlist to tse
-    netxml_path = create_psim_netxml[1]
-    converter = Converter("psim", netxml_path)
-    tse_path = converter.convert_schema(compile_model=False)[0]
-    return tse_path
-
-
-@pytest.fixture(scope='session')
-def compile_tse(convert_xml2tse):
-    # Compiles th tse file
-    tse_path = convert_xml2tse
-    # Comment this if don't wont to compile model again
-    # ###################################################
-    # # Convert the model
-    cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
-    # Open the converted tse file
-    model.load(tse_path)
-    # Compile the model
-    model.compile()
-
-    return cpd_path
-
-
-@pytest.fixture(scope='session')
-def load_simulate(compile_tse):
-    # Load to VHIL
-    cpd_path = compile_tse
-    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
-    # Set source value.
-    hil.set_source_sine_waveform(name='Vit', rms=110, frequency=50)
-    hil.set_source_sine_waveform(name='Viti1', rms=220, frequency=50)
+    # Set source value
+    hil.set_source_sine_waveform(name='Vit', rms=Vit, frequency=f)
+    hil.set_source_sine_waveform(name='Viti1', rms=Viti1, frequency=f)
 
     # Start capture
-    capture.start_capture(duration=0.1, signals=['Vit_ac', 'Viti_ac'], executeAt=0.2)
+    start_capture(duration=0.5, signals=['Vit_ac', 'Viti_ac'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
 
-    yield capture.get_capture_results(wait_capture=True)
+    # Data acquisition
+    capture = get_capture_results(wait_capture=True)
+    Vit_ac = capture['Vit_ac']
+    Viti_ac = capture['Viti_ac']
+
+    # Tests
+
+    sig.assert_is_constant(Vit_ac, during=(0.005 - 0.00000001, 0.005 + 0.00000001), at_value=around(Vit_ac_expected, tol_p=0.01))
+    sig.assert_is_constant(Vit_ac, during=(0.01 - 0.00000001, 0.01 + 0.00000001), at_value=(-0.02,0.02))
+
+    sig.assert_is_constant(Viti_ac, during=(0.015 - 0.00000001, 0.015 + 0.00000001), at_value=around(Viti_ac_expected, tol_p=0.01))
+    sig.assert_is_constant(Viti_ac, during=(0.01 - 0.00000001, 0.01 + 0.00000001), at_value=(-0.02,0.02))
 
     # Stop simulation
     hil.stop_simulation()
-
-
-@pytest.mark.generate_netxml
-def test_generate_netxml(create_psim_netxml):
-    netxml_path = create_psim_netxml[1]
-    assert create_psim_netxml[0] == 0
-    assert os.path.isfile(netxml_path)
-
-
-@pytest.mark.conversion_xml2tse
-def test_conversion_xml2tse(convert_xml2tse):
-    tse_path = convert_xml2tse
-    assert os.path.isfile(tse_path)
-
-
-@pytest.mark.compile_only
-def test_compile(compile_tse):
-    cpd_path = compile_tse
-    assert os.path.isfile(cpd_path)
-
-
-def test_ideal_transformer(load_simulate):
-    cap_data = load_simulate
-    # Data acquisition
-    Vit_ac = cap_data['Vit_ac']
-    Vit_ac_rms = Vit_ac.mean()
-
-    # Tests
-    assert Vit_ac_rms == pytest.approx(220, rel=1e-3)
-
-
-def test_ideal_transformer_inverted(load_simulate):
-    cap_data = load_simulate
-    # Data acquisition
-    Viti_ac = cap_data['Viti_ac']
-    Viti_ac_rms = Viti_ac.mean()
-
-    # Test
-    assert Viti_ac_rms == pytest.approx(440, rel=1e-3)
-
-
-
-
-

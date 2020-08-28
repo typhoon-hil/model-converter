@@ -1,64 +1,77 @@
 # Imports
+import pytest
+import os
+from pathlib import Path
+import tests.utils as utils
 import typhoon.api.hil as hil
-from tests.utils import psim_export_netxml
 from typhoon.api.schematic_editor import model
 from typhoon.test.capture import start_capture, get_capture_results
-import pytest
 import typhoon.test.signals as sig
 from typhoon.test.ranges import around
-import numpy as np
-import os
-from model_converter.converter.app.converter import Converter
 
-vhil = True
+# Use VHIL
+use_vhil = True
 
-# Define the paths
-psim_tests_dir = os.path.dirname(__file__)
-tests_dir = os.path.dirname(psim_tests_dir)
-sch_importer_dir = os.path.dirname(tests_dir)
+# Name of this test file
+test_file_name = Path(__file__).stem
+# Folder where this file is located
+current_test_dir = os.path.dirname(__file__)
+# e.g.: path_and_file = ("test_three_phase_contactor", "path/to/this/directory")
+path_and_file = (test_file_name, current_test_dir)
 
-psimsch_path = psim_tests_dir + '\\three_level_flying_cap_leg.psimsch'
+# Parameters used in test_intermediate_conversion
+# e.g.: parameter_values = [("simulink","path_and_file"), ("psim","path_and_file"), etc.]
+parameter_values = [(type, path_and_file) for type in utils.conversion_types]
+# Parameters used in test_conversion_to_tse (calls the test_intermediate_conversion; this fixture is also parametrized)
+doubled_parameter_values = [(parameter_values[idx], parameter_values[idx]) for idx in range(len(utils.conversion_types))]
 
+# Intermediate file generation test
+@pytest.mark.intermediate_conversion
+@pytest.mark.parametrize("create_intermediate_file", parameter_values, indirect=True)
+def test_intermediate_conversion(create_intermediate_file):
+    return_code, intermediate_file_path = create_intermediate_file
+    assert return_code == 0
+    assert os.path.isfile(intermediate_file_path)
 
-@pytest.fixture(scope='session')
-def create_psim_netxml():
-    # Generates a xml netlist from psim schematic file
-    return psim_export_netxml(psimsch_path)
-
-
-@pytest.fixture(scope='session')
-def convert_xml2tse(create_psim_netxml):
-    # Converts the psim xml netlist to tse
-    netxml_path = create_psim_netxml[1]
-    converter = Converter("psim", netxml_path)
-    tse_path = converter.convert_schema(compile_model=False)[0]
-    return tse_path
-
-
-@pytest.fixture(scope='session')
-def convert_compile_load(convert_xml2tse):
-    tse_path = convert_xml2tse
-    cpd_path = tse_path[:-4] + " Target files\\" + tse_path.split("\\")[-1][:-4] + ".cpd"
-    # Open the converted tse file
-    model.load(tse_path)
-    # Compile the model
-    model.compile()
-
-    # Load to VHIL
-    hil.load_model(file=cpd_path, offlineMode=False, vhil_device=vhil)
-
-@pytest.mark.generate_netxml
-def test_generate_netxml(create_psim_netxml):
-    netxml_path = create_psim_netxml[1]
-    assert create_psim_netxml[0] == 0
-    assert os.path.isfile(netxml_path)
-
-
-@pytest.mark.conversion_xml2tse
-def test_conversion_xml2tse(convert_xml2tse):
-    tse_path = convert_xml2tse
+# Conversion test
+@pytest.mark.conversion_to_tse
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+def test_conversion_to_tse(convert_to_tse):
+    tse_path = convert_to_tse
     assert os.path.isfile(tse_path)
 
-@pytest.mark.skip(reason="Test not implemented")
-def test_three_level_flying_cap_leg():
-    assert False
+# Specific test for this file
+@pytest.mark.parametrize("VDC1, VDC2, iR1_expected",
+                         [(100, 100, 10)])
+@pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
+@pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
+def test_three_level_flying_cap_leg(load_and_compile, VDC1,VDC2, iR1_expected):
+
+    # Set source value
+    hil.set_source_constant_value(name='VDC1', value=VDC1)
+    hil.set_source_constant_value(name='VDC2', value=VDC2)
+
+    for switch in range(1, 5):
+
+        hil.set_pe_switching_block_control_mode(blockName='SwCapLeg7',
+                                                  switchName="S_" + str(switch),
+                                                  swControl=True)
+        hil.set_pe_switching_block_software_value(blockName='SwCapLeg7',
+                                                  switchName="S_" + str(switch),
+                                                  value=1)
+    # Start capture
+    start_capture(duration=0.04, signals=['iR1'], executeAt=0)
+
+    # Start simulation
+    hil.start_simulation()
+
+    # Data acquisition
+    capture = get_capture_results(wait_capture=True)
+    iR1 = capture['iR1']
+
+    # Tests
+
+    sig.assert_is_constant(iR1, during=(0.03 - 0.0001, 0.03 + 0.0001), at_value=around(iR1_expected, tol_p=0.01))
+
+    # Stop simulation
+    hil.stop_simulation()

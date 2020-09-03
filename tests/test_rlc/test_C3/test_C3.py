@@ -42,7 +42,7 @@ def test_conversion_to_tse(convert_to_tse):
 
 # Specific test for this file
 @pytest.mark.parametrize("Vsin3P, f, ICa_expected",
-                         [(220, 50, 0.009773)])
+                         [(220, 50, 97.73)])
 @pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
 @pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
 def test_c3(load_and_compile, Vsin3P, f, ICa_expected):

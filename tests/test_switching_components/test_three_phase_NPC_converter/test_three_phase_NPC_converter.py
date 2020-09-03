@@ -42,7 +42,7 @@ def test_conversion_to_tse(convert_to_tse):
 
 # Specific test for this file
 @pytest.mark.parametrize("VDC1, VDC2, iA_expected, iB_expected,iC_expected",
-                         [(100, 100, 10, -5, -5)])
+                         [(75, 75, 10, -5, -5)])
 @pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
 @pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
 def test_three_phase_NPC_converter(load_and_compile, VDC1,VDC2, iA_expected, iB_expected,iC_expected):
@@ -51,7 +51,7 @@ def test_three_phase_NPC_converter(load_and_compile, VDC1,VDC2, iA_expected, iB_
     hil.set_source_constant_value(name='VDC1', value=VDC1)
     hil.set_source_constant_value(name='VDC2', value=VDC2)
 
-    for switch in range(1, 5):
+    for switch in range(1, 3):
 
         hil.set_pe_switching_block_control_mode(blockName='NPC',
                                                   switchName="Sa_" + str(switch),
@@ -64,6 +64,25 @@ def test_three_phase_NPC_converter(load_and_compile, VDC1,VDC2, iA_expected, iB_
                                                   swControl=True)
         hil.set_pe_switching_block_software_value(blockName='NPC',
                                                   switchName="Sb_" + str(switch),
+                                                  value=0)
+        hil.set_pe_switching_block_control_mode(blockName='NPC',
+                                                  switchName="Sc_" + str(switch),
+                                                  swControl=True)
+        hil.set_pe_switching_block_software_value(blockName='NPC',
+                                                  switchName="Sc_" + str(switch),
+                                                  value=0)
+    for switch in range(3, 5):
+        hil.set_pe_switching_block_control_mode(blockName='NPC',
+                                                  switchName="Sa_" + str(switch),
+                                                  swControl=True)
+        hil.set_pe_switching_block_software_value(blockName='NPC',
+                                                  switchName="Sa_" + str(switch),
+                                                  value=0)
+        hil.set_pe_switching_block_control_mode(blockName='NPC',
+                                                  switchName="Sb_" + str(switch),
+                                                  swControl=True)
+        hil.set_pe_switching_block_software_value(blockName='NPC',
+                                                  switchName="Sb_" + str(switch),
                                                   value=1)
         hil.set_pe_switching_block_control_mode(blockName='NPC',
                                                   switchName="Sc_" + str(switch),
@@ -71,6 +90,8 @@ def test_three_phase_NPC_converter(load_and_compile, VDC1,VDC2, iA_expected, iB_
         hil.set_pe_switching_block_software_value(blockName='NPC',
                                                   switchName="Sc_" + str(switch),
                                                   value=1)
+
+
 
     # Start capture
     start_capture(duration=0.04, signals=['iA', 'iB', 'iC'], executeAt=0)

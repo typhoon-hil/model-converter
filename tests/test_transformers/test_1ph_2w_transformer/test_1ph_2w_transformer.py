@@ -56,7 +56,7 @@ def test_1ph_2w_transformer(load_and_compile, Vt, Vti, f, ss1_closed, ss2_closed
     hil.set_contactor('SS2', swControl=True, swState=ss2_closed)
 
     # Start capture
-    start_capture(duration=0.6, signals=['Vt_ac', 'Vti_ac', 'It_ac', 'Iti_ac'], executeAt=0)
+    start_capture(duration=0.9, signals=['Vt_ac', 'Vti_ac', 'It_ac', 'Iti_ac'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
@@ -72,10 +72,10 @@ def test_1ph_2w_transformer(load_and_compile, Vt, Vti, f, ss1_closed, ss2_closed
 
     sig.assert_is_constant(Vt_ac, during=(0.4 - 0.0000001, 0.4 + 0.0000001), at_value=around(Vt_ac_expected, tol_p=0.01))
     sig.assert_is_constant(Vti_ac, during=(0.4 - 0.0000001, 0.4 + 0.0000001), at_value=around(Vti_ac_expected, tol_p=0.01))
-    sig.assert_is_constant(It_ac, during=(0.4 - 0.0000001, 0.4 + 0.0000001), at_value=(1214.59 - 0.01, 1214.59 + 0.01 ))
-    sig.assert_is_constant(It_ac, during=(0.49 - 0.0000001, 0.49 + 0.0000001), at_value=(-1245.58 - 0.01,-1245.58 + 0.01 ))
-    sig.assert_is_constant(Iti_ac, during=(0.4 - 0.0000001, 0.4 + 0.0000001), at_value=(1257.44 - 0.01,1257.44 + 0.01 ))
-    sig.assert_is_constant(Iti_ac, during=(0.49 - 0.0000001, 0.49 + 0.0000001),at_value=(-1245.58 - 0.01,-1245.58 + 0.01 ))
+    sig.assert_is_constant(It_ac, during=(0.8 - 0.0000001, 0.8 + 0.0000001), at_value=(1237.3 - 0.02, 1237.3 + 0.02 ))
+    sig.assert_is_constant(It_ac, during=(0.81 - 0.0000001, 0.81 + 0.0000001), at_value=(-1236.7 - 0.02,-1236.7 + 0.02 ))
+    sig.assert_is_constant(Iti_ac, during=(0.8 - 0.0000001, 0.8 + 0.0000001), at_value=(1237.3 - 0.02,1237.3 + 0.02 ))
+    sig.assert_is_constant(Iti_ac, during=(0.81 - 0.0000001, 0.81 + 0.0000001),at_value=(-1236.75 - 0.02,-1236.75 + 0.02 ))
 
     # Stop simulation
     hil.stop_simulation()

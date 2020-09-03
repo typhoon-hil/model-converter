@@ -42,7 +42,7 @@ def test_conversion_to_tse(convert_to_tse):
 
 # Specific test for this file
 @pytest.mark.parametrize("Vsin_ydd, Vsin_yyd, f, ss_ydd2_closed, ss_ydd3_closed, ss_yyd2_closed, ss_yyd3_closed, Vydd2_expected,Iydd2_expected, Vydd3_expected,  Iydd3_expected, Vyyd2_expected, Iyyd2_expected, Vyyd3_expected, Iyyd3_expected",
-                         [(577.35, 577.35, 50, True, True, True, True, 0, 88.43, 0, 95.859, 0, 51.054, 0, 95.859)])
+                         [(577.35, 577.35, 50, True, True, True, True, 0, 121.7, 0, 135.6, 0, 52.55, 0, 135.6)])
 @pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
 @pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
 def test_1_ph_2w_transformer(load_and_compile, Vsin_ydd, Vsin_yyd, f, ss_ydd2_closed, ss_ydd3_closed, ss_yyd2_closed, ss_yyd3_closed, Vydd2_expected,Iydd2_expected, Vydd3_expected,  Iydd3_expected, Vyyd2_expected, Iyyd2_expected, Vyyd3_expected, Iyyd3_expected):
@@ -57,7 +57,7 @@ def test_1_ph_2w_transformer(load_and_compile, Vsin_ydd, Vsin_yyd, f, ss_ydd2_cl
     hil.set_contactor('ss_yyd3', swControl=True, swState=ss_yyd3_closed)
 
     # Start capture
-    start_capture(duration=0.5, signals=['Vydd2', 'Vydd3', 'Vyyd2', 'Vyyd3','Iydd2', 'Iydd3', 'Iyyd2', 'Iyyd3'], executeAt=0)
+    start_capture(duration=0.9, signals=['Vydd2', 'Vydd3', 'Vyyd2', 'Vyyd3','Iydd2', 'Iydd3', 'Iyyd2', 'Iyyd3'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
@@ -75,14 +75,23 @@ def test_1_ph_2w_transformer(load_and_compile, Vsin_ydd, Vsin_yyd, f, ss_ydd2_cl
 
     # Tests
 
-    sig.assert_is_constant(Vydd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vydd2_expected, tol_p=0.01))
-    sig.assert_is_constant(Vydd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vydd3_expected, tol_p=0.01))
-    sig.assert_is_constant(Vyyd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vyyd2_expected, tol_p=0.01))
-    sig.assert_is_constant(Vyyd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vyyd3_expected, tol_p=0.01))
-    sig.assert_is_constant(Iydd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Iydd2_expected, tol_p=0.01))
-    sig.assert_is_constant(Iydd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Iydd3_expected, tol_p=0.01))
-    sig.assert_is_constant(Iyyd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Iyyd2_expected, tol_p=0.01))
-    sig.assert_is_constant(Iyyd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Iyyd3_expected, tol_p=0.01))
+    sig.assert_is_constant(Vydd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vydd2_expected, tol_p=0.02))
+    sig.assert_is_constant(Vydd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vydd3_expected, tol_p=0.02))
+    sig.assert_is_constant(Vyyd2, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vyyd2_expected, tol_p=0.02))
+    sig.assert_is_constant(Vyyd3, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vyyd3_expected, tol_p=0.02))
+
+    sig.assert_is_constant(Iydd2, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(-Iydd2_expected, tol_p=0.02))
+    sig.assert_is_constant(Iydd2, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(Iydd2_expected, tol_p=0.02))
+
+    sig.assert_is_constant(Iydd3, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(-Iydd3_expected, tol_p=0.02))
+    sig.assert_is_constant(Iydd3, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(Iydd3_expected, tol_p=0.02))
+
+    sig.assert_is_constant(Iyyd2, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(-Iyyd2_expected, tol_p=0.02))
+    sig.assert_is_constant(Iyyd2, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(Iyyd2_expected, tol_p=0.02))
+
+    sig.assert_is_constant(Iyyd3, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(-Iyyd3_expected, tol_p=0.02))
+    sig.assert_is_constant(Iyyd3, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(Iyyd3_expected, tol_p=0.02))
+
 
     # Stop simulation
     hil.stop_simulation()

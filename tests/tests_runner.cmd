@@ -20,7 +20,7 @@ REM Run PSIM xml export and xml to tse cnversion
 REM python -m pytest .\tests\test_psim --alluredir=report --open-allure --clean-alluredir -m "generate_netxml or conversion_xml2tse"
 
 REM Run one test file
-python -m pytest .\tests\test_transformers\test_ideal_transformer --alluredir=report --open-allure --clean-alluredir
+python -m pytest .\tests\test_transformers --alluredir=report --open-allure --clean-alluredir
 
 ECHO:
 ECHO:

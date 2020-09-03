@@ -42,7 +42,7 @@ def test_conversion_to_tse(convert_to_tse):
 
 # Specific test for this file
 @pytest.mark.parametrize("Vt3w, f, ss3_closed, ss4_closed, Vt_3w_2_ac_expected, Vt_3w_3_ac_expected, It_3w_3_ac_expected,It_3w_2_ac_expected",
-                         [(110, 50, True, True, 0, 0, 558.628, 809.427)])
+                         [(110, 50, True, True, 0, 0, 550.12, 824.9)])
 @pytest.mark.parametrize("convert_to_tse, create_intermediate_file", doubled_parameter_values, indirect=True)
 @pytest.mark.parametrize("load_and_compile", [use_vhil], indirect=True)
 def test_1ph_3w_transformer(load_and_compile, Vt3w, f, ss3_closed, ss4_closed, Vt_3w_2_ac_expected, Vt_3w_3_ac_expected, It_3w_2_ac_expected,It_3w_3_ac_expected):
@@ -55,7 +55,7 @@ def test_1ph_3w_transformer(load_and_compile, Vt3w, f, ss3_closed, ss4_closed, V
     hil.set_contactor('SS4', swControl=True, swState=ss4_closed)
 
     # Start capture
-    start_capture(duration=0.5, signals=['Vt_3w_2_ac', 'Vt_3w_3_ac', 'It_3w_2_ac', 'It_3w_3_ac'], executeAt=0)
+    start_capture(duration=0.9, signals=['Vt_3w_2_ac', 'Vt_3w_3_ac', 'It_3w_2_ac', 'It_3w_3_ac'], executeAt=0)
 
     # Start simulation
     hil.start_simulation()
@@ -72,12 +72,12 @@ def test_1ph_3w_transformer(load_and_compile, Vt3w, f, ss3_closed, ss4_closed, V
     sig.assert_is_constant(Vt_3w_2_ac, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vt_3w_2_ac_expected, tol_p=0.01))
     sig.assert_is_constant(Vt_3w_3_ac, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(Vt_3w_3_ac_expected, tol_p=0.01))
 
-    sig.assert_is_constant(It_3w_2_ac, during=(0.4 - 0.0001, 0.4 + 0.0001), at_value=around(It_3w_2_ac_expected, tol_p=0.01))
-    sig.assert_is_constant(It_3w_2_ac, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(-837.943, tol_p=0.01))
+    sig.assert_is_constant(It_3w_2_ac, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(It_3w_2_ac_expected, tol_p=0.02))
+    sig.assert_is_constant(It_3w_2_ac, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(-It_3w_2_ac_expected, tol_p=0.02))
 
 
-    sig.assert_is_constant(It_3w_3_ac, during=(0.4 - 0.0001, 0.4 + 0.0001), at_value=around(It_3w_3_ac_expected, tol_p=0.01))
-    sig.assert_is_constant(It_3w_3_ac, during=(0.41 - 0.0001, 0.41 + 0.0001), at_value=around(-539.59, tol_p=0.01))
+    sig.assert_is_constant(It_3w_3_ac, during=(0.8 - 0.0001, 0.8 + 0.0001), at_value=around(-It_3w_3_ac_expected, tol_p=0.02))
+    sig.assert_is_constant(It_3w_3_ac, during=(0.81 - 0.0001, 0.81 + 0.0001), at_value=around(It_3w_3_ac_expected, tol_p=0.02))
 
     # Stop simulation
     hil.stop_simulation()

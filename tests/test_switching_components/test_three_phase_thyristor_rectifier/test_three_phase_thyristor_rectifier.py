@@ -50,6 +50,19 @@ def test_three_phase_thyristor_rectifier(load_and_compile, Vsin3P, f, iDC_expect
     # Set source value
     hil.set_source_sine_waveform(name='Vsin3P', rms=Vsin3P, frequency=f)
 
+    #set switching blocks
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sa_top", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sa_top", value=1)
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sa_bot", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sa_bot", value=1)
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sb_top", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sb_top", value=1)
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sb_bot", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sb_bot", value=1)
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sc_top", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sc_top", value=1)
+    hil.set_pe_switching_block_control_mode('Rectifier', "Sc_bot", swControl=True)
+    hil.set_pe_switching_block_software_value('Rectifier', "Sc_bot", value=1)
     # Start capture
     start_capture(duration=0.2, signals=['iDC'], executeAt=0)
 
@@ -63,7 +76,6 @@ def test_three_phase_thyristor_rectifier(load_and_compile, Vsin3P, f, iDC_expect
     # Tests
     sig.assert_is_constant(iDC, during=(0.00668 - 0.000001, 0.00668 + 0.000001), at_value=around(iDC_expected, tol_p=0.01))
     sig.assert_is_constant(iDC, during=(0.01 - 0.000001, 0.01 + 0.000001), at_value=around(iDC_expected, tol_p=0.01))
-    sig.assert_is_constant(iDC, during=(0.00033 - 0.000001, 0.00033 + 0.000001), at_value=(-0.01,0.01))
 
     # Stop simulation
     hil.stop_simulation()

@@ -49,7 +49,7 @@ There are four different types of conversion which can be done:
 
 
 ### Example of a PSIM One-To-One rule:
-    ``VDC => core/Voltage Source:
+    VDC => core/Voltage Source:
         init_source_nature="Constant";
         init_const_value=Amplitude;
 
@@ -57,7 +57,7 @@ There are four different types of conversion which can be done:
             p_node[pe] = 0;
             n_node[pe] = 1;
         ;
-    ;``
+    ;
 
 > **VDC** - source component type name
 

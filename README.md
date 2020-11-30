@@ -2,9 +2,7 @@
 
 ## Intro
 
-The Model Converter is a Python application which is used
-to convert system models from various HIL software
-providers into Typhoon HIL's models.
+The Model Converter is a Python application which is used to convert schematic diagrams from various simulation software tools into Typhoon HIL Schematic file.
 
 This is done by reading the input file, converting each
 component found by matching the component type name with

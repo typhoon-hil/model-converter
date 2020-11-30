@@ -10,6 +10,23 @@ This is done by reading the input file, converting each
 component found by matching the component type name with
 the rule source type name.
 
+## How to use model-converter from command line
+
+model-converter.exe has 5 arguments, 4 of which are optional. 
+Arguments are: 
+	--source(optional) – software source of the model where allowed options are PSIM and Simulink. If not set, it will be PSIM as default.
+	--model(required)- path to the model file to be converted. In case of PSIM model, it has to be Netlist XML file exported from PSIM.
+  --rules(optional)- path to the conversion rules files which will be used when converting components. If not set, default set of conversion rules will be used.
+  --device(optional) – specifies HIL model. If not set, HIL604 will be used as default.
+  --config(optional) – specifies configuration of HIL device. If not set, 1 will be used as default.
+  --compile(optional) – specifies if converted model should be compiles. If not set, it will be set to True as default.
+
+To start model-converter.exe from command line, you have to first go to the folder in which model-converter is saved. 
+
+### Example of calling model-converter.exe from command line:
+  
+  C:\Users\Desktop> model-converter.exe --model path\model.xml
+
 ## Conversion rules 
 
 There are four different types of conversion which can be done:

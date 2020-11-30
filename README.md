@@ -28,7 +28,7 @@ Optional arguments are:
 2. --rules(optional)- path to the conversion rules files which will be used when converting components. If not set, default set of conversion rules will be used.
 3. --device(optional) – specifies HIL model. If not set, HIL604 will be used as default.
 4. --config(optional) – specifies configuration of HIL device. If not set, 1 will be used as default.
-5. --compile(optional) – specifies if converted model should be compiles. If not set, it will be set to True as default.
+5. --compile(optional) – specifies if converted model should be compiled. If not set, it will be set to True as default.
 
 To start model-converter.exe from command line, you have to first go to the folder in which model-converter is saved. 
 

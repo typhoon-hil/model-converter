@@ -32,7 +32,7 @@ Optional arguments are:
 
 To start model-converter.exe from command line, you have to first go to the folder in which model-converter is saved. 
 
-### Example of calling model-converter.exe from command line:
+#### Example of calling model-converter.exe from command line:
   ``C:\Users\...\Desktop> model-converter.exe --model path\model.xml``
   
 ## For Contributors

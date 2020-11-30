@@ -10,7 +10,7 @@ the rule source type name.
 
 ## How to use model-converter
 
-In case of PSIM model, model file has to be Netlist XML file exported from PSIM.
+Model converter supports conversion from Simulink and PSIM to Typhoon HIL. In case of Simulink model, model file has to be .slx file. For PSIM model, model file has to be Netlist XML file exported from PSIM.
 
 ### 1. With Graphical Interface(GUI):
 
@@ -35,7 +35,9 @@ To start model-converter.exe from command line, you have to first go to the fold
 ### Example of calling model-converter.exe from command line:
   ``C:\Users\...\Desktop> model-converter.exe --model path\model.xml``
   
-## Conversion rules 
+## For Contributors: 
+  
+### Conversion rules 
 
 There are four different types of conversion which can be done:
 1. One-To-One - a single source component is converted 
@@ -48,7 +50,7 @@ There are four different types of conversion which can be done:
                          are converted into a Typhoon HIL subsystem which contains child components
 
 
-### Example of a PSIM One-To-One rule:
+#### Example of a PSIM One-To-One rule:
     VDC => core/Voltage Source:
         init_source_nature="Constant";
         init_const_value=Amplitude;

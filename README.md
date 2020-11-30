@@ -35,7 +35,7 @@ To start model-converter.exe from command line, you have to first go to the fold
 ### Example of calling model-converter.exe from command line:
   ``C:\Users\...\Desktop> model-converter.exe --model path\model.xml``
   
-## For Contributors: 
+## For Contributors
   
 ### Conversion rules 
 

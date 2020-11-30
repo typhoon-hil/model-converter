@@ -10,7 +10,7 @@ the rule source type name.
 
 ## How to use model-converter
 
-In case of PSIM model, it has to be Netlist XML file exported from PSIM.
+In case of PSIM model, model file has to be Netlist XML file exported from PSIM.
 
 ### 1. With Graphical Interface(GUI):
 

@@ -14,16 +14,17 @@ the rule source type name.
 
 In case of PSIM model, it has to be Netlist XML file exported from PSIM.
 
-###1. With Graphical Interface(GUI):
+### 1. With Graphical Interface(GUI):
 
 Simply call model-converter.exe without any additional arguments.
 
-###2. From Command Line
+### 2. From Command Line
 
 model-converter.exe has 6 arguments, 5 of which are optional.
 
 Mandatory argument is:
 1. --model(required)- path to the model file to be converted.
+
 Optional arguments are: 
 1. --source(optional) – software source of the model where allowed options are PSIM and Simulink. If not set, it will be PSIM as default.
 2. --rules(optional)- path to the conversion rules files which will be used when converting components. If not set, default set of conversion rules will be used.

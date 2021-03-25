@@ -1563,6 +1563,27 @@ typhoonHILlib/Machine => core/Single Phase Induction Machine:
 	;
 ;
 
+@MachineType == "Wound Rotor Synchronous Machine"
+typhoonHILlib/Machine => {
+
+	M=Synchronous Machine with Wound Rotor:
+	    inductance = "1e-5";
+	;
+
+	M=Synchronous Machine with Wound Rotor:
+	    inductance = "1e-5";
+	;
+
+	Connections:
+		SC_in:out-R:In,
+	;
+
+	Ports:
+		R.p_node[pe]=0;
+		R.n_node[pe]=1;
+	;
+}
+
 @MachineType == "DC Machine"
 typhoonHILlib/Machine => core/DC Machine with Separate or Parallel Excitation:
     Ra = Ra_DC;

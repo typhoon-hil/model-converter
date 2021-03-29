@@ -15,7 +15,7 @@ if strcmp(status, 'stopped')&~ignore_init&~strcmp(bdroot,'typhoonHILlib')
     old_size.Value = size_str;
     
     % If the comboBox entry is invalid, force Diode
-    valid_options = {'PMSM', 'Induction Machine', 'DC Machine'};
+    valid_options = {'Synchronous Machine', 'PMSM', 'Induction Machine', 'DC Machine'};
                     
     if ~any(strcmp(valid_options, selected_type))
         set_param(thisBlock,'MachineType','Induction Machine');
@@ -25,6 +25,9 @@ if strcmp(status, 'stopped')&~ignore_init&~strcmp(bdroot,'typhoonHILlib')
     if strcmp(selected_type, 'PMSM')
         pat = 'typhoonPatterns/PMSM';
         inner_component = [getfullname(thisBlock) '/PMSM1'];
+    elseif strcmp(selected_type, 'Synchronous Machine')
+        pat = 'typhoonPatterns/Synchronous Machine';
+        inner_component = [getfullname(thisBlock) '/Synchronous Machine1'];
     elseif strcmp(selected_type, 'DC Machine')
         pat = 'typhoonPatterns/DC Machine';
         inner_component = [getfullname(thisBlock) '/DC Machine1'];
@@ -80,6 +83,11 @@ if strcmp(status, 'stopped')&~ignore_init&~strcmp(bdroot,'typhoonHILlib')
         
         torque_str = 'Torque Tm';
         speed_str = 'Speed w';
+
+    elseif strcmp(selected_type, 'Synchronous Machine')
+
+        torque_str = 'Mechanical Power Pm'; % power instead of torque
+        speed_str = 'Speed w';
         
     elseif strcmp(selected_type, 'DC Machine')
         %%
@@ -115,16 +123,24 @@ if strcmp(status, 'stopped')&~ignore_init&~strcmp(bdroot,'typhoonHILlib')
     end
 
     if strcmp(loadtype, 'Torque')
-        set_param(inner_component,'MechanicalLoad', torque_str);             
+        set_param(inner_component,'MechanicalLoad', torque_str);
+    elseif strcmp(loadtype, 'Power')
+        set_param(inner_component,'MechanicalLoad', torque_str);
     elseif strcmp(loadtype, 'Speed')
         set_param(inner_component,'MechanicalLoad', speed_str);  
     end
+    
+    set_param([getfullname(thisBlock) '/rate_trans'], 'OutPortSampleTime', num2str(execution_rate));
     
     %%      
     % Description update
     comp_string = selected_type;
     comp_title = mask.getDialogControl('DescTitle');
     comp_title.Prompt = comp_string;
+    
+    % Only if there was a change in the enable_output parameter there will be
+    % an update
+    setup_machine_terminals(thisBlock);
     
     description_text = ['(*) Parameters marked with an asterisk have no effect on the MATLAB model, but will be saved when exported to TSE.'];
     mask.set('Description', description_text);

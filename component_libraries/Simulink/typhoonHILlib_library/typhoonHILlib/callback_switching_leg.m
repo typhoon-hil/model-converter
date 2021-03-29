@@ -131,7 +131,7 @@ if strcmp(status_typ_, 'stopped')
     clear di_strs_typ_         i_meas_dctrl_typ_    logic_strs_typ_      selected_type_typ_   v_meas_dctrl_typ_    
     clear di_typ_              i_meas_strs_typ_     logic_vec_typ_       sw_strs_typ_         v_meas_strs_typ_     
     clear di_vec_typ_          i_meas_vec_typ_      mask_typ_            sw_vec_typ_          v_meas_vec_typ_ 
-
+    clear fc_levels_typ_ 
 end
 
 clear status_typ_

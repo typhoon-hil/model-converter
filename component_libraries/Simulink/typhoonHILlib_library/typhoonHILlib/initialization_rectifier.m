@@ -5,7 +5,7 @@ thisBlock = gcb;
 ignore_init = ~strcmp(get_param(thisBlock,'toggle_init'),'on');
 
 if strcmp(status, 'stopped')&~ignore_init&~strcmp(bdroot,'typhoonHILlib')
-    disp('init_called')
+
     mask = Simulink.Mask.get(thisBlock);
     selected_type = get_param(thisBlock,'RecType');
     

@@ -1,7 +1,7 @@
 status_typ_ = get_param(bdroot, 'SimulationStatus');
 
 if strcmp(status_typ_, 'stopped')
-    disp('callback called')
+
     mask_typ_ = Simulink.Mask.get(gcb);
 
     % Panels

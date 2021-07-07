@@ -174,7 +174,7 @@ class SimulinkParser(BaseParser):
         # otherwise using the text value
         try:
             text_val = float(node.text)
-        except ValueError:
+        except (ValueError, TypeError):
             text_val = node.text
         return {node.attrib.get("Name"): text_val}
 

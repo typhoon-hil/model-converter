@@ -258,9 +258,8 @@ class SimulinkParser(BaseParser):
                     term_side = self._create_input_obj_model(child)
                     new_component.properties.update(term_side)
                 else:
-                    for prop in child:
-                        ret_val = self._create_input_obj_model(prop)
-                        new_component.properties.update(ret_val)
+                    ret_val = self._create_input_obj_model(prop)
+                    new_component.properties.update(ret_val)
             #
             # The block is a subsystem element
             #

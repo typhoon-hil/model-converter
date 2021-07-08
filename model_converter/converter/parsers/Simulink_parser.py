@@ -158,7 +158,6 @@ class SimulinkParser(BaseParser):
         self.source_comp_dict_by_type[component_object.type].append(
             component_object)
 
-
     def _extract_properties(self, node):
         """
         This method is called whenever a Property node is parsed.
@@ -174,7 +173,7 @@ class SimulinkParser(BaseParser):
         # otherwise using the text value
         try:
             text_val = float(node.text)
-        except ValueError:
+        except (ValueError, TypeError):
             text_val = node.text
         return {node.attrib.get("Name"): text_val}
 
@@ -226,7 +225,8 @@ class SimulinkParser(BaseParser):
         # Extracting properties of the component.
         #
         for child in node:
-            # Setting the Component's type, position, rotation
+            # Setting the Component's type, position, rotation,
+            # and properties in the case where InstanceData is not provided
             if child.tag == "P":
                 prop_name = child.attrib.get("Name")
                 if prop_name == "SourceBlock":
@@ -257,6 +257,10 @@ class SimulinkParser(BaseParser):
                 elif prop_name == "Side":
                     term_side = self._create_input_obj_model(child)
                     new_component.properties.update(term_side)
+                # Adding properties which do not come from InstanceData elements
+                else:
+                    ret_val = self._create_input_obj_model(child)
+                    new_component.properties.update(ret_val)
             #
             # The block is a subsystem element
             #

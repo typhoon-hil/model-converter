@@ -13,6 +13,8 @@ from model_converter.converter.app.util import get_root_path
 
 from model_converter.converter.parsers.base_parser import BaseParser
 
+import xml.etree.ElementTree as ET
+import zipfile
 
 class SimulinkParser(BaseParser):
 
@@ -24,6 +26,9 @@ class SimulinkParser(BaseParser):
 
     def __init__(self, input_file_path, rule_file_path):
         super().__init__()
+
+        self.version = None
+        self.zipped_file = None
 
         self.user_lib = importlib.import_module('model_converter.'
                                                 'user_libs.functions',
@@ -261,8 +266,16 @@ class SimulinkParser(BaseParser):
             # The block is a subsystem element
             #
             elif child.tag == "System":
-                children = self._create_input_obj_model(child,
-                                                        skip_connections=False)
+                if self.version >= 4.0:
+                    system_name = child.attrib["Ref"]
+                    system = self.zipped_file.read(
+                        f"simulink/systems/{system_name}.xml")
+                    system = ET.fromstring(system)
+                    children = self._create_input_obj_model(system)
+                else:
+                    children = \
+                        self._create_input_obj_model(child,
+                                                     skip_connections=False)
                 for child_list in children.values():
                     for subsys_child in child_list:
                         subsys_child.parent = new_component
@@ -570,12 +583,23 @@ class SimulinkParser(BaseParser):
             return self._set_terminal_node_id(node)
 
     def read_input(self):
-        import xml.etree.ElementTree as ET
-        import zipfile
-        unzipped_model = \
-            zipfile.ZipFile(self.input_file_path, mode="r").read(
-                "simulink/blockdiagram.xml")
-        # Parsing XML with the ElementTree library
-        input_data = ET.fromstring(unzipped_model)
-        for child in input_data:
-            self._create_input_obj_model(child, skip_connections=False)
+        self.zipped_file = zipfile.ZipFile(self.input_file_path, mode="r")
+        meta_data = \
+            ET.fromstring(self.zipped_file.read("metadata/coreProperties.xml"))
+        xml_namespace = meta_data.tag[:meta_data.tag.index("}")+1]
+        try:
+            self.version = \
+                float(meta_data.find(f"{xml_namespace}revision").text)
+        except Exception:
+            self.version = 1.4
+
+        if self.version < 4.0:
+            unzipped_model = self.zipped_file.read("simulink/blockdiagram.xml")
+            root_element = ET.fromstring(unzipped_model)
+            for child in root_element:
+                self._create_input_obj_model(child, skip_connections=False)
+        else:
+            unzipped_model = \
+                self.zipped_file.read("simulink/systems/system_root.xml")
+            root_element = ET.fromstring(unzipped_model)
+            self._create_input_obj_model(root_element)

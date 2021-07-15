@@ -27,7 +27,7 @@ class SimulinkParser(BaseParser):
     def __init__(self, input_file_path, rule_file_path):
         super().__init__()
 
-        self.version = None
+        self.hierarchical_model_version = False
         self.zipped_file = None
 
         self.user_lib = importlib.import_module('model_converter.'
@@ -266,7 +266,7 @@ class SimulinkParser(BaseParser):
             # The block is a subsystem element
             #
             elif child.tag == "System":
-                if self.version >= 4.0:
+                if self.hierarchical_model_version:
                     system_name = child.attrib["Ref"]
                     system = self.zipped_file.read(
                         f"simulink/systems/{system_name}.xml")
@@ -582,24 +582,45 @@ class SimulinkParser(BaseParser):
         elif node.tag == "Line" and not skip_connections:
             return self._set_terminal_node_id(node)
 
+    def _determine_simulink_model_hierarchy(self, metadata_element):
+        """
+        Checks if the loaded model is split into multiple
+        files for each subsystem, via the version number
+        of the loaded model.
+
+        Args:
+            metadata_element (XML element): root metadata XML element,
+                                            contains the model metadata
+
+        Returns:
+            bool
+        """
+        import re
+
+        try:
+            xml_namespace = \
+                metadata_element.tag[:metadata_element.tag.index("}") + 1]
+            version_str = metadata_element.find(f"{xml_namespace}version").text
+            if (version:=re.search(r"(?<=R)+[0-9]{4}", version_str).group()):
+                return True if float(version) > 2019 else False
+        except Exception:
+            return False
+
     def read_input(self):
         self.zipped_file = zipfile.ZipFile(self.input_file_path, mode="r")
-        meta_data = \
+        metadata_element = \
             ET.fromstring(self.zipped_file.read("metadata/coreProperties.xml"))
-        xml_namespace = meta_data.tag[:meta_data.tag.index("}")+1]
-        try:
-            self.version = \
-                float(meta_data.find(f"{xml_namespace}revision").text)
-        except Exception:
-            self.version = 1.4
 
-        if self.version < 4.0:
-            unzipped_model = self.zipped_file.read("simulink/blockdiagram.xml")
-            root_element = ET.fromstring(unzipped_model)
-            for child in root_element:
-                self._create_input_obj_model(child, skip_connections=False)
-        else:
-            unzipped_model = \
-                self.zipped_file.read("simulink/systems/system_root.xml")
-            root_element = ET.fromstring(unzipped_model)
+        self.hierarchical_model_version = \
+            self._determine_simulink_model_hierarchy(metadata_element)
+
+        root_file_location = "simulink/systems/system_root.xml" \
+            if self.hierarchical_model_version else "simulink/blockdiagram.xml"
+        unzipped_model = self.zipped_file.read(root_file_location)
+        root_element = ET.fromstring(unzipped_model)
+
+        if self.hierarchical_model_version:
             self._create_input_obj_model(root_element)
+        else:
+            for child in root_element:
+                self._create_input_obj_model(child)

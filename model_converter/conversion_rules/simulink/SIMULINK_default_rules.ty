@@ -150,7 +150,6 @@ powerlib/Electrical Sources/Three-Phase Source => core/Three Phase Voltage Sourc
 		a_node[pe] = rconn:1;
     b_node[pe] = rconn:2;
     c_node[pe] = rconn:3;
-		n_node[pe] = lconn:1;
 	;
 ;
 
@@ -1426,7 +1425,7 @@ typhoonHILlib/Machine => core/Permanent Magnet Synchronous Machine with Cylindri
 
 	Terminals:
         a_in[pe] = lconn:1;
-	      b_in[pe] = lconn:2;
+	    b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
         load_in[sp] = in:1;
         speed_out[sp] = out:2;
@@ -1596,6 +1595,44 @@ typhoonHILlib/Machine => core/Single Phase Induction Machine:
         load_in[sp] = in:1;
         speed_out[sp] = out:2;
         torque_out[sp] = out:3;
+	;
+;
+
+@MachineType == "Synchronous Machine"
+typhoonHILlib/Machine => core/Synchronous Machine with Wound Rotor:
+    Rs = Rs_sm;
+    Lls = Lls_sm;
+    Lmd = Lmd_sm;
+    Lmq = Lmq_sm;
+    Rf = Rf_sm;
+    Llfd = Llfd_sm;
+    Rkd = Rkd_sm;
+    Rkq = Rkq_sm;
+    Llkd = Llkd_sm;
+    Llkq = Llkq_sm;
+    Lc = Lc_sm;
+    friction_coeff = fc;
+    load_src = loadsource;
+    ext_mdl_load_type = lowercase(input_str=loadtype);
+    load_ai_pin_addr = int2string(int_value=load_ai);
+    load_ai_offset = load_offset;
+    load_ai_gain = load_gain;
+    enc_ppr = ppr;
+    res_pole_pairs = resolver_pp;
+    res_carr_source = lowercase(input_str=resolver_source);
+    res_ai_pin_addr = int2string(int_value=resolver_ai);
+    res_ai_offset = resolver_offset;
+    res_ai_gain = resolver_gain;
+    res_int_carr_f = resolver_freq;
+    Rsnb_rotor = Rsnb_rotor;
+    Rsnb_stator = Rsnb_stator;
+
+	Terminals:
+      a_in[pe] = lconn:1;
+	    b_in[pe] = lconn:2;
+      c_in[pe] = lconn:3;
+      r_1[pe] = rconn:1;
+	    r_2[pe] = rconn:2;
 	;
 ;
 

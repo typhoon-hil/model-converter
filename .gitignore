@@ -7,3 +7,4 @@ tests/**/*.xml
 tests/**/*.tse
 tests/**/report.txt
 *Target files
+.idea

@@ -30,6 +30,12 @@ class SimulinkParser(BaseParser):
         self.hierarchical_model_version = False
         self.zipped_file = None
 
+        # Contains default property values of component types
+        # {Type1:[{prop1:value},{prop2:value},...],
+        #  Type2:[{prop1:value},{prop2:value},...],
+        #  ...}
+        self.default_component_props = {}
+
         self.user_lib = importlib.import_module('model_converter.'
                                                 'user_libs.functions',
                                                 'functions')
@@ -225,7 +231,9 @@ class SimulinkParser(BaseParser):
             if comp_type == "SubSystem":
                 comp_type = "Subsystem"
             new_component.type = comp_type
-
+        # Adding default properties to components
+        if (props:=self.default_component_props.get(comp_type, None)):
+            new_component.properties.update(props)
         #
         # Extracting properties of the component.
         #
@@ -610,8 +618,32 @@ class SimulinkParser(BaseParser):
         except Exception:
             return False
 
+    def _parse_default_component_props(self):
+        """
+        Component properties which are not set by the user in Simulink
+        have their default values saved in the bddefaults.xml file
+        within the archive. These properties would be missing if
+        the file is not parsed as well. When parsed, the properties
+        are stored in the default_component_props dictionary and are
+        used when the schema is parsed (components are created).
+
+        Returns:
+            None
+        """
+        defaults_element = \
+            ET.fromstring(self.zipped_file.read("simulink/bddefaults.xml")
+                          ).find("BlockParameterDefaults")
+        for comp in defaults_element:
+            comp_type = comp.attrib["BlockType"]
+            self.default_component_props[comp_type] = \
+                {name: value for prop in comp
+                 for name, value in self._extract_properties(prop).items()}
+
+
     def read_input(self):
         self.zipped_file = zipfile.ZipFile(self.input_file_path, mode="r")
+        self._parse_default_component_props()
+
         metadata_element = \
             ET.fromstring(self.zipped_file.read("metadata/coreProperties.xml"))
 

@@ -169,6 +169,7 @@ class SimulinkParser(BaseParser):
         self.source_comp_dict_by_type[component_object.type].append(
             component_object)
 
+
     def _extract_properties(self, node):
         """
         This method is called whenever a Property node is parsed.
@@ -254,8 +255,7 @@ class SimulinkParser(BaseParser):
                     # y_min + y_max
                     new_component.position[1] = (int(position[1]) +
                                                  int(position[3])) + offset
-                elif prop_name == "BlockRotation":
-                    pass
+
                 elif prop_name == "Ports":
                     # Subsystem ports are defined
                     # by the child block's "PMIOPort"/"Inport"/"Outport"
@@ -270,10 +270,19 @@ class SimulinkParser(BaseParser):
                 elif prop_name == "Side":
                     term_side = self._create_input_obj_model(child)
                     new_component.properties.update(term_side)
-                # Adding properties which do not come from InstanceData elements
+                #
+                # Parsing all other P tags.
+                # !! NOTE: these properties will be overwritten by
+                # InstanceData properties if they have the same name !!
+                #
                 else:
-                    ret_val = self._create_input_obj_model(child)
-                    new_component.properties.update(ret_val)
+                    # A tag's .text attribute is None if
+                    # the tag is a self-closing XML tag
+                    # e.g. <P Name="UserData" Ref="bdmxdata:UserData_555"/>
+                    if child.text is not None:
+                        non_instance_data_props = \
+                            self._create_input_obj_model(child)
+                        new_component.properties.update(non_instance_data_props)
             #
             # The block is a subsystem element
             #
@@ -365,25 +374,31 @@ class SimulinkParser(BaseParser):
                 new_component.terminals[default_term_obj.index] = \
                     default_term_obj
 
-        # Some components are oriented differently
-        # in the source netlist (horizontal (ours) vs vertical(theirs))
         #
-        if new_component.type in SimulinkParser.wrong_orientation_list:
-            if new_component.orientation == 270:
-                new_component.orientation = 0
-            else:
-                new_component.orientation += 90
+        # Rotation and mirror are two properties
+        # which affect the component orientation.
+        # The orientation is defined by a combination
+        # of both of these properties.
+        #
+        # UP - component is NOT ROTATED and is NOT MIRRORED
+        # DOWN - component is NOT ROTATED and IS MIRRORED
+        # LEFT - component IS ROTATED and is NOT MIRRORED
+        # RIGHT - component IS ROTATED and IS MIRRORED
+        #
+        comp_rotation = True \
+            if new_component.properties.get("BlockRotation", None) else False
+        comp_mirror = True \
+            if new_component.properties.get("BlockMirror", None) else False
 
-        orientation = "up"
-        if new_component.orientation == 0:
-            orientation = "up"
-        elif new_component.orientation == 90:
-            orientation = "right"
-        elif new_component.orientation == 180:
-            orientation = "down"
-        elif new_component.orientation == 270:
-            orientation = "left"
-        new_component.orientation = orientation
+        if comp_rotation:
+            new_component.orientation = "left" if not comp_mirror else "right"
+        else:
+            new_component.orientation = "up" if not comp_mirror else "down"
+
+        # Ignoring commented components
+        if new_component.properties.get("Commented") in ("on", "through"):
+            self.__remove_commented_subsystem(new_component)
+            return None
 
         self._add_component_to_dicts(new_component)
         return new_component
@@ -442,8 +457,10 @@ class SimulinkParser(BaseParser):
             # The component reference is used to set the missing
             # terminal's parent, and also to add terminals to its
             # terminal collection
-            component = self.component_id_dict.get(data[0])
-
+            component = self.component_id_dict.get(data[0], None)
+            # If the component is None, that means it has been commented out
+            if component is None:
+                return []
             terminal = self.__get_component_terminal(data)
 
             if terminal is None:
@@ -451,7 +468,7 @@ class SimulinkParser(BaseParser):
                 kind = None
                 if term_kind in ("lconn", "rconn"):
                     kind = "pe"
-                elif term_kind in ("in", "out"):
+                elif term_kind in ("in", "out", "state"):
                     kind = "sp"
                 if kind is None:
                     raise Exception(f"Cannot create terminal of "
@@ -638,6 +655,15 @@ class SimulinkParser(BaseParser):
             self.default_component_props[comp_type] = \
                 {name: value for prop in comp
                  for name, value in self._extract_properties(prop).items()}
+
+
+    def __remove_commented_subsystem(self, subsystem:Subsystem):
+        if type(subsystem) is not Subsystem:
+            return
+        for child_type, child_list in subsystem.component_dict.items():
+            for child in child_list:
+                if child in self.source_comp_dict_by_type.get(child_type, []):
+                    self.source_comp_dict_by_type.get(child_type).remove(child)
 
 
     def read_input(self):

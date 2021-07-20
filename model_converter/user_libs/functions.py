@@ -34,6 +34,8 @@ def int2string(int_value):
 def str2int(str_value):
     return int(str_value)
 
+def period_frequency(freq_or_per):
+    return float(1/freq_or_per)
 
 def L12_to_k(L11, L22, L12):
     return float(L12) / np.sqrt(float(L11) * float(L22))
@@ -84,7 +86,6 @@ def multiply(n1, n2):
 
 def divide_by_10(x):
     return x / 10
-
 
 def divide_by_2(x):
     return x / 2

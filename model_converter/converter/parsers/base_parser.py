@@ -415,7 +415,8 @@ class BaseParser:
             subsystem.set_port_sides()
             self.temp_subsystem_dict[component_parent.name] = subsystem
 
-        if current_sub is not None:
+        if current_sub is not None and \
+                current_sub not in subsystem.components["Subsystem"]:
             subsystem.components["Subsystem"].append(current_sub)
         if component_parent.parent is None:
             if subsystem not in self.conversion_dict["Subsystem"]:

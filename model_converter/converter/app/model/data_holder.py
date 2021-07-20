@@ -49,6 +49,7 @@ class SubsystemDataHolder:
         Returns:
             None
         """
+        self.comp_grid_dimensions = [[None, None], [None, None]]
 
         for components_list_by_type in self.components.values():
             for component in components_list_by_type:

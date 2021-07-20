@@ -2180,12 +2180,13 @@ Integrator => core/Integrator:
         reset[sp] = in:2;
         init_condition_port[sp] = in:3;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 
 @InitialConditionSource == "external"
 @ShowStatePort == "on"
+@ExternalReset == "off"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
   show_init_condition = InitialConditionSource;
@@ -2199,11 +2200,12 @@ Integrator => core/Integrator:
         in[sp] = in:1;
         init_condition_port[sp] = in:2;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 
 @InitialConditionSource == "external"
+@ShowStatePort == "off"
 @ExternalReset == "on"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
@@ -2222,6 +2224,8 @@ Integrator => core/Integrator:
 ;
 
 @InitialConditionSource == "external"
+@ShowStatePort == "off"
+@ExternalReset == "off"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
   show_init_condition = InitialConditionSource;
@@ -2239,6 +2243,7 @@ Integrator => core/Integrator:
   ;
 ;
 
+@InitialConditionSource == "internal"
 @ExternalReset == "on"
 @ShowStatePort == "on"
 Integrator => core/Integrator:
@@ -2255,11 +2260,13 @@ Integrator => core/Integrator:
         in[sp] = in:1;
         reset[sp] = in:2;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 
+@InitialConditionSource == "internal"
 @ExternalReset == "on"
+@ShowStatePort == "off"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
   init_value = InitialCondition;
@@ -2277,6 +2284,8 @@ Integrator => core/Integrator:
   ;
 ;
 
+@InitialConditionSource == "internal"
+@ExternalReset == "off"
 @ShowStatePort == "on"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
@@ -2291,10 +2300,11 @@ Integrator => core/Integrator:
   Terminals:
         in[sp] = in:1;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 
+@InitialConditionSource == "internal"
 Integrator => core/Integrator:
   execution_rate = SampleTime;
   init_value = InitialCondition;
@@ -2330,7 +2340,7 @@ DiscreteIntegrator => core/Integrator:
   Terminals:
         in[sp] = in:1;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 

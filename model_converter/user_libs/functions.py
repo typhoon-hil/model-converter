@@ -34,10 +34,17 @@ def int2string(int_value):
 def str2int(str_value):
     return int(str_value)
 
+def period_frequency(freq_or_per):
+    return float(1/freq_or_per)
+
+def deg_to_rad(deg_value):
+    return deg_value*np.pi/180
+
+def rad_to_deg(rad_value):
+    return rad_value*180/np.pi
 
 def L12_to_k(L11, L22, L12):
     return float(L12) / np.sqrt(float(L11) * float(L22))
-
 
 def return_negative(x):
     return -float(x)
@@ -78,10 +85,11 @@ def return_cable_sequence_L(Xd, X0, f):
 def divide_by_10(x):
     return x / 10
 
-
 def divide_by_2(x):
     return x / 2
 
+def divide(num, den):
+    return num / den
 
 def return_constant1():
     return 0.5719631
@@ -164,24 +172,8 @@ def simulink_pmsm_theta_ab(angle):
     elif str(int(angle)) == '0':
         return str(int(angle))
 
-def snb_type_i_int_to_str(snb_type_int):
-    if snb_type_int == 1:
-        return 'R1'
-    elif snb_type_int == 2:
-        return 'R1-C1'
-    else:
-        return 'none'
+def simulink_remove_pipes(list_of_signs):
+    return list_of_signs.replace("|","")
 
-def snb_type_u_int_to_str(snb_type_int):
-    if snb_type_int == 1:
-        return 'R2'
-    elif snb_type_int == 2:
-        return 'R2||L1'
-    else:
-        return 'none'
-
-def fixed_snb_int_to_str(fixed_snb_int):
-    if fixed_snb_int == 0:
-        return 'false'
-    else:
-        return 'true'
+def simulink_pulse_delay(period, delay):
+    return delay/period

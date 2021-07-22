@@ -12,10 +12,10 @@ end
 
 [ignore_typ_ out_typ_] = system(['type "' version_typ_ '\.version"']);
 
-convert_text_typ_.Prompt = "<font color='yellow'>In progress...</font>";
-
 if bdIsDirty(gcs)
-    warndlg('Model has unsaved changes. The conversion will ignore them.');
+    convert_text_typ_.Prompt = "<font color='orange'>In progress... (ignoring unsaved changes)</font>";
+else
+    convert_text_typ_.Prompt = "<font color='orange'>In progress...</font>";
 end
 
 % Get the path to the current open .slx file

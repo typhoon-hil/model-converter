@@ -2198,12 +2198,89 @@ typhoonHILlib/Transmission Line => core/Transmission Line:
 	;
 ;
 
+@InitialConditionSource == "external"
+@ShowStatePort == "on"
+@ExternalReset == "none"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  show_init_condition = InitialConditionSource;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = state;
+  ;
+;
 
 @InitialConditionSource == "external"
-@ExternalReset == "on"
+@ShowStatePort == "off"
+@ExternalReset == "none"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  show_init_condition = InitialConditionSource;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ExternalReset == "none"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ExternalReset == "none"
 @ShowStatePort == "on"
 Integrator => core/Integrator:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+        state_port[sp] = state;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   show_init_condition = InitialConditionSource;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2222,30 +2299,9 @@ Integrator => core/Integrator:
 ;
 
 @InitialConditionSource == "external"
-@ShowStatePort == "on"
-@ExternalReset == "off"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        init_condition_port[sp] = in:2;
-        out[sp] = out:1;
-        state_port[sp] = state;
-  ;
-;
-
-@InitialConditionSource == "external"
 @ShowStatePort == "off"
-@ExternalReset == "on"
 Integrator => core/Integrator:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   show_init_condition = InitialConditionSource;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2260,11 +2316,73 @@ Integrator => core/Integrator:
   ;
 ;
 
+@InitialConditionSource == "internal"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = state;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+
+@InitialConditionSource == "external"
+@ShowStatePort == "on"
+@ExternalReset == "none"
+@IntegratorMethod == "Accumulation: Backward Euler"
+DiscreteIntegrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  show_init_condition = InitialConditionSource;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = state;
+  ;
+;
+
 @InitialConditionSource == "external"
 @ShowStatePort == "off"
-@ExternalReset == "off"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
+@ExternalReset == "none"
+@IntegratorMethod == "Accumulation: Backward Euler"
+DiscreteIntegrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   show_init_condition = InitialConditionSource;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2281,69 +2399,11 @@ Integrator => core/Integrator:
 ;
 
 @InitialConditionSource == "internal"
-@ExternalReset == "on"
-@ShowStatePort == "on"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        reset[sp] = in:2;
-        out[sp] = out:1;
-        state_port[sp] = state;
-  ;
-;
-
-@InitialConditionSource == "internal"
-@ExternalReset == "on"
+@ExternalReset == "none"
 @ShowStatePort == "off"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        reset[sp] = in:2;
-        out[sp] = out:1;
-  ;
-;
-
-@InitialConditionSource == "internal"
-@ExternalReset == "off"
-@ShowStatePort == "on"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        out[sp] = out:1;
-        state_port[sp] = state;
-  ;
-;
-
-@InitialConditionSource == "internal"
-Integrator => core/Integrator:
-  execution_rate = SampleTime;
+@IntegratorMethod == "Accumulation: Backward Euler"
+DiscreteIntegrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   init_value = InitialCondition;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2357,15 +2417,13 @@ Integrator => core/Integrator:
         out[sp] = out:1;
   ;
 ;
-
 
 @InitialConditionSource == "internal"
 @ExternalReset == "none"
 @ShowStatePort == "on"
 @IntegratorMethod == "Accumulation: Backward Euler"
 DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   init_value = InitialCondition;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2381,101 +2439,12 @@ DiscreteIntegrator => core/Integrator:
   ;
 ;
 
-@InitialConditionSource == "internal"
-@ShowStatePort == "off"
-@IntegratorMethod == "Accumulation: Backward Euler"
-DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        reset[sp] = in:2;
-        out[sp] = out:1;
-  ;
-;
-
-@InitialConditionSource == "internal"
+@InitialConditionSource == "external"
 @ShowStatePort == "on"
 @IntegratorMethod == "Accumulation: Backward Euler"
 DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   show_init_condition = InitialConditionSource;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        reset[sp] = in:2;
-        out[sp] = out:1;
-        state_port[sp] = out:2;
-  ;
-;
-
-@InitialConditionSource == "external"
-@ExternalReset == "none"
-@ShowStatePort == "off"
-@IntegratorMethod == "Accumulation: Backward Euler"
-DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        init_condition_port[sp] = in:2;
-        out[sp] = out:1;
-  ;
-;
-
-@InitialConditionSource == "external"
-@ExternalReset == "none"
-@ShowStatePort == "on"
-@IntegratorMethod == "Accumulation: Backward Euler"
-DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
-  init_value = InitialCondition;
-  show_reset = ExternalReset;
-  limit_output = on_off_to_boolean(logic_str=LimitOutput);
-  limit_upper = UpperSaturationLimit;
-  limit_lower = LowerSaturationLimit;
-  show_state = on_off_to_boolean(logic_str=ShowStatePort);
-  reset_type = asynchronous;
-
-  Terminals:
-        in[sp] = in:1;
-        init_condition_port[sp] = in:2;
-        out[sp] = out:1;
-        state_port[sp] = out:2;
-  ;
-;
-
-@InitialConditionSource == "external"
-@ShowStatePort == "off"
-@IntegratorMethod == "Accumulation: Backward Euler"
-DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
-  init_value = InitialCondition;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
   limit_upper = UpperSaturationLimit;
@@ -2488,15 +2457,34 @@ DiscreteIntegrator => core/Integrator:
         reset[sp] = in:2;
         init_condition_port[sp] = in:3;
         out[sp] = out:1;
+        state_port[sp] = state;
   ;
 ;
 
 @InitialConditionSource == "external"
+@ShowStatePort == "off"
+@IntegratorMethod == "Accumulation: Backward Euler"
+DiscreteIntegrator => core/Integrator:
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
+  show_init_condition = InitialConditionSource;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        init_condition_port[sp] = in:3;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
 @ShowStatePort == "on"
 @IntegratorMethod == "Accumulation: Backward Euler"
 DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   init_value = InitialCondition;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2508,16 +2496,16 @@ DiscreteIntegrator => core/Integrator:
   Terminals:
         in[sp] = in:1;
         reset[sp] = in:2;
-        init_condition_port[sp] = in:3;
         out[sp] = out:1;
-        state_port[sp] = out:2;
+        state_port[sp] = state;
   ;
 ;
 
+@InitialConditionSource == "internal"
+@ShowStatePort == "off"
 @IntegratorMethod == "Accumulation: Backward Euler"
 DiscreteIntegrator => core/Integrator:
-  execution_rate = SampleTime;
-  show_init_condition = InitialConditionSource;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   init_value = InitialCondition;
   show_reset = ExternalReset;
   limit_output = on_off_to_boolean(logic_str=LimitOutput);
@@ -2528,10 +2516,10 @@ DiscreteIntegrator => core/Integrator:
 
   Terminals:
         in[sp] = in:1;
+        reset[sp] = in:2;
         out[sp] = out:1;
   ;
 ;
-
 
 @InitialConditionSource == "Input port"
 Delay => core/Delay:
@@ -2543,7 +2531,7 @@ Delay => core/Delay:
 
 @DelayLengthSource == "Input port"
 Delay => core/Delay:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   delay_type = "Variable delay";
   max_delay_length = str2int(str_value=DelayLengthUpperLimit);
   init_value = InitialCondition;
@@ -2556,7 +2544,7 @@ Delay => core/Delay:
 ;
 
 Delay => core/Delay:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   del_length = DelayLength;
   init_value = InitialCondition;
 
@@ -2567,7 +2555,7 @@ Delay => core/Delay:
 ;
 
 simulink/Discrete/Discrete Derivative => core/Differentiator:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
 
   Terminals:
         in[sp] = in:1;
@@ -2577,7 +2565,7 @@ simulink/Discrete/Discrete Derivative => core/Differentiator:
 
 DiscreteTransferFcn => core/Discrete Transfer Function:
   domain = "Z-domain";
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   b_coeff = "[1]";
   a_coeff = "[1, 0.5]";
   b_coeff = simulink_matrix_to_tse_format(mat=Numerator);
@@ -2613,7 +2601,7 @@ RateLimiter => core/Rate Limiter:
 ;
 
 UnitDelay => core/Unit Delay:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   init_value = InitialCondition;
 
   Terminals:
@@ -2734,7 +2722,7 @@ Trigonometry => core/Trigonometric function:
 ;
 
 DigitalClock => core/Clock:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
 
   Terminals:
         out[sp] = out:1;
@@ -2742,7 +2730,7 @@ DigitalClock => core/Clock:
 ;
 
 Clock => core/Clock:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
 
   Terminals:
         out[sp] = out:1;
@@ -2751,7 +2739,7 @@ Clock => core/Clock:
 
 Constant => core/Constant:
   value = Value;
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
 
   Terminals:
       out[sp] = out:1;
@@ -2767,7 +2755,7 @@ Sin => core/Sinusoidal Source:
 ;
 
 Sin => core/Sinusoidal Source:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   amplitude = Amplitude;
   dc_offset = Bias;
   frequency = 50;
@@ -2792,7 +2780,7 @@ DiscretePulseGenerator => core/Square Wave Source:
 @PulseType == "Time based"
 DiscretePulseGenerator => core/Square Wave Source:
 
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   hs_output = Amplitude;
   frequency = "50";
   frequency = divide(num=1, den=Period);
@@ -2806,7 +2794,7 @@ DiscretePulseGenerator => core/Square Wave Source:
 
 DiscretePulseGenerator => core/Square Wave Source:
 
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   hs_output = Amplitude;
   frequency = "0.1";
   frequency = simulink_sample_to_f(sampletime=SampleTime, period=Period);
@@ -2820,7 +2808,7 @@ DiscretePulseGenerator => core/Square Wave Source:
 ;
 
 Step => core/Step:
-  execution_rate = SampleTime;
+  execution_rate = simulink_sample_to_execution_rate(sample_rate=SampleTime);
   step_time = Time;
   initial_value = Before;
   final_value = After;

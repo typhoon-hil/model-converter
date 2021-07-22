@@ -258,3 +258,8 @@ def simulink_switch_criteria(criterion):
         criterion = criterion.replace("0", "threshold")
     criterion = criterion.replace("u2 ", "ctrl ")
     return criterion.lower()
+
+def simulink_sample_to_execution_rate(sample_rate):
+    if sample_rate == "-1":
+        sample_rate = "inherited"
+    return sample_rate

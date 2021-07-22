@@ -22,6 +22,7 @@ def convert_slx2tse(slx_path):
     tse_path = converter.convert_schema(compile_model=False)[0]
     return tse_path
 
+
 @pytest.fixture(scope='session')
 def compile_tse(convert_xml2tse):
     # Compiles the tse file

@@ -1347,11 +1347,16 @@ typhoonHILlib/Machine => core/Permanent Magnet Synchronous Machine with Salient 
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     theta_ab = simulink_pmsm_theta_ab(angle=theta_ab);
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1380,11 +1385,17 @@ typhoonHILlib/Machine => core/Permanent Magnet Synchronous Machine with Salient 
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     theta_ab = simulink_pmsm_theta_ab(angle=theta_ab);
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
+        angle_out[sp] = out:4;
 	;
 ;
 
@@ -1410,11 +1421,16 @@ typhoonHILlib/Machine => core/Permanent Magnet Synchronous Machine with Cylindri
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     Rsnb_stator = Rsnb_stator;
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1444,11 +1460,16 @@ typhoonHILlib/Machine => core/Induction Machine with Squirrel Cage:
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     Rsnb_stator = Rsnb_stator;
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1479,11 +1500,16 @@ typhoonHILlib/Machine => core/Induction Machine with Squirrel Cage - Voltage Beh
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     theta_ab = simulink_pmsm_theta_ab(angle=theta_ab);
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1516,11 +1542,16 @@ typhoonHILlib/Machine => core/Induction Machine with Double Cage:
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
     Rsnb_stator = Rsnb_stator;
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         a_in[pe] = lconn:1;
 	      b_in[pe] = lconn:2;
         c_in[pe] = lconn:3;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1556,10 +1587,15 @@ typhoonHILlib/Machine => core/Single Phase Induction Machine:
     res_ai_offset = resolver_offset;
     res_ai_gain = resolver_gain;
     res_int_carr_f = resolver_freq;
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         m_pos[pe] = lconn:1;
 	      m_neg[pe] = lconn:2;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -1586,12 +1622,17 @@ typhoonHILlib/Machine => core/DC Machine with Separate or Parallel Excitation:
     res_int_carr_f = resolver_freq;
     Rsnb_rotor = Rsnb_rotor;
     Rsnb_stator = Rsnb_stator;
+    enb_sig_out = on_off_to_bool_str(logic_str=enable_outputs, capitalize="True");
+    execution_rate = execution_rate;
 
 	Terminals:
         f1_in[pe] = lconn:1;
 	      f2_in[pe] = lconn:2;
         a1_in[pe] = rconn:1;
         a2_in[pe] = rconn:2;
+        load_in[sp] = in:1;
+        speed_out[sp] = out:2;
+        torque_out[sp] = out:3;
 	;
 ;
 
@@ -2163,38 +2204,50 @@ Signum => core/Sign:
 ;
 
 Sum => core/Sum:
+  signs = simulink_inputs_from_ports_prop(inputs=Ports);
   signs = simulink_remove_pipes(list_of_signs=Inputs);
 
 	Terminals:
         in[sp] = in:1;
-        in2[sp] = in:2;
-        in3[sp] = in:3;
-        in4[sp] = in:4;
-        in5[sp] = in:5;
-        in6[sp] = in:6;
-        in7[sp] = in:7;
-        in8[sp] = in:8;
-        in9[sp] = in:9;
-        in10[sp] = in:10;
+        in1[sp] = in:2;
+        in2[sp] = in:3;
+        in3[sp] = in:4;
+        in4[sp] = in:5;
+        in5[sp] = in:6;
+        in6[sp] = in:7;
+        in7[sp] = in:8;
+        in8[sp] = in:9;
+        in9[sp] = in:10;
 	      out[sp] = out:1;
 	;
 ;
 
 Product => core/Product:
-  signs = simulink_remove_pipes(list_of_signs=Inputs);
+  signs = simulink_inputs_from_ports_prop(inputs=Ports);
+  signs = Inputs;
 
 	Terminals:
         in[sp] = in:1;
-        in2[sp] = in:2;
-        in3[sp] = in:3;
-        in4[sp] = in:4;
-        in5[sp] = in:5;
-        in6[sp] = in:6;
-        in7[sp] = in:7;
-        in8[sp] = in:8;
-        in9[sp] = in:9;
-        in10[sp] = in:10;
+        in1[sp] = in:2;
+        in2[sp] = in:3;
+        in3[sp] = in:4;
+        in4[sp] = in:5;
+        in5[sp] = in:6;
+        in6[sp] = in:7;
+        in7[sp] = in:8;
+        in8[sp] = in:9;
+        in9[sp] = in:10;
 	      out[sp] = out:1;
+	;
+;
+
+@Gain == 2
+Gain => core/Gain:
+  gain = 3;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:2;
 	;
 ;
 
@@ -2230,6 +2283,546 @@ UnitDelay => core/Unit Delay:
   Terminals:
         in[sp] = in:1;
         out[sp] = out:1;
+  ;
+;
+
+DigitalClock => core/Clock:
+  execution_rate = SampleTime;
+
+  Terminals:
+        out[sp] = out:1;
+  ;
+;
+
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ExternalReset == "none"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ExternalReset == "none"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ExternalReset == "none"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        init_condition_port[sp] = in:3;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        init_condition_port[sp] = in:3;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+
+@PulseType == "Time based"
+@TimeSource == "Use simulation time"
+DiscretePulseGenerator => core/Square Wave Source:
+
+  hs_output = Amplitude;
+  frequency = period_frequency(freq_or_per=Period);
+  duty_cycle = divide(num=PulseWidth, den=100);
+  phase = simulink_pulse_delay(period=Period, delay=PhaseDelay);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+
+@SineType == "Time based"
+@TimeSource == "Use simulation time"
+Sin => core/Sinusoidal Source:
+
+  amplitude = Amplitude;
+  dc_offset = Bias;
+  frequency = divide_by_num(num=Frequency, den=3.1415927);
+  phase = rad_to_deg(rad_value=Phase);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+Step => core/Step:
+  step_time = Time;
+  initial_value = Before;
+  final_value = After;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@ProbeType == "SCADA Output"
+typhoonHILlib/HIL Probe => core/SCADA Output:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+@ProbeType == "Digital Probe"
+typhoonHILlib/HIL Probe => core/Digital Probe:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+@ProbeType == "Analog Probe"
+typhoonHILlib/HIL Probe => core/Probe:
+
+  Terminals:
+      in[sp] = in:1;
+  ;
+;
+
+
+@InputType == "SCADA Input"
+typhoonHILlib/HIL Input => core/SCADA Input:
+  min = min;
+  max = max;
+  def_value = def_value;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@InputType == "Digital Input"
+typhoonHILlib/HIL Input => core/Digital Input:
+  addr = int2string(int_value=addr_digital);
+  invert = on_off_to_bool_str(logic_str=invert);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+@InputType == "Analog Input"
+typhoonHILlib/HIL Input => core/Analog Input:
+  addr = int2string(int_value=addr_analog);
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+Abs => core/Abs:
+
+	Terminals:
+        in[sp] = in:1;
+	      out[pe] = out:1;
+	;
+;
+
+Signum => core/Sign:
+
+	Terminals:
+        in[sp] = in:1;
+	      out[pe] = out:1;
+	;
+;
+
+Sum => core/Sum:
+  signs = simulink_inputs_from_ports_prop(inputs=Ports);
+  signs = simulink_remove_pipes(list_of_signs=Inputs);
+
+	Terminals:
+        in[sp] = in:1;
+        in1[sp] = in:2;
+        in2[sp] = in:3;
+        in3[sp] = in:4;
+        in4[sp] = in:5;
+        in5[sp] = in:6;
+        in6[sp] = in:7;
+        in7[sp] = in:8;
+        in8[sp] = in:9;
+        in9[sp] = in:10;
+	      out[sp] = out:1;
+	;
+;
+
+Product => core/Product:
+  signs = simulink_inputs_from_ports_prop(inputs=Ports);
+  signs = Inputs;
+
+	Terminals:
+        in[sp] = in:1;
+        in1[sp] = in:2;
+        in2[sp] = in:3;
+        in3[sp] = in:4;
+        in4[sp] = in:5;
+        in5[sp] = in:6;
+        in6[sp] = in:7;
+        in7[sp] = in:8;
+        in8[sp] = in:9;
+        in9[sp] = in:10;
+	      out[sp] = out:1;
+	;
+;
+
+@Gain == 2
+Gain => core/Gain:
+  gain = 3;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:2;
+	;
+;
+
+Gain => core/Gain:
+  gain = Gain;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:1;
+	;
+;
+
+Saturate => core/Limit:
+  upper_limit = UpperLimit;
+  lower_limit = LowerLimit;
+
+	Terminals:
+        in[sp] = in:1;
+	      out[sp] = out:1;
+	;
+;
+
+Constant => core/Constant:
+  value = Value;
+
+  Terminals:
+      out[sp] = out:1;
+  ;
+;
+
+UnitDelay => core/Unit Delay:
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+  ;
+;
+
+DigitalClock => core/Clock:
+  execution_rate = SampleTime;
+
+  Terminals:
+        out[sp] = out:1;
+  ;
+;
+
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ExternalReset == "none"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "internal"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ExternalReset == "none"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ExternalReset == "none"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        init_condition_port[sp] = in:2;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ShowStatePort == "off"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        init_condition_port[sp] = in:3;
+        out[sp] = out:1;
+  ;
+;
+
+@InitialConditionSource == "external"
+@ShowStatePort == "on"
+Integrator => core/Integrator:
+  execution_rate = SampleTime;
+  show_init_condition = InitialConditionSource;
+  init_value = InitialCondition;
+  show_reset = ExternalReset;
+  limit_output = on_off_to_boolean(logic_str=LimitOutput);
+  limit_upper = UpperSaturationLimit;
+  limit_lower = LowerSaturationLimit;
+  show_state = on_off_to_boolean(logic_str=ShowStatePort);
+  reset_type = asynchronous;
+
+  Terminals:
+        in[sp] = in:1;
+        reset[sp] = in:2;
+        init_condition_port[sp] = in:3;
+        out[sp] = out:1;
+        state_port[sp] = out:2;
   ;
 ;
 

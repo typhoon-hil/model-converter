@@ -41,6 +41,18 @@ if strcmp(status_typ_, 'stopped')
     w_disc_unit_typ_ = mask_typ_.getDialogControl('w_disc_unit');
     w_disc_unit_typ_.Visible = 'off';
     % Electrical properties
+        % Synchronous Machine
+%    Rs_typ_ = mask_typ_.getParameter('Ld_sm');
+%    Ld_unit_typ_ = mask_typ_.getDialogControl('Ld_sm_unit');
+%
+%    elec_pars_cyl_pmsm = [Lms_typ_];
+%    elec_pars_cyl_pmsm.Visible = 'off';
+%    elec_units_cyl_pmsm = [Lms_unit_typ_];
+%    elec_units_cyl_pmsm.Visible = 'off';
+%    elec_pars_salient_pmsm = [Ld_typ_ Lq_typ_];
+%    arrayfun(@(x) set_visibility(x,'off'), elec_pars_salient_pmsm);
+%    elec_units_salient_pmsm = [Ld_unit_typ_ Lq_unit_typ_];
+%    arrayfun(@(x) set_visibility(x,'off'), elec_units_salient_pmsm);
         % PMSM
     Ld_typ_ = mask_typ_.getParameter('Ld_pmsm');
     Ld_unit_typ_ = mask_typ_.getDialogControl('Ld_pmsm_unit');
@@ -84,6 +96,21 @@ if strcmp(status_typ_, 'stopped')
                              llr1_ind_unit_typ_ llr2_ind_unit_typ_ lmr_ind_unit_typ_];
     arrayfun(@(x) set_visibility(x,'off'), elec_units_ind_double);
 
+    %% Load type
+    loadtype_typ_ = mask_typ_.getParameter('loadtype')
+    loadtype_sm_typ_ = mask_typ_.getParameter('loadtype_sm')
+    if strcmp(selected_type_typ_, 'Synchronous Machine')
+        if ~strcmp(loadtype_typ_, 'Speed')
+            loadtype_typ_.Visible = 'off';
+            loadtype_sm_typ_.Visible = 'on';
+        end
+    else
+        if ~strcmp(loadtype_typ_, 'Speed')
+            loadtype_typ_.Visible = 'on';
+            loadtype_sm_typ_.Visible = 'off';
+        end
+    end
+
     %% Panels
     sp_ind_panel_typ_ = mask_typ_.getDialogControl('sp_ind_panel');
     sp_ind_panel_typ_.Visible = 'off';
@@ -94,12 +121,16 @@ if strcmp(status_typ_, 'stopped')
         % Electrical properties panels
     electrical_pmsm_typ_ = mask_typ_.getDialogControl('electrical_pmsm');
     electrical_pmsm_typ_.Visible = 'off';
+    electrical_sm_typ_ = mask_typ_.getDialogControl('electrical_sm');
+    electrical_sm_typ_.Visible = 'off';
     electrical_DC_typ_ = mask_typ_.getDialogControl('electrical_DC');
     electrical_DC_typ_.Visible = 'off';
     electrical_ind_typ_ = mask_typ_.getDialogControl('electrical_ind');
     electrical_ind_typ_.Visible = 'off';
     electrical_sp_ind_typ_ = mask_typ_.getDialogControl('electrical_sp_ind');
     electrical_sp_ind_typ_.Visible = 'off';
+
+
 
     %%
     if strcmp(selected_type_typ_, 'PMSM')
@@ -163,6 +194,17 @@ if strcmp(status_typ_, 'stopped')
         pms_typ_.Visible = 'off';
         pms_unit_typ_.Visible = 'off';
         electrical_DC_typ_.Visible = 'on';
+        snubber_typ_.Visible = 'on';
+        rotor_snb_typ_.Visible = 'on';
+        rotor_snb_unit_typ_.Visible = 'on';
+        stator_snb_typ_.Visible = 'on';
+        stator_snb_unit_typ_.Visible = 'on';
+
+    elseif strcmp(selected_type_typ_, 'Synchronous Machine')
+        %%
+        pms_typ_.Visible = 'on';
+        pms_unit_typ_.Visible = 'on';
+        electrical_sm_typ_.Visible = 'on';
         snubber_typ_.Visible = 'on';
         rotor_snb_typ_.Visible = 'on';
         rotor_snb_unit_typ_.Visible = 'on';

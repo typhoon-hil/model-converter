@@ -37,18 +37,15 @@ def str2int(str_value):
 def period_frequency(freq_or_per):
     return float(1/freq_or_per)
 
-def deg_to_rad(deg_value):
-    return deg_value*np.pi/180
-
-def rad_to_deg(rad_value):
-    return rad_value*180/np.pi
-
 def L12_to_k(L11, L22, L12):
     return float(L12) / np.sqrt(float(L11) * float(L22))
+
 
 def return_negative(x):
     return -float(x)
 
+def float2int(float_value):
+    return int(float_value)
 
 def primary_to_secondary(Np, Ns, Rs):
     return (float(Ns) ** 2) / (float(Np) ** 2) * float(Rs)
@@ -81,6 +78,11 @@ def return_cable_sequence_L(Xd, X0, f):
     X0 = float(X0) / (2 * float(f) * np.pi)
     return [[X0, 0, 0], [0, Xd, 0], [0, 0, Xd]]
 
+def divide(num, den):
+    return num / den
+
+def multiply(n1, n2):
+    return n1 * n2
 
 def divide_by_10(x):
     return x / 10
@@ -88,8 +90,6 @@ def divide_by_10(x):
 def divide_by_2(x):
     return x / 2
 
-def divide(num, den):
-    return num / den
 
 def return_constant1():
     return 0.5719631
@@ -109,6 +109,23 @@ def amplitude_to_rms(amplitude):
 
 def line_to_phase_rms(line_rms):
     return float(line_rms)/np.sqrt(3)
+
+def deg_to_rad(deg):
+    return np.deg2rad(deg)
+
+def rad_to_deg(rad):
+    if type(rad) == str:
+        rad = rad.replace("pi", "np.pi")
+        return rad+"*180/np.pi"
+    else:
+        return np.rad2deg(rad)
+
+def rad_per_sec_to_hz(rad):
+    if type(rad) == str:
+        rad = rad.replace("pi", "np.pi")
+        return rad+"/(2*np.pi)"
+    else:
+        return rad/(2*np.pi)
 
 def lowercase(input_str):
     return input_str.lower()
@@ -172,8 +189,77 @@ def simulink_pmsm_theta_ab(angle):
     elif str(int(angle)) == '0':
         return str(int(angle))
 
-def simulink_remove_pipes(list_of_signs):
-    return list_of_signs.replace("|","")
+def simulink_matrix_to_tse_format(mat):
+    space_to_comma = ", ".join(mat.split())
+    if ";" in space_to_comma:
+        space_to_comma = "["+space_to_comma+"]"
+        space_to_comma = space_to_comma.replace(";", "], [")
+    return space_to_comma
 
-def simulink_pulse_delay(period, delay):
-    return delay/period
+def simulink_operator_conv(operator):
+
+    if operator in ["isinf", "isNaN", "isFinite"]:
+        return "=="
+    if operator in ["sinh", "cosh", "tanh", "acosh", "asinh", "atanh", "sincos", "sin+jsin"]:
+        return "sin"
+    if operator == "~=":
+        return "!="
+    else:
+        return operator
+
+
+def snb_type_i_int_to_str(snb_type_int):
+    if snb_type_int == 1:
+        return 'R1'
+    elif snb_type_int == 2:
+        return 'R1-C1'
+    else:
+        return 'none'
+
+def snb_type_u_int_to_str(snb_type_int):
+    if snb_type_int == 1:
+        return 'R2'
+    elif snb_type_int == 2:
+        return 'R2||L1'
+    else:
+        return 'none'
+
+def fixed_snb_int_to_str(fixed_snb_int):
+    if fixed_snb_int == 0:
+        return 'false'
+    else:
+        return 'true'
+
+def simulink_inputs(inputs):
+
+    if type(inputs) == str:
+        return inputs.replace("|", "")
+    elif type(inputs) == float:
+        return int(inputs)
+    else:
+        return inputs
+
+def simulink_sample_to_f(sampletime, period):
+    return 1/(period*sampletime)
+
+def simulink_convert_data_types(input_data_type):
+    if input_data_type in ['int8', 'int16', 'int32', 'int64']:
+        return "int"
+    elif input_data_type in ['uint8', 'uint16', 'uint32', 'uint64']:
+        return "uint"
+    elif input_data_type in ['double', 'single', 'half']:
+        return "real"
+    else:
+        return ""
+
+def simulink_switch_criteria(criterion):
+    if "~=" in criterion:
+        criterion = criterion.replace("~=", "!=")
+        criterion = criterion.replace("0", "threshold")
+    criterion = criterion.replace("u2 ", "ctrl ")
+    return criterion.lower()
+
+def simulink_sample_to_execution_rate(sample_rate):
+    if sample_rate == "-1":
+        sample_rate = "inherited"
+    return sample_rate

@@ -1,0 +1,5 @@
+MATLAB 2020a / THCC 2021.1 was the last combination this project was tested with.
+
+Mathworks changed SLX file structure on 2021a, and this converter has not been updated since.
+
+A new, easier to use, and much better converter is in our plans for the near future. It will be available on the Package Manager.

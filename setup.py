@@ -4,7 +4,7 @@ setup(
     name='model_converter',
     version='1.4.6',
     packages=find_packages(),
-    install_requires=["parglare==0.16.0", "typhoon-hil-api"],
+    install_requires=["parglare==0.16", "typhoon-hil-api"],
     url='https://www.typhoon-hil.com/',
     include_package_data=True,
     license='MIT',
